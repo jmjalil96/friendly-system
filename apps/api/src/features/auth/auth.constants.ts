@@ -1,0 +1,6 @@
+export const SESSION_COOKIE_NAME = 'session'
+export const SESSION_EXPIRY_DAYS = 30
+export const VERIFICATION_TOKEN_EXPIRY_HOURS = 24
+export const PASSWORD_RESET_TOKEN_EXPIRY_HOURS = 1
+export const MAX_FAILED_ATTEMPTS = 5
+export const LOCK_DURATION_MINUTES = 15

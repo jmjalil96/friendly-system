@@ -4,6 +4,7 @@ import type {
   LoginInput,
   LoginResponse,
 } from '@friendly-system/shared'
+import { ROLES } from '@friendly-system/shared'
 import { prisma } from '../../shared/db/prisma.js'
 import { hashPassword, verifyPassword } from '../../shared/crypto/password.js'
 import { generateToken, hashToken } from '../../shared/crypto/token.js'
@@ -12,13 +13,13 @@ import { AppError } from '../../shared/middleware/error-handler.js'
 import { getUniqueViolationFields } from '../../shared/db/prisma-errors.js'
 import { logger } from '../../shared/logger.js'
 import type { RequestContext } from '../../shared/types.js'
-
-const OWNER_ROLE_NAME = 'OWNER'
-const VERIFICATION_TOKEN_EXPIRY_HOURS = 24
-const MAX_FAILED_ATTEMPTS = 5
-const LOCK_DURATION_MINUTES = 15
-const SESSION_EXPIRY_DAYS = 30
-const PASSWORD_RESET_TOKEN_EXPIRY_HOURS = 1
+import {
+  SESSION_EXPIRY_DAYS,
+  VERIFICATION_TOKEN_EXPIRY_HOURS,
+  PASSWORD_RESET_TOKEN_EXPIRY_HOURS,
+  MAX_FAILED_ATTEMPTS,
+  LOCK_DURATION_MINUTES,
+} from './auth.constants.js'
 
 export async function register(
   input: RegisterInput,
@@ -35,7 +36,7 @@ export async function register(
   }
 
   const ownerRole = await prisma.role.findUnique({
-    where: { name: OWNER_ROLE_NAME },
+    where: { name: ROLES.OWNER },
   })
   if (!ownerRole) {
     throw new AppError(500, 'System roles not configured')

@@ -1,3 +1,7 @@
+export const ROLES = {
+  OWNER: 'OWNER',
+} as const
+
 export const API_ROUTES = {
   health: '/health',
   auth: {

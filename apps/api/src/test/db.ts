@@ -1,10 +1,11 @@
 import { randomUUID } from 'node:crypto'
 import type { RegisterInput } from '@friendly-system/shared'
+import { ROLES } from '@friendly-system/shared'
 import { prisma } from '../shared/db/prisma.js'
 
 const ROLE_DEFINITIONS = [
   {
-    name: 'OWNER',
+    name: ROLES.OWNER,
     description: 'Organization owner',
   },
 ]
