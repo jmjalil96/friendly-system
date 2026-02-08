@@ -1,6 +1,6 @@
 import { env } from './config/env.js'
 import { logger } from './shared/logger.js'
-import { prisma } from './shared/prisma.js'
+import { prisma } from './shared/db/prisma.js'
 import { createServer } from './server.js'
 
 const app = createServer()

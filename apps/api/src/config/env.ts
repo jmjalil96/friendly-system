@@ -1,5 +1,8 @@
-import 'dotenv/config'
+import { config as loadEnv } from 'dotenv'
 import { z } from 'zod'
+
+const runtimeNodeEnv = process.env.NODE_ENV ?? 'development'
+loadEnv({ path: runtimeNodeEnv === 'test' ? '.env.test' : '.env' })
 
 const envSchema = z.object({
   NODE_ENV: z

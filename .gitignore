@@ -4,3 +4,5 @@ dist
 *.tsbuildinfo
 .env
 routeTree.gen.ts
+coverage
+apps/api/coverage

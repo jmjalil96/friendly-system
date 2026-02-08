@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express'
 import type { ZodType, ZodIssue } from 'zod'
 import { AppError } from './error-handler.js'
+import { logger } from '../logger.js'
 
 interface ValidationSchemas {
   body?: ZodType
@@ -13,12 +14,14 @@ export function validate(schemas: ValidationSchemas): RequestHandler {
     for (const [key, schema] of Object.entries(schemas)) {
       const result = schema.safeParse(req[key as keyof typeof schemas])
       if (!result.success) {
-        next(
-          new AppError(
-            400,
-            result.error.issues.map((i: ZodIssue) => i.message).join(', '),
-          ),
+        const message = result.error.issues
+          .map((i: ZodIssue) => i.message)
+          .join(', ')
+        logger.debug(
+          { source: key, issues: result.error.issues },
+          'Validation failed',
         )
+        next(new AppError(400, message))
         return
       }
       Object.assign(req, { [key]: result.data })
