@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema, type LoginInput } from '@friendly-system/shared'
 import { Link, useRouter } from '@tanstack/react-router'
 import { useLogin } from '../hooks/use-auth'
-import { Logo } from '../../../shared/components/logo'
+import { Logo } from '@/components/layout/logo'
 
 export function LoginForm() {
   const { login, loginStatus } = useLogin()
@@ -125,11 +125,7 @@ export function LoginForm() {
             </Link>
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={isPending}
-          >
+          <button type="submit" className="auth-submit" disabled={isPending}>
             {isPending ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>

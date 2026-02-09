@@ -1,13 +1,19 @@
 // @vitest-environment jsdom
 import { type ReactElement, type ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ForgotPasswordForm } from './forgot-password-form'
+import { ForgotPasswordForm } from '@/features/auth/components/forgot-password-form'
 
 const forgotPasswordMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../api', () => ({
+vi.mock('@/features/auth/api', () => ({
   authApi: {
     forgotPassword: forgotPasswordMock,
   },
@@ -45,7 +51,9 @@ function renderWithQueryClient(ui: ReactElement) {
     },
   })
 
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>)
+  return render(
+    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+  )
 }
 
 describe('ForgotPasswordForm', () => {
@@ -70,7 +78,8 @@ describe('ForgotPasswordForm', () => {
 
   it('submits normalized email and renders success state', async () => {
     forgotPasswordMock.mockResolvedValueOnce({
-      message: 'If that email is registered, a password reset link has been sent',
+      message:
+        'If that email is registered, a password reset link has been sent',
       email: 'user@example.com',
     })
 
@@ -118,7 +127,8 @@ describe('ForgotPasswordForm', () => {
     })
 
     resolveRequest({
-      message: 'If that email is registered, a password reset link has been sent',
+      message:
+        'If that email is registered, a password reset link has been sent',
       email: 'user@example.com',
     })
 

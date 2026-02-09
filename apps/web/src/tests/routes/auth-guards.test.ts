@@ -4,13 +4,13 @@ import { isRedirect } from '@tanstack/react-router'
 const fetchFreshAuthUserMock = vi.hoisted(() => vi.fn())
 const ensureAuthUserMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../features/auth/hooks/use-auth', () => ({
+vi.mock('@/features/auth/hooks/use-auth', () => ({
   fetchFreshAuthUser: fetchFreshAuthUserMock,
   ensureAuthUser: ensureAuthUserMock,
 }))
 
-import { Route as AuthenticatedRoute } from './_authenticated'
-import { Route as GuestRoute } from './_guest'
+import { Route as AuthenticatedRoute } from '@/routes/_authenticated'
+import { Route as GuestRoute } from '@/routes/_guest'
 
 type RedirectOptionsError = {
   options?: {
@@ -110,7 +110,9 @@ describe('auth route guards', () => {
     const queryClient = { id: 'query-client' }
     ensureAuthUserMock.mockResolvedValueOnce(null)
 
-    await expect(runGuardBeforeLoad(GuestRoute, queryClient)).resolves.toBeUndefined()
+    await expect(
+      runGuardBeforeLoad(GuestRoute, queryClient),
+    ).resolves.toBeUndefined()
     expect(ensureAuthUserMock).toHaveBeenCalledWith(queryClient)
   })
 })

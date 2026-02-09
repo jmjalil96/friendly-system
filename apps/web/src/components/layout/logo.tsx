@@ -16,12 +16,24 @@ export function Logo({ variant, size }: LogoProps) {
     <div className="flex flex-col">
       <span
         className="flex font-bold"
-        style={{ fontSize: wordmark, letterSpacing: '-0.03em', lineHeight: 1.1 }}
+        style={{
+          fontSize: wordmark,
+          letterSpacing: '-0.03em',
+          lineHeight: 1.1,
+        }}
       >
-        <span style={{ color: isDark ? 'var(--color-red-500)' : 'var(--color-white)' }}>
+        <span
+          style={{
+            color: isDark ? 'var(--color-red-500)' : 'var(--color-white)',
+          }}
+        >
           Cotizate
         </span>
-        <span style={{ color: isDark ? 'var(--color-blue-500)' : 'var(--color-white)' }}>
+        <span
+          style={{
+            color: isDark ? 'var(--color-blue-500)' : 'var(--color-red-400)',
+          }}
+        >
           Algo
         </span>
       </span>

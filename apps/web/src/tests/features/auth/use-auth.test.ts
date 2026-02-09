@@ -4,20 +4,20 @@ import {
   fetchFreshAuthUser,
   ensureAuthUser,
   verifyEmailQueryOptions,
-} from './use-auth'
+} from '@/features/auth/hooks/use-auth'
 import { ERROR_CODES } from '@friendly-system/shared'
 
 const meMock = vi.hoisted(() => vi.fn())
 const verifyEmailMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../api', () => ({
+vi.mock('@/features/auth/api', () => ({
   authApi: {
     me: meMock,
     verifyEmail: verifyEmailMock,
   },
 }))
 
-vi.mock('../../../lib/api', () => ({
+vi.mock('@/lib/api', () => ({
   isSessionLossError: (error: unknown) =>
     typeof error === 'object' &&
     error !== null &&
@@ -95,9 +95,9 @@ describe('authQueryOptions', () => {
     expect(options.refetchOnWindowFocus).toBe(false)
     expect(options.refetchOnReconnect).toBe(false)
     expect(options.refetchOnMount).toBe(false)
-    await expect((options.queryFn as () => Promise<unknown>)()).resolves.toEqual(
-      response,
-    )
+    await expect(
+      (options.queryFn as () => Promise<unknown>)(),
+    ).resolves.toEqual(response)
     expect(verifyEmailMock).toHaveBeenCalledWith({ token })
   })
 

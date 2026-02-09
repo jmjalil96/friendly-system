@@ -1,4 +1,4 @@
-import { Logo } from '../../../shared/components/logo'
+import { Logo } from '@/components/layout/logo'
 
 export function MarketingPanel() {
   return (

@@ -23,10 +23,7 @@ export const authApi = {
   verifyEmail: (input: VerifyEmailInput) =>
     api.post<{ message: string }>(API_ROUTES.auth.verifyEmail, input),
   resendVerification: (input: ResendVerificationInput) =>
-    api.post<{ message: string }>(
-      API_ROUTES.auth.resendVerification,
-      input,
-    ),
+    api.post<{ message: string }>(API_ROUTES.auth.resendVerification, input),
   forgotPassword: (input: ForgotPasswordInput) =>
     api.post<ForgotPasswordResponse>(API_ROUTES.auth.forgotPassword, input),
   resetPassword: (input: ResetPasswordInput) =>

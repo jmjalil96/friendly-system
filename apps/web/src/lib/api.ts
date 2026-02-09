@@ -1,4 +1,4 @@
-import { toast } from '../shared/hooks/use-toast'
+import { toast } from '@/hooks/use-toast'
 import {
   ERROR_CODES,
   errorResponseSchema,

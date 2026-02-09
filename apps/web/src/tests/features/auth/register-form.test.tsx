@@ -1,13 +1,19 @@
 // @vitest-environment jsdom
 import { type ReactElement, type ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { RegisterForm } from './register-form'
+import { RegisterForm } from '@/features/auth/components/register-form'
 
 const registerMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../api', () => ({
+vi.mock('@/features/auth/api', () => ({
   authApi: {
     register: registerMock,
   },
@@ -45,7 +51,9 @@ function renderWithQueryClient(ui: ReactElement) {
     },
   })
 
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>)
+  return render(
+    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+  )
 }
 
 function fillRegisterForm() {

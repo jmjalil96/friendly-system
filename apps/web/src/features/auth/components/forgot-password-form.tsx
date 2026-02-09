@@ -8,7 +8,7 @@ import {
   type ForgotPasswordResponse,
 } from '@friendly-system/shared'
 import { useForgotPassword } from '../hooks/use-auth'
-import { Logo } from '../../../shared/components/logo'
+import { Logo } from '@/components/layout/logo'
 import { AuthSuccessIcon } from './auth-status-icon'
 
 export function ForgotPasswordForm() {
@@ -161,11 +161,7 @@ export function ForgotPasswordForm() {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={isPending}
-          >
+          <button type="submit" className="auth-submit" disabled={isPending}>
             {isPending ? 'Enviando enlace...' : 'Enviar enlace'}
           </button>
         </form>

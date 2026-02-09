@@ -8,7 +8,7 @@ import {
   type RegisterResponse,
 } from '@friendly-system/shared'
 import { useRegister } from '../hooks/use-auth'
-import { Logo } from '../../../shared/components/logo'
+import { Logo } from '@/components/layout/logo'
 import { AuthSuccessIcon } from './auth-status-icon'
 
 export function RegisterForm() {
@@ -277,11 +277,7 @@ export function RegisterForm() {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={isPending}
-          >
+          <button type="submit" className="auth-submit" disabled={isPending}>
             {isPending ? 'Creando cuenta...' : 'Crear cuenta'}
           </button>
         </form>

@@ -1,13 +1,19 @@
 // @vitest-environment jsdom
 import { type ReactElement, type ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ResetPasswordForm } from './reset-password-form'
+import { ResetPasswordForm } from '@/features/auth/components/reset-password-form'
 
 const resetPasswordMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../api', () => ({
+vi.mock('@/features/auth/api', () => ({
   authApi: {
     resetPassword: resetPasswordMock,
   },
@@ -45,7 +51,9 @@ function renderWithQueryClient(ui: ReactElement) {
     },
   })
 
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>)
+  return render(
+    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+  )
 }
 
 describe('ResetPasswordForm', () => {
@@ -61,14 +69,18 @@ describe('ResetPasswordForm', () => {
     renderWithQueryClient(<ResetPasswordForm token="" />)
 
     expect(screen.getByText('Enlace inválido')).toBeDefined()
-    expect(screen.getByText('No se proporcionó un token de restablecimiento.')).toBeDefined()
+    expect(
+      screen.getByText('No se proporcionó un token de restablecimiento.'),
+    ).toBeDefined()
     expect(resetPasswordMock).not.toHaveBeenCalled()
   })
 
   it('blocks submit with client-side validation error for invalid password', async () => {
     renderWithQueryClient(<ResetPasswordForm token="token-123" />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Actualizar contraseña' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Actualizar contraseña' }),
+    )
 
     await waitFor(() => {
       expect(screen.getAllByRole('alert').length).toBeGreaterThan(0)
@@ -84,7 +96,9 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(screen.getByLabelText('Nueva contraseña'), {
       target: { value: 'BrandNewPass123!' },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Actualizar contraseña' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Actualizar contraseña' }),
+    )
 
     await screen.findByText('Contraseña actualizada')
     expect(await screen.findByText('Password reset')).toBeDefined()
@@ -109,7 +123,9 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(screen.getByLabelText('Nueva contraseña'), {
       target: { value: 'BrandNewPass123!' },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Actualizar contraseña' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Actualizar contraseña' }),
+    )
 
     await waitFor(() => {
       const pendingButton = screen.getByRole('button', {
@@ -123,17 +139,25 @@ describe('ResetPasswordForm', () => {
   })
 
   it('shows API error inline and keeps recovery link visible', async () => {
-    resetPasswordMock.mockRejectedValueOnce(new Error('Invalid or expired reset token'))
+    resetPasswordMock.mockRejectedValueOnce(
+      new Error('Invalid or expired reset token'),
+    )
 
     renderWithQueryClient(<ResetPasswordForm token="token-123" />)
 
     fireEvent.change(screen.getByLabelText('Nueva contraseña'), {
       target: { value: 'BrandNewPass123!' },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Actualizar contraseña' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Actualizar contraseña' }),
+    )
 
-    expect(await screen.findByText('Invalid or expired reset token')).toBeDefined()
-    expect(screen.getByRole('link', { name: 'Solicitar nuevo enlace' })).toBeDefined()
+    expect(
+      await screen.findByText('Invalid or expired reset token'),
+    ).toBeDefined()
+    expect(
+      screen.getByRole('link', { name: 'Solicitar nuevo enlace' }),
+    ).toBeDefined()
   })
 
   it('does not render mixed success and error states after successful submit', async () => {
@@ -144,7 +168,9 @@ describe('ResetPasswordForm', () => {
     fireEvent.change(screen.getByLabelText('Nueva contraseña'), {
       target: { value: 'BrandNewPass123!' },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Actualizar contraseña' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Actualizar contraseña' }),
+    )
 
     await screen.findByText('Contraseña actualizada')
     expect(screen.queryByText('Invalid or expired reset token')).toBeNull()

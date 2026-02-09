@@ -214,10 +214,7 @@ function ErrorState({ message }: { message: string }) {
             style={{ gap: 'var(--space-xl)' }}
             noValidate
           >
-            <div
-              className="flex flex-col"
-              style={{ gap: 'var(--space-xs)' }}
-            >
+            <div className="flex flex-col" style={{ gap: 'var(--space-xs)' }}>
               <label
                 htmlFor="resend-email"
                 className="font-semibold"

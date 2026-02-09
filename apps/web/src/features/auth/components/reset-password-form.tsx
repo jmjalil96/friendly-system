@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { resetPasswordSchema, type ResetPasswordInput } from '@friendly-system/shared'
+import {
+  resetPasswordSchema,
+  type ResetPasswordInput,
+} from '@friendly-system/shared'
 import { useResetPassword } from '../hooks/use-auth'
-import { Logo } from '../../../shared/components/logo'
+import { Logo } from '@/components/layout/logo'
 import { AuthErrorIcon, AuthSuccessIcon } from './auth-status-icon'
 
 const resetPasswordFormSchema = resetPasswordSchema.pick({ newPassword: true })
@@ -167,11 +170,7 @@ function ErrorState({
         >
           {message}
         </p>
-        <button
-          type="button"
-          className="auth-submit"
-          onClick={onRetry}
-        >
+        <button type="button" className="auth-submit" onClick={onRetry}>
           Intentar de nuevo
         </button>
         <Link
@@ -297,11 +296,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="auth-submit"
-            disabled={isPending}
-          >
+          <button type="submit" className="auth-submit" disabled={isPending}>
             {isPending ? 'Actualizando contraseña...' : 'Actualizar contraseña'}
           </button>
         </form>

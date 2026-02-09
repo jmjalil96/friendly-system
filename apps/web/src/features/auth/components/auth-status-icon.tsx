@@ -1,6 +1,12 @@
 import type { ReactNode } from 'react'
 
-function AuthStatusIcon({ children, color }: { children: ReactNode; color: string }) {
+function AuthStatusIcon({
+  children,
+  color,
+}: {
+  children: ReactNode
+  color: string
+}) {
   return (
     <div
       style={{

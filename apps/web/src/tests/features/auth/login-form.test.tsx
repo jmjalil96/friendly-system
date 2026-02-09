@@ -1,15 +1,21 @@
 // @vitest-environment jsdom
 import { type ReactElement, type ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { LoginForm } from './login-form'
+import { LoginForm } from '@/features/auth/components/login-form'
 
 const loginMock = vi.hoisted(() => vi.fn())
 const routerInvalidateMock = vi.hoisted(() => vi.fn())
 const routerNavigateMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../api', () => ({
+vi.mock('@/features/auth/api', () => ({
   authApi: {
     login: loginMock,
   },
@@ -51,7 +57,9 @@ function renderWithQueryClient(ui: ReactElement) {
     },
   })
 
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>)
+  return render(
+    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+  )
 }
 
 function fillLoginForm(values?: { email?: string; password?: string }) {
@@ -117,7 +125,10 @@ describe('LoginForm', () => {
 
     await waitFor(() => {
       expect(routerInvalidateMock).toHaveBeenCalledTimes(1)
-      expect(routerNavigateMock).toHaveBeenCalledWith({ to: '/', replace: true })
+      expect(routerNavigateMock).toHaveBeenCalledWith({
+        to: '/',
+        replace: true,
+      })
     })
 
     expect(routerInvalidateMock.mock.invocationCallOrder[0]).toBeLessThan(

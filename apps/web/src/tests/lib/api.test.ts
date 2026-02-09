@@ -1,20 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ERROR_CODES } from '@friendly-system/shared'
-import { api, onUnauthorized } from './api'
+import { api, onUnauthorized } from '@/lib/api'
 
 const toastErrorMock = vi.hoisted(() => vi.fn())
 
-vi.mock('../shared/hooks/use-toast', () => ({
+vi.mock('@/hooks/use-toast', () => ({
   toast: {
     error: toastErrorMock,
   },
 }))
 
 function mockFetchResponse(response: Partial<Response>) {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue(response as Response),
-  )
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response as Response))
 }
 
 describe('api request auth/error handling', () => {
