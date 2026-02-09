@@ -1,0 +1,119 @@
+enum ClaimStatus {
+  DRAFT
+  SUBMITTED
+  IN_REVIEW
+  PENDING_INFO
+  RETURNED
+  CANCELLED
+  SETTLED
+}
+
+enum CareType {
+  AMBULATORY
+  HOSPITALARY
+  OTHER
+}
+
+// ── Claim ───────────────────────────────────────────────────────────
+
+model Claim {
+  id          String @id @default(uuid()) @db.Uuid
+  claimNumber Int    @unique @default(autoincrement()) @map("claim_number")
+  orgId       String @map("org_id") @db.Uuid
+
+  policyId    String?   @map("policy_id") @db.Uuid
+  policy      Policy?   @relation(fields: [policyId], references: [id])
+  affiliateId String    @map("affiliate_id") @db.Uuid
+  affiliate   Affiliate @relation("ClaimAffiliate", fields: [affiliateId], references: [id])
+  patientId   String    @map("patient_id") @db.Uuid
+  patient     Affiliate @relation("ClaimPatient", fields: [patientId], references: [id])
+  clientId    String    @map("client_id") @db.Uuid
+  client      Client    @relation(fields: [clientId], references: [id])
+
+  status      ClaimStatus @default(DRAFT)
+  description String      @db.Text
+
+  careType  CareType? @map("care_type")
+  diagnosis String?   @db.VarChar(500)
+
+  amountSubmitted   Decimal? @map("amount_submitted") @db.Decimal(12, 2)
+  amountApproved    Decimal? @map("amount_approved") @db.Decimal(12, 2)
+  amountDenied      Decimal? @map("amount_denied") @db.Decimal(12, 2)
+  amountUnprocessed Decimal? @map("amount_unprocessed") @db.Decimal(12, 2)
+  deductibleApplied Decimal? @map("deductible_applied") @db.Decimal(12, 2)
+  copayApplied      Decimal? @map("copay_applied") @db.Decimal(12, 2)
+
+  incidentDate   DateTime? @map("incident_date") @db.Date
+  submittedDate  DateTime? @map("submitted_date") @db.Date
+  settlementDate DateTime? @map("settlement_date") @db.Date
+
+  businessDays     Int?     @map("business_days")
+  settlementNumber String?  @map("settlement_number") @db.VarChar(100)
+  settlementNotes  String?  @map("settlement_notes") @db.Text
+
+  createdById String  @map("created_by_id") @db.Uuid
+  updatedById String? @map("updated_by_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Restrict)
+  createdBy    User         @relation("ClaimCreator", fields: [createdById], references: [id])
+  updatedBy    User?        @relation("ClaimUpdater", fields: [updatedById], references: [id])
+  invoices     ClaimInvoice[]
+  history      ClaimHistory[]
+
+  @@index([orgId])
+  @@index([policyId])
+  @@index([affiliateId])
+  @@index([patientId])
+  @@index([clientId])
+  @@index([status])
+  @@index([createdById])
+  @@index([submittedDate])
+  @@index([settlementDate])
+  @@index([createdAt])
+  @@map("claims")
+}
+
+// ── Claim History ───────────────────────────────────────────────────
+
+model ClaimHistory {
+  id      String @id @default(uuid()) @db.Uuid
+  claimId String @map("claim_id") @db.Uuid
+  claim   Claim  @relation(fields: [claimId], references: [id], onDelete: Cascade)
+
+  fromStatus ClaimStatus? @map("from_status")
+  toStatus   ClaimStatus  @map("to_status")
+  reason     String?      @db.VarChar(500)
+  notes      String?      @db.Text
+
+  createdById String   @map("created_by_id") @db.Uuid
+  createdBy   User     @relation("ClaimHistoryCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([claimId])
+  @@index([createdById])
+  @@index([createdAt])
+  @@map("claim_history")
+}
+
+// ── Claim Invoice ───────────────────────────────────────────────────
+
+model ClaimInvoice {
+  id      String @id @default(uuid()) @db.Uuid
+  claimId String @map("claim_id") @db.Uuid
+  claim   Claim  @relation(fields: [claimId], references: [id], onDelete: Cascade)
+
+  invoiceNumber   String  @map("invoice_number") @db.VarChar(100)
+  providerName    String  @map("provider_name") @db.VarChar(255)
+  amountSubmitted Decimal @map("amount_submitted") @db.Decimal(12, 2)
+
+  createdById String   @map("created_by_id") @db.Uuid
+  createdBy   User     @relation("ClaimInvoiceCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([claimId])
+  @@index([createdById])
+  @@map("claim_invoices")
+}

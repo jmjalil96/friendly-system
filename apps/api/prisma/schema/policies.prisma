@@ -1,0 +1,158 @@
+enum PolicyType {
+  HEALTH
+  LIFE
+  ACCIDENTS
+}
+
+enum PolicyStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  EXPIRED
+  CANCELLED
+}
+
+enum CoverageType {
+  INDIVIDUAL
+  INDIVIDUAL_PLUS_1
+  FAMILY
+}
+
+enum EnrollmentStartReason {
+  NEW_HIRE
+  OPEN_ENROLLMENT
+  QUALIFYING_EVENT
+  REINSTATEMENT
+  OTHER
+}
+
+enum EnrollmentEndReason {
+  TERMINATION
+  RESIGNATION
+  RETIREMENT
+  DEATH
+  POLICY_CANCELLED
+  OTHER
+}
+
+// ── Policy ──────────────────────────────────────────────────────────
+
+model Policy {
+  id           String @id @default(uuid()) @db.Uuid
+  orgId        String @map("org_id") @db.Uuid
+  policyNumber String @map("policy_number") @db.VarChar(100)
+
+  clientId  String  @map("client_id") @db.Uuid
+  client    Client  @relation(fields: [clientId], references: [id])
+  insurerId String  @map("insurer_id") @db.Uuid
+  insurer   Insurer @relation(fields: [insurerId], references: [id])
+
+  type   PolicyType?
+  status PolicyStatus @default(PENDING)
+
+  startDate DateTime @map("start_date") @db.Date
+  endDate   DateTime @map("end_date") @db.Date
+
+  ambulatoryCoinsurancePct  Decimal? @map("ambulatory_coinsurance_pct") @db.Decimal(5, 2)
+  hospitalaryCoinsurancePct Decimal? @map("hospitalary_coinsurance_pct") @db.Decimal(5, 2)
+  maternityCost             Decimal? @map("maternity_cost") @db.Decimal(12, 2)
+
+  tPremium      Decimal? @map("t_premium") @db.Decimal(12, 2)
+  tplus1Premium Decimal? @map("tplus1_premium") @db.Decimal(12, 2)
+  tplusfPremium Decimal? @map("tplusf_premium") @db.Decimal(12, 2)
+
+  benefitsCostPerPerson Decimal? @map("benefits_cost_per_person") @db.Decimal(12, 2)
+
+  cancellationReason String?   @map("cancellation_reason") @db.Text
+  cancelledAt        DateTime? @map("cancelled_at") @db.Date
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  enrollments  PolicyEnrollment[]
+  claims       Claim[]
+  history      PolicyHistory[]
+
+  @@unique([policyNumber, insurerId])
+  @@index([orgId])
+  @@index([policyNumber])
+  @@index([clientId])
+  @@index([insurerId])
+  @@index([status])
+  @@index([startDate, endDate])
+  @@map("policies")
+}
+
+// ── Enrollment ──────────────────────────────────────────────────────
+
+model PolicyEnrollment {
+  id String @id @default(uuid()) @db.Uuid
+
+  policyId    String    @map("policy_id") @db.Uuid
+  policy      Policy    @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  affiliateId String    @map("affiliate_id") @db.Uuid
+  affiliate   Affiliate @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+
+  coverageType CoverageType? @map("coverage_type")
+
+  startDate   DateTime               @map("start_date") @db.Date
+  endDate     DateTime?              @map("end_date") @db.Date
+  startReason EnrollmentStartReason? @map("start_reason")
+  endReason   EnrollmentEndReason?   @map("end_reason")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  dependents EnrollmentDependent[]
+
+  @@unique([policyId, affiliateId, startDate])
+  @@index([policyId])
+  @@index([affiliateId])
+  @@index([coverageType])
+  @@index([startDate])
+  @@index([endDate])
+  @@map("policy_enrollments")
+}
+
+model EnrollmentDependent {
+  id String @id @default(uuid()) @db.Uuid
+
+  enrollmentId String           @map("enrollment_id") @db.Uuid
+  enrollment   PolicyEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  dependentId String    @map("dependent_id") @db.Uuid
+  dependent   Affiliate @relation("EnrolledAsDependent", fields: [dependentId], references: [id])
+
+  addedAt   DateTime  @default(now()) @map("added_at") @db.Timestamptz
+  removedAt DateTime? @map("removed_at") @db.Timestamptz
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([enrollmentId, dependentId, addedAt])
+  @@index([enrollmentId])
+  @@index([dependentId])
+  @@map("enrollment_dependents")
+}
+
+// ── Policy History ──────────────────────────────────────────────────
+
+model PolicyHistory {
+  id       String @id @default(uuid()) @db.Uuid
+  policyId String @map("policy_id") @db.Uuid
+  policy   Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+
+  fromStatus PolicyStatus? @map("from_status")
+  toStatus   PolicyStatus  @map("to_status")
+  reason     String?       @db.VarChar(500)
+  notes      String?       @db.Text
+
+  createdById String   @map("created_by_id") @db.Uuid
+  createdBy   User     @relation("PolicyHistoryCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([policyId])
+  @@index([createdById])
+  @@index([createdAt])
+  @@map("policy_history")
+}

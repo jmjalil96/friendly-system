@@ -22,6 +22,14 @@ model User {
   sentInvitations         Invitation[]             @relation("InvitedByUser")
   auditLogs               AuditLog[]
 
+  // Domain relations
+  affiliate            Affiliate?
+  claimsCreated        Claim[]         @relation("ClaimCreator")
+  claimsUpdated        Claim[]         @relation("ClaimUpdater")
+  claimHistoryEntries  ClaimHistory[]  @relation("ClaimHistoryCreator")
+  claimInvoicesCreated ClaimInvoice[]  @relation("ClaimInvoiceCreator")
+  policyHistoryEntries PolicyHistory[] @relation("PolicyHistoryCreator")
+
   @@index([orgId])
   @@index([roleId])
   @@index([isActive])
@@ -53,6 +61,12 @@ model Organization {
   users       User[]
   invitations Invitation[]
   auditLogs   AuditLog[]
+
+  // Domain relations
+  clients    Client[]
+  affiliates Affiliate[]
+  policies   Policy[]
+  claims     Claim[]
 
   @@index([isActive])
   @@map("organizations")
