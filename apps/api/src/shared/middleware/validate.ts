@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 import type { ZodType, ZodIssue } from 'zod'
+import { ERROR_CODES } from '@friendly-system/shared'
 import { AppError } from './error-handler.js'
 import { logger } from '../logger.js'
 
@@ -21,7 +22,7 @@ export function validate(schemas: ValidationSchemas): RequestHandler {
           { source: key, issues: result.error.issues },
           'Validation failed',
         )
-        next(new AppError(400, message))
+        next(new AppError(400, message, ERROR_CODES.VALIDATION_ERROR))
         return
       }
       Object.assign(req, { [key]: result.data })

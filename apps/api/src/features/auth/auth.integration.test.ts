@@ -2,11 +2,13 @@ import { describe, expect, it } from 'vitest'
 import request from 'supertest'
 import {
   API_ROUTES,
+  ERROR_CODES,
   errorResponseSchema,
   forgotPasswordResponseSchema,
   loginResponseSchema,
   meResponseSchema,
   registerResponseSchema,
+  type ErrorCode,
 } from '@friendly-system/shared'
 import { createServer } from '../../server.js'
 import { verifyPassword } from '../../shared/crypto/password.js'
@@ -21,9 +23,10 @@ import {
 
 const app = createServer()
 
-function expectErrorMessage(
+function expectError(
   response: request.Response,
   statusCode: number,
+  code: ErrorCode,
   message?: string,
 ) {
   expect(response.status).toBe(statusCode)
@@ -33,6 +36,7 @@ function expectErrorMessage(
     return
   }
   expect(parsed.data.error.statusCode).toBe(statusCode)
+  expect(parsed.data.error.code).toBe(code)
   if (message) {
     expect(parsed.data.error.message).toBe(message)
   }
@@ -114,7 +118,12 @@ describe('Auth integration: register', () => {
         }),
       )
 
-    expectErrorMessage(response, 409, 'Email or organization name unavailable')
+    expectError(
+      response,
+      409,
+      ERROR_CODES.AUTH_IDENTITY_UNAVAILABLE,
+      'Email or organization name unavailable',
+    )
   })
 
   it('rejects duplicate org slug with 409', async () => {
@@ -125,7 +134,12 @@ describe('Auth integration: register', () => {
       .post(API_ROUTES.auth.register)
       .send(buildRegisterInput({ orgName: 'Acme' }))
 
-    expectErrorMessage(response, 409, 'Email or organization name unavailable')
+    expectError(
+      response,
+      409,
+      ERROR_CODES.AUTH_IDENTITY_UNAVAILABLE,
+      'Email or organization name unavailable',
+    )
   })
 
   it('validates payload with 400', async () => {
@@ -137,7 +151,7 @@ describe('Auth integration: register', () => {
       orgName: '',
     })
 
-    expectErrorMessage(response, 400)
+    expectError(response, 400, ERROR_CODES.VALIDATION_ERROR)
   })
 
   it('rejects organization names that cannot generate a slug', async () => {
@@ -149,9 +163,10 @@ describe('Auth integration: register', () => {
         }),
       )
 
-    expectErrorMessage(
+    expectError(
       response,
       400,
+      ERROR_CODES.AUTH_INVALID_ORGANIZATION_NAME,
       'Organization name must contain at least one alphanumeric character',
     )
   })
@@ -163,7 +178,12 @@ describe('Auth integration: register', () => {
       .post(API_ROUTES.auth.register)
       .send(buildRegisterInput())
 
-    expectErrorMessage(response, 500, 'System roles not configured')
+    expectError(
+      response,
+      500,
+      ERROR_CODES.INTERNAL_ERROR,
+      'System roles not configured',
+    )
   })
 })
 
@@ -201,7 +221,12 @@ describe('Auth integration: login', () => {
         password: 'Password123!',
       })
 
-    expectErrorMessage(response, 401, 'Invalid email or password')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+      'Invalid email or password',
+    )
   })
 
   it('increments failed login attempts on wrong password', async () => {
@@ -212,7 +237,12 @@ describe('Auth integration: login', () => {
       password: 'WrongPassword123!',
     })
 
-    expectErrorMessage(response, 401, 'Invalid email or password')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+      'Invalid email or password',
+    )
 
     const updated = await prisma.user.findUniqueOrThrow({
       where: { id: user.userId },
@@ -229,7 +259,12 @@ describe('Auth integration: login', () => {
         email: user.email,
         password: 'WrongPassword123!',
       })
-      expectErrorMessage(response, 401, 'Invalid email or password')
+      expectError(
+        response,
+        401,
+        ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+        'Invalid email or password',
+      )
     }
 
     const lockedUser = await prisma.user.findUniqueOrThrow({
@@ -244,7 +279,12 @@ describe('Auth integration: login', () => {
       email: user.email,
       password: user.password,
     })
-    expectErrorMessage(response, 423, 'Account temporarily locked')
+    expectError(
+      response,
+      423,
+      ERROR_CODES.AUTH_ACCOUNT_LOCKED,
+      'Account temporarily locked',
+    )
   })
 
   it('unlocks account after lock duration expires', async () => {
@@ -323,7 +363,12 @@ describe('Auth integration: login', () => {
       password: user.password,
     })
 
-    expectErrorMessage(response, 401, 'Account deactivated')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_ACCOUNT_DEACTIVATED,
+      'Account deactivated',
+    )
   })
 
   it('rejects unverified users', async () => {
@@ -335,7 +380,12 @@ describe('Auth integration: login', () => {
       password: payload.password,
     })
 
-    expectErrorMessage(response, 403, 'Email not verified')
+    expectError(
+      response,
+      403,
+      ERROR_CODES.AUTH_EMAIL_NOT_VERIFIED,
+      'Email not verified',
+    )
   })
 })
 
@@ -363,7 +413,12 @@ describe('Auth integration: me and logout', () => {
 
   it('requires session for /auth/me', async () => {
     const response = await request(app).get(API_ROUTES.auth.me)
-    expectErrorMessage(response, 401, 'Authentication required')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_REQUIRED,
+      'Authentication required',
+    )
   })
 
   it('rejects invalid session tokens', async () => {
@@ -371,7 +426,12 @@ describe('Auth integration: me and logout', () => {
       .get(API_ROUTES.auth.me)
       .set('Cookie', 'session=invalid-session-token')
 
-    expectErrorMessage(response, 401, 'Invalid or expired session')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_SESSION_INVALID,
+      'Invalid or expired session',
+    )
   })
 
   it('rejects expired sessions', async () => {
@@ -389,7 +449,12 @@ describe('Auth integration: me and logout', () => {
     })
 
     const response = await agent.get(API_ROUTES.auth.me)
-    expectErrorMessage(response, 401, 'Invalid or expired session')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_SESSION_INVALID,
+      'Invalid or expired session',
+    )
   })
 
   it('rejects requests from deactivated users with valid sessions', async () => {
@@ -407,7 +472,12 @@ describe('Auth integration: me and logout', () => {
     })
 
     const response = await agent.get(API_ROUTES.auth.me)
-    expectErrorMessage(response, 401, 'Account deactivated')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_ACCOUNT_DEACTIVATED,
+      'Account deactivated',
+    )
   })
 
   it('logs out and invalidates the session cookie', async () => {
@@ -431,7 +501,12 @@ describe('Auth integration: me and logout', () => {
     expect(sessions).toHaveLength(0)
 
     const meResponse = await agent.get(API_ROUTES.auth.me)
-    expectErrorMessage(meResponse, 401, 'Authentication required')
+    expectError(
+      meResponse,
+      401,
+      ERROR_CODES.AUTH_REQUIRED,
+      'Authentication required',
+    )
 
     const auditEntry = await prisma.auditLog.findFirst({
       where: { userId: user.userId, action: 'user.logged_out' },
@@ -441,7 +516,12 @@ describe('Auth integration: me and logout', () => {
 
   it('requires authentication for logout', async () => {
     const response = await request(app).post(API_ROUTES.auth.logout)
-    expectErrorMessage(response, 401, 'Authentication required')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_REQUIRED,
+      'Authentication required',
+    )
   })
 })
 
@@ -470,9 +550,10 @@ describe('Auth integration: verify email and resend verification', () => {
     const replayResponse = await request(app)
       .post(API_ROUTES.auth.verifyEmail)
       .send({ token })
-    expectErrorMessage(
+    expectError(
       replayResponse,
       400,
+      ERROR_CODES.AUTH_VERIFICATION_TOKEN_INVALID,
       'Invalid or expired verification token',
     )
 
@@ -498,7 +579,12 @@ describe('Auth integration: verify email and resend verification', () => {
     const response = await request(app)
       .post(API_ROUTES.auth.verifyEmail)
       .send({ token })
-    expectErrorMessage(response, 400, 'Invalid or expired verification token')
+    expectError(
+      response,
+      400,
+      ERROR_CODES.AUTH_VERIFICATION_TOKEN_INVALID,
+      'Invalid or expired verification token',
+    )
   })
 
   it('resend verification returns generic message for unknown email', async () => {
@@ -716,7 +802,12 @@ describe('Auth integration: forgot and reset password', () => {
         email: user.email,
         password: user.password,
       })
-    expectErrorMessage(oldPasswordLogin, 401, 'Invalid email or password')
+    expectError(
+      oldPasswordLogin,
+      401,
+      ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+      'Invalid email or password',
+    )
 
     const newPasswordLogin = await request(app)
       .post(API_ROUTES.auth.login)
@@ -746,7 +837,12 @@ describe('Auth integration: forgot and reset password', () => {
       token,
       newPassword: 'AnotherPass123!',
     })
-    expectErrorMessage(replay, 400, 'Invalid or expired reset token')
+    expectError(
+      replay,
+      400,
+      ERROR_CODES.AUTH_RESET_TOKEN_INVALID,
+      'Invalid or expired reset token',
+    )
 
     const expired = await issuePasswordResetToken(
       user.userId,
@@ -758,7 +854,12 @@ describe('Auth integration: forgot and reset password', () => {
         token: expired,
         newPassword: 'AnotherPass123!',
       })
-    expectErrorMessage(expiredResponse, 400, 'Invalid or expired reset token')
+    expectError(
+      expiredResponse,
+      400,
+      ERROR_CODES.AUTH_RESET_TOKEN_INVALID,
+      'Invalid or expired reset token',
+    )
 
     const invalidResponse = await request(app)
       .post(API_ROUTES.auth.resetPassword)
@@ -766,7 +867,12 @@ describe('Auth integration: forgot and reset password', () => {
         token: 'not-a-real-token',
         newPassword: 'AnotherPass123!',
       })
-    expectErrorMessage(invalidResponse, 400, 'Invalid or expired reset token')
+    expectError(
+      invalidResponse,
+      400,
+      ERROR_CODES.AUTH_RESET_TOKEN_INVALID,
+      'Invalid or expired reset token',
+    )
   })
 })
 
@@ -805,7 +911,12 @@ describe('Auth integration: change password', () => {
         email: user.email,
         password: user.password,
       })
-    expectErrorMessage(oldPasswordLogin, 401, 'Invalid email or password')
+    expectError(
+      oldPasswordLogin,
+      401,
+      ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+      'Invalid email or password',
+    )
 
     const newPasswordLogin = await request(app)
       .post(API_ROUTES.auth.login)
@@ -834,7 +945,12 @@ describe('Auth integration: change password', () => {
       currentPassword: 'WrongPassword123!',
       newPassword: 'Password456!',
     })
-    expectErrorMessage(response, 401, 'Current password is incorrect')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_CURRENT_PASSWORD_INCORRECT,
+      'Current password is incorrect',
+    )
   })
 
   it('requires authentication for password change', async () => {
@@ -844,6 +960,11 @@ describe('Auth integration: change password', () => {
         currentPassword: 'Password123!',
         newPassword: 'Password456!',
       })
-    expectErrorMessage(response, 401, 'Authentication required')
+    expectError(
+      response,
+      401,
+      ERROR_CODES.AUTH_REQUIRED,
+      'Authentication required',
+    )
   })
 })

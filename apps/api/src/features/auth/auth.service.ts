@@ -4,7 +4,7 @@ import type {
   LoginInput,
   LoginResponse,
 } from '@friendly-system/shared'
-import { ROLES } from '@friendly-system/shared'
+import { ERROR_CODES, ROLES } from '@friendly-system/shared'
 import { prisma } from '../../shared/db/prisma.js'
 import { hashPassword, verifyPassword } from '../../shared/crypto/password.js'
 import { generateToken, hashToken } from '../../shared/crypto/token.js'
@@ -32,6 +32,7 @@ export async function register(
     throw new AppError(
       400,
       'Organization name must contain at least one alphanumeric character',
+      ERROR_CODES.AUTH_INVALID_ORGANIZATION_NAME,
     )
   }
 
@@ -39,7 +40,7 @@ export async function register(
     where: { name: ROLES.OWNER },
   })
   if (!ownerRole) {
-    throw new AppError(500, 'System roles not configured')
+    throw new AppError(500, 'System roles not configured', ERROR_CODES.INTERNAL_ERROR)
   }
 
   const passwordHash = await hashPassword(password)
@@ -111,7 +112,11 @@ export async function register(
         logger.warn({ slug }, 'Registration attempted with taken org slug')
       }
       if (fields.includes('email') || fields.includes('slug')) {
-        throw new AppError(409, 'Email or organization name unavailable')
+        throw new AppError(
+          409,
+          'Email or organization name unavailable',
+          ERROR_CODES.AUTH_IDENTITY_UNAVAILABLE,
+        )
       }
     }
     throw error
@@ -131,17 +136,29 @@ export async function login(
 
   if (!user) {
     logger.warn({ email }, 'Login attempted with unknown email')
-    throw new AppError(401, 'Invalid email or password')
+    throw new AppError(
+      401,
+      'Invalid email or password',
+      ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+    )
   }
 
   if (!user.isActive) {
     logger.warn({ userId: user.id }, 'Login attempted on deactivated account')
-    throw new AppError(401, 'Account deactivated')
+    throw new AppError(
+      401,
+      'Account deactivated',
+      ERROR_CODES.AUTH_ACCOUNT_DEACTIVATED,
+    )
   }
 
   if (!user.emailVerified) {
     logger.warn({ userId: user.id }, 'Login attempted with unverified email')
-    throw new AppError(403, 'Email not verified')
+    throw new AppError(
+      403,
+      'Email not verified',
+      ERROR_CODES.AUTH_EMAIL_NOT_VERIFIED,
+    )
   }
 
   if (user.lockedUntil && user.lockedUntil > new Date()) {
@@ -149,7 +166,11 @@ export async function login(
       { userId: user.id, lockedUntil: user.lockedUntil },
       'Login attempted on locked account',
     )
-    throw new AppError(423, 'Account temporarily locked')
+    throw new AppError(
+      423,
+      'Account temporarily locked',
+      ERROR_CODES.AUTH_ACCOUNT_LOCKED,
+    )
   }
 
   const passwordValid = await verifyPassword(password, user.passwordHash)
@@ -179,7 +200,11 @@ export async function login(
       )
     }
 
-    throw new AppError(401, 'Invalid email or password')
+    throw new AppError(
+      401,
+      'Invalid email or password',
+      ERROR_CODES.AUTH_INVALID_CREDENTIALS,
+    )
   }
 
   const { raw: sessionToken, hash: sessionHash } = generateToken()
@@ -272,7 +297,11 @@ export async function verifyEmail(
       { tokenHash },
       'Email verification attempted with invalid token',
     )
-    throw new AppError(400, 'Invalid or expired verification token')
+    throw new AppError(
+      400,
+      'Invalid or expired verification token',
+      ERROR_CODES.AUTH_VERIFICATION_TOKEN_INVALID,
+    )
   }
 
   const used = await prisma.$transaction(async (tx) => {
@@ -306,7 +335,11 @@ export async function verifyEmail(
       { tokenHash },
       'Email verification token already consumed (concurrent request)',
     )
-    throw new AppError(400, 'Invalid or expired verification token')
+    throw new AppError(
+      400,
+      'Invalid or expired verification token',
+      ERROR_CODES.AUTH_VERIFICATION_TOKEN_INVALID,
+    )
   }
 
   logger.info({ userId: verificationToken.userId }, 'Email verified')
@@ -458,7 +491,11 @@ export async function resetPassword(
     resetToken.usedAt !== null
   ) {
     logger.warn({ tokenHash }, 'Password reset attempted with invalid token')
-    throw new AppError(400, 'Invalid or expired reset token')
+    throw new AppError(
+      400,
+      'Invalid or expired reset token',
+      ERROR_CODES.AUTH_RESET_TOKEN_INVALID,
+    )
   }
 
   const passwordHash = await hashPassword(newPassword)
@@ -503,7 +540,11 @@ export async function resetPassword(
       { tokenHash },
       'Password reset token already consumed (concurrent request)',
     )
-    throw new AppError(400, 'Invalid or expired reset token')
+    throw new AppError(
+      400,
+      'Invalid or expired reset token',
+      ERROR_CODES.AUTH_RESET_TOKEN_INVALID,
+    )
   }
 
   logger.info({ userId: resetToken.userId }, 'Password reset')
@@ -530,7 +571,11 @@ export async function changePassword(
       { userId },
       'Password change attempted with wrong current password',
     )
-    throw new AppError(401, 'Current password is incorrect')
+    throw new AppError(
+      401,
+      'Current password is incorrect',
+      ERROR_CODES.AUTH_CURRENT_PASSWORD_INCORRECT,
+    )
   }
 
   const passwordHash = await hashPassword(input.newPassword)

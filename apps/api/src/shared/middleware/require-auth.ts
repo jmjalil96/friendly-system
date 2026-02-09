@@ -1,4 +1,5 @@
 import type { RequestHandler } from 'express'
+import { ERROR_CODES } from '@friendly-system/shared'
 import { prisma } from '../db/prisma.js'
 import { hashToken } from '../crypto/token.js'
 import { AppError } from './error-handler.js'
@@ -8,7 +9,7 @@ import { logger } from '../logger.js'
 export const requireAuth: RequestHandler = async (req, _res, next) => {
   const sessionToken = req.cookies[SESSION_COOKIE_NAME]
   if (!sessionToken) {
-    throw new AppError(401, 'Authentication required')
+    throw new AppError(401, 'Authentication required', ERROR_CODES.AUTH_REQUIRED)
   }
 
   const tokenHash = hashToken(sessionToken)
@@ -28,12 +29,20 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
 
   if (!session || session.expiresAt < new Date()) {
     logger.warn({ tokenHash }, 'Request with invalid or expired session')
-    throw new AppError(401, 'Invalid or expired session')
+    throw new AppError(
+      401,
+      'Invalid or expired session',
+      ERROR_CODES.AUTH_SESSION_INVALID,
+    )
   }
 
   if (!session.user.isActive) {
     logger.warn({ userId: session.userId }, 'Request from deactivated account')
-    throw new AppError(401, 'Account deactivated')
+    throw new AppError(
+      401,
+      'Account deactivated',
+      ERROR_CODES.AUTH_ACCOUNT_DEACTIVATED,
+    )
   }
 
   req.user = {

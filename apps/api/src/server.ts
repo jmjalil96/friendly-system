@@ -1,6 +1,7 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import pinoHttp from 'pino-http'
+import { ERROR_CODES } from '@friendly-system/shared'
 import { logger } from './shared/logger.js'
 import { errorHandler, AppError } from './shared/middleware/error-handler.js'
 import { healthRoutes } from './features/health/health.routes.js'
@@ -17,7 +18,7 @@ export function createServer() {
   app.use(authRoutes)
 
   app.use((_req, _res, next) => {
-    next(new AppError(404, 'Not found'))
+    next(new AppError(404, 'Not found', ERROR_CODES.NOT_FOUND))
   })
 
   app.use(errorHandler)
