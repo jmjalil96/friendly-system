@@ -755,7 +755,8 @@ describe('Auth integration: forgot and reset password', () => {
 
     expect(response.status).toBe(200)
     expect(response.body).toEqual({
-      message: 'If that email is registered, a password reset link has been sent',
+      message:
+        'If that email is registered, a password reset link has been sent',
       email: user.email,
     })
   })

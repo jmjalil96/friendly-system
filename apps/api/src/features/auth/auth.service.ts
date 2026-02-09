@@ -40,7 +40,11 @@ export async function register(
     where: { name: ROLES.OWNER },
   })
   if (!ownerRole) {
-    throw new AppError(500, 'System roles not configured', ERROR_CODES.INTERNAL_ERROR)
+    throw new AppError(
+      500,
+      'System roles not configured',
+      ERROR_CODES.INTERNAL_ERROR,
+    )
   }
 
   const passwordHash = await hashPassword(password)

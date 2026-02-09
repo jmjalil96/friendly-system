@@ -9,7 +9,11 @@ import { logger } from '../logger.js'
 export const requireAuth: RequestHandler = async (req, _res, next) => {
   const sessionToken = req.cookies[SESSION_COOKIE_NAME]
   if (!sessionToken) {
-    throw new AppError(401, 'Authentication required', ERROR_CODES.AUTH_REQUIRED)
+    throw new AppError(
+      401,
+      'Authentication required',
+      ERROR_CODES.AUTH_REQUIRED,
+    )
   }
 
   const tokenHash = hashToken(sessionToken)

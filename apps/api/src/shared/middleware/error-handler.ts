@@ -48,7 +48,11 @@ function codeForStatus(status: number): ErrorCode {
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof AppError) {
     const response: ErrorResponse = {
-      error: { message: err.message, statusCode: err.statusCode, code: err.code },
+      error: {
+        message: err.message,
+        statusCode: err.statusCode,
+        code: err.code,
+      },
     }
     res.status(err.statusCode).json(response)
     return
