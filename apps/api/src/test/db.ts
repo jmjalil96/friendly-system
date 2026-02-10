@@ -22,12 +22,63 @@ const PERMISSION_DEFINITIONS = [
     action: PERMISSIONS.CLAIMS_CREATE_OWN,
     description: 'Create claims for own affiliate',
   },
+  {
+    action: PERMISSIONS.CLAIMS_READ_ALL,
+    description: 'Read any claim',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_READ_CLIENT,
+    description: 'Read claims for assigned clients',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_READ_OWN,
+    description: 'Read own claims',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_UPDATE_ALL,
+    description: 'Update any claim',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_UPDATE_CLIENT,
+    description: 'Update claims for assigned clients',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_UPDATE_OWN,
+    description: 'Update own claims',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_TRANSITION_ALL,
+    description: 'Transition any claim',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_TRANSITION_CLIENT,
+    description: 'Transition claims for assigned clients',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_TRANSITION_OWN,
+    description: 'Transition own claims',
+  },
 ]
 
 const ROLE_PERMISSION_MAP: Record<string, string[]> = {
-  [ROLES.OWNER]: [PERMISSIONS.CLAIMS_CREATE_ALL],
-  [ROLES.ADMIN]: [PERMISSIONS.CLAIMS_CREATE_CLIENT],
-  [ROLES.MEMBER]: [PERMISSIONS.CLAIMS_CREATE_OWN],
+  [ROLES.OWNER]: [
+    PERMISSIONS.CLAIMS_CREATE_ALL,
+    PERMISSIONS.CLAIMS_READ_ALL,
+    PERMISSIONS.CLAIMS_UPDATE_ALL,
+    PERMISSIONS.CLAIMS_TRANSITION_ALL,
+  ],
+  [ROLES.ADMIN]: [
+    PERMISSIONS.CLAIMS_CREATE_CLIENT,
+    PERMISSIONS.CLAIMS_READ_CLIENT,
+    PERMISSIONS.CLAIMS_UPDATE_CLIENT,
+    PERMISSIONS.CLAIMS_TRANSITION_CLIENT,
+  ],
+  [ROLES.MEMBER]: [
+    PERMISSIONS.CLAIMS_CREATE_OWN,
+    PERMISSIONS.CLAIMS_READ_OWN,
+    PERMISSIONS.CLAIMS_UPDATE_OWN,
+    PERMISSIONS.CLAIMS_TRANSITION_OWN,
+  ],
 }
 
 export async function ensureDatabaseConnection(): Promise<void> {

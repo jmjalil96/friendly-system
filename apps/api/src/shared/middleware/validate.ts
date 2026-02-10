@@ -25,7 +25,11 @@ export function validate(schemas: ValidationSchemas): RequestHandler {
         next(new AppError(400, message, ERROR_CODES.VALIDATION_ERROR))
         return
       }
-      Object.assign(req, { [key]: result.data })
+      Object.defineProperty(req, key, {
+        value: result.data,
+        writable: true,
+        configurable: true,
+      })
     }
     next()
   }

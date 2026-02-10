@@ -26,12 +26,12 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
           profile: true,
           organization: true,
           role: {
-          include: {
-            rolePermissions: {
-              include: { permission: { select: { action: true } } },
+            include: {
+              rolePermissions: {
+                include: { permission: { select: { action: true } } },
+              },
             },
           },
-        },
         },
       },
     },

@@ -20,9 +20,7 @@ export function requirePermission(action: string): RequestHandler {
       )
     }
 
-    scopes.sort(
-      (a, b) => (SCOPE_PRIORITY[a] ?? 99) - (SCOPE_PRIORITY[b] ?? 99),
-    )
+    scopes.sort((a, b) => (SCOPE_PRIORITY[a] ?? 99) - (SCOPE_PRIORITY[b] ?? 99))
     req.permissionScope = scopes[0]
 
     next()

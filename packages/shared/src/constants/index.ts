@@ -8,6 +8,15 @@ export const PERMISSIONS = {
   CLAIMS_CREATE_ALL: 'claims:create:all',
   CLAIMS_CREATE_CLIENT: 'claims:create:client',
   CLAIMS_CREATE_OWN: 'claims:create:own',
+  CLAIMS_READ_ALL: 'claims:read:all',
+  CLAIMS_READ_CLIENT: 'claims:read:client',
+  CLAIMS_READ_OWN: 'claims:read:own',
+  CLAIMS_UPDATE_ALL: 'claims:update:all',
+  CLAIMS_UPDATE_CLIENT: 'claims:update:client',
+  CLAIMS_UPDATE_OWN: 'claims:update:own',
+  CLAIMS_TRANSITION_ALL: 'claims:transition:all',
+  CLAIMS_TRANSITION_CLIENT: 'claims:transition:client',
+  CLAIMS_TRANSITION_OWN: 'claims:transition:own',
 } as const
 
 export const API_ROUTES = {
@@ -25,6 +34,19 @@ export const API_ROUTES = {
   },
   claims: {
     create: '/claims',
+    list: '/claims',
+    lookupClients: '/claims/lookup/clients',
+    lookupClientAffiliates: '/claims/lookup/clients/:clientId/affiliates',
+    lookupAffiliatePatients: '/claims/lookup/affiliates/:affiliateId/patients',
+    lookupClientPolicies: '/claims/lookup/clients/:clientId/policies',
+    history: '/claims/:id/history',
+    timeline: '/claims/:id/timeline',
+    invoices: '/claims/:id/invoices',
+    invoiceById: '/claims/:id/invoices/:invoiceId',
+    update: '/claims/:id',
+    delete: '/claims/:id',
+    getById: '/claims/:id',
+    transition: '/claims/:id/transition',
   },
 } as const
 
@@ -61,8 +83,18 @@ export const ERROR_CODES = {
   CLAIMS_PATIENT_NOT_FOUND: 'CLAIMS_PATIENT_NOT_FOUND',
   CLAIMS_PATIENT_INACTIVE: 'CLAIMS_PATIENT_INACTIVE',
   CLAIMS_PATIENT_CLIENT_MISMATCH: 'CLAIMS_PATIENT_CLIENT_MISMATCH',
+  CLAIMS_CLAIM_NOT_FOUND: 'CLAIMS_CLAIM_NOT_FOUND',
   CLAIMS_PATIENT_NOT_DEPENDENT: 'CLAIMS_PATIENT_NOT_DEPENDENT',
+  CLAIMS_FIELD_NOT_EDITABLE: 'CLAIMS_FIELD_NOT_EDITABLE',
+  CLAIMS_POLICY_NOT_FOUND: 'CLAIMS_POLICY_NOT_FOUND',
+  CLAIMS_POLICY_CLIENT_MISMATCH: 'CLAIMS_POLICY_CLIENT_MISMATCH',
+  CLAIMS_INVOICE_NOT_FOUND: 'CLAIMS_INVOICE_NOT_FOUND',
+  CLAIMS_INVALID_TRANSITION: 'CLAIMS_INVALID_TRANSITION',
+  CLAIMS_INVARIANT_VIOLATION: 'CLAIMS_INVARIANT_VIOLATION',
+  CLAIMS_REASON_REQUIRED: 'CLAIMS_REASON_REQUIRED',
   PERMISSION_DENIED: 'PERMISSION_DENIED',
 } as const
 
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES]
+
+export * from './claims.js'

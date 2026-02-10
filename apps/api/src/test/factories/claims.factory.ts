@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { prisma } from '../../shared/db/prisma.js'
 
 export interface ClientFixture {
@@ -77,5 +78,36 @@ export async function linkAffiliateToUser(
   await prisma.affiliate.update({
     where: { id: affiliateId },
     data: { userId },
+  })
+}
+
+export async function createInsurer(
+  overrides: { name?: string } = {},
+): Promise<{ id: string; name: string }> {
+  return prisma.insurer.create({
+    data: {
+      name: overrides.name ?? `Test Insurer ${Date.now()}`,
+      type: 'MEDICINA_PREPAGADA',
+    },
+    select: { id: true, name: true },
+  })
+}
+
+export async function createPolicy(
+  orgId: string,
+  clientId: string,
+  insurerId: string,
+  overrides: { startDate?: Date; endDate?: Date } = {},
+): Promise<{ id: string; orgId: string; clientId: string }> {
+  return prisma.policy.create({
+    data: {
+      orgId,
+      clientId,
+      insurerId,
+      policyNumber: `POL-${randomUUID().slice(0, 8)}`,
+      startDate: overrides.startDate ?? new Date('2025-01-01'),
+      endDate: overrides.endDate ?? new Date('2026-12-31'),
+    },
+    select: { id: true, orgId: true, clientId: true },
   })
 }

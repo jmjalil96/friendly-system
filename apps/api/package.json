@@ -15,7 +15,11 @@
     "test": "sh -c 'export NODE_ENV=test; export DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/friendly_system_test}; vitest run'",
     "test:watch": "sh -c 'export NODE_ENV=test; export DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/friendly_system_test}; vitest'",
     "test:ci": "sh -c 'export NODE_ENV=test; export DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/friendly_system_test}; pnpm --filter @friendly-system/shared build && pnpm run db:create-test && pnpm exec prisma generate && pnpm exec prisma migrate deploy && vitest run --coverage'",
+    "db:seed": "tsx prisma/seed.ts",
     "dev": "tsx watch src/index.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@friendly-system/shared": "workspace:*",
