@@ -1,14 +1,34 @@
 import { randomUUID } from 'node:crypto'
 import type { RegisterInput } from '@friendly-system/shared'
-import { ROLES } from '@friendly-system/shared'
+import { ROLES, PERMISSIONS } from '@friendly-system/shared'
 import { prisma } from '../shared/db/prisma.js'
 
 const ROLE_DEFINITIONS = [
+  { name: ROLES.OWNER, description: 'Organization owner' },
+  { name: ROLES.ADMIN, description: 'Organization admin' },
+  { name: ROLES.MEMBER, description: 'Organization member' },
+]
+
+const PERMISSION_DEFINITIONS = [
   {
-    name: ROLES.OWNER,
-    description: 'Organization owner',
+    action: PERMISSIONS.CLAIMS_CREATE_ALL,
+    description: 'Create claims for any client',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_CREATE_CLIENT,
+    description: 'Create claims for assigned clients',
+  },
+  {
+    action: PERMISSIONS.CLAIMS_CREATE_OWN,
+    description: 'Create claims for own affiliate',
   },
 ]
+
+const ROLE_PERMISSION_MAP: Record<string, string[]> = {
+  [ROLES.OWNER]: [PERMISSIONS.CLAIMS_CREATE_ALL],
+  [ROLES.ADMIN]: [PERMISSIONS.CLAIMS_CREATE_CLIENT],
+  [ROLES.MEMBER]: [PERMISSIONS.CLAIMS_CREATE_OWN],
+}
 
 export async function ensureDatabaseConnection(): Promise<void> {
   await prisma.$queryRaw`SELECT 1`
@@ -41,6 +61,35 @@ export async function seedSystemRoles(): Promise<void> {
       update: {},
       create: role,
     })
+  }
+
+  for (const perm of PERMISSION_DEFINITIONS) {
+    await prisma.permission.upsert({
+      where: { action: perm.action },
+      update: {},
+      create: perm,
+    })
+  }
+
+  for (const [roleName, actions] of Object.entries(ROLE_PERMISSION_MAP)) {
+    const role = await prisma.role.findUniqueOrThrow({
+      where: { name: roleName },
+    })
+    for (const action of actions) {
+      const permission = await prisma.permission.findUniqueOrThrow({
+        where: { action },
+      })
+      await prisma.rolePermission.upsert({
+        where: {
+          roleId_permissionId: {
+            roleId: role.id,
+            permissionId: permission.id,
+          },
+        },
+        update: {},
+        create: { roleId: role.id, permissionId: permission.id },
+      })
+    }
   }
 }
 

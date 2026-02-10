@@ -14,8 +14,10 @@ model AuditLog {
   action    String   @db.VarChar(100)
   ipAddress String?  @map("ip_address") @db.VarChar(45)
   userAgent String?  @map("user_agent") @db.VarChar(512)
-  metadata  Json?    @db.JsonB
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  resource   String? @db.VarChar(50)
+  resourceId String? @map("resource_id") @db.Uuid
+  metadata   Json?   @db.JsonB
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
   organization Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
@@ -24,5 +26,6 @@ model AuditLog {
   @@index([orgId])
   @@index([action])
   @@index([createdAt])
+  @@index([resource, resourceId])
   @@map("audit_logs")
 }

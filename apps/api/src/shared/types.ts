@@ -11,6 +11,7 @@ export interface AuthenticatedUser {
   orgId: string
   orgSlug: string
   role: string
+  permissions: string[]
 }
 
 export interface AuthenticatedSession {
@@ -23,6 +24,7 @@ declare global {
     interface Request {
       user?: AuthenticatedUser
       sessionInfo?: AuthenticatedSession
+      permissionScope?: string
     }
   }
 }

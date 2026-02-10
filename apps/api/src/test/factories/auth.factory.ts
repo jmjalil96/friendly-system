@@ -1,7 +1,7 @@
 import type { Express } from 'express'
 import type { RegisterInput } from '@friendly-system/shared'
 import request from 'supertest'
-import { API_ROUTES } from '@friendly-system/shared'
+import { API_ROUTES, ROLES } from '@friendly-system/shared'
 import { generateToken } from '../../shared/crypto/token.js'
 import { prisma } from '../../shared/db/prisma.js'
 import { buildRegisterInput } from '../db.js'
@@ -88,6 +88,26 @@ export async function issueEmailVerificationToken(
     },
   })
   return raw
+}
+
+export async function createVerifiedUserWithRole(
+  app: Express,
+  roleName: string,
+  overrides: Partial<RegisterInput> = {},
+): Promise<VerifiedUserFixture> {
+  const fixture = await createVerifiedUser(app, overrides)
+
+  if (roleName !== ROLES.OWNER) {
+    const role = await prisma.role.findUniqueOrThrow({
+      where: { name: roleName },
+    })
+    await prisma.user.update({
+      where: { id: fixture.userId },
+      data: { roleId: role.id },
+    })
+  }
+
+  return fixture
 }
 
 export async function issuePasswordResetToken(

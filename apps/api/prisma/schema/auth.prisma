@@ -24,6 +24,7 @@ model User {
 
   // Domain relations
   affiliate            Affiliate?
+  userClients          UserClient[]
   claimsCreated        Claim[]         @relation("ClaimCreator")
   claimsUpdated        Claim[]         @relation("ClaimUpdater")
   claimHistoryEntries  ClaimHistory[]  @relation("ClaimHistoryCreator")
@@ -186,4 +187,18 @@ model Invitation {
   @@index([status])
   @@index([expiresAt])
   @@map("invitations")
+}
+
+// ── User-Client Access ──────────────────────────────────────────────
+
+model UserClient {
+  userId   String @map("user_id") @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@id([userId, clientId])
+  @@index([clientId])
+  @@map("user_clients")
 }

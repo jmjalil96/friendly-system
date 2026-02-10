@@ -101,9 +101,12 @@ describe('Auth integration: register', () => {
     expect(user.profile?.lastName).toBe(payload.lastName)
     expect(user.organization.name).toBe(payload.orgName)
     expect(user.emailVerificationTokens).toHaveLength(1)
-    expect(
-      user.auditLogs.some((entry) => entry.action === 'user.registered'),
-    ).toBe(true)
+    const registerAudit = user.auditLogs.find(
+      (entry) => entry.action === 'user.registered',
+    )
+    expect(registerAudit).toBeDefined()
+    expect(registerAudit!.resource).toBe('user')
+    expect(registerAudit!.resourceId).toBe(user.id)
   })
 
   it('rejects duplicate email with 409', async () => {
@@ -211,6 +214,8 @@ describe('Auth integration: login', () => {
       where: { userId: user.userId, action: 'user.logged_in' },
     })
     expect(auditEntry).not.toBeNull()
+    expect(auditEntry!.resource).toBe('user')
+    expect(auditEntry!.resourceId).toBe(user.userId)
   })
 
   it('returns generic 401 for unknown email', async () => {
@@ -512,6 +517,8 @@ describe('Auth integration: me and logout', () => {
       where: { userId: user.userId, action: 'user.logged_out' },
     })
     expect(auditEntry).not.toBeNull()
+    expect(auditEntry!.resource).toBe('user')
+    expect(auditEntry!.resourceId).toBe(user.userId)
   })
 
   it('requires authentication for logout', async () => {
@@ -561,6 +568,8 @@ describe('Auth integration: verify email and resend verification', () => {
       where: { userId: user.id, action: 'user.email_verified' },
     })
     expect(auditEntry).not.toBeNull()
+    expect(auditEntry!.resource).toBe('user')
+    expect(auditEntry!.resourceId).toBe(user.id)
   })
 
   it('rejects expired verification token', async () => {
@@ -630,6 +639,8 @@ describe('Auth integration: verify email and resend verification', () => {
       where: { userId: user.id, action: 'user.verification_resent' },
     })
     expect(auditEntry).not.toBeNull()
+    expect(auditEntry!.resource).toBe('user')
+    expect(auditEntry!.resourceId).toBe(user.id)
   })
 
   it('resend verification is generic for verified and deactivated users', async () => {
@@ -822,6 +833,8 @@ describe('Auth integration: forgot and reset password', () => {
       where: { userId: user.userId, action: 'user.password_reset' },
     })
     expect(auditEntry).not.toBeNull()
+    expect(auditEntry!.resource).toBe('user')
+    expect(auditEntry!.resourceId).toBe(user.userId)
   })
 
   it('rejects replayed, expired, and invalid reset tokens', async () => {
@@ -931,6 +944,8 @@ describe('Auth integration: change password', () => {
       where: { userId: user.userId, action: 'user.password_changed' },
     })
     expect(auditEntry).not.toBeNull()
+    expect(auditEntry!.resource).toBe('user')
+    expect(auditEntry!.resourceId).toBe(user.userId)
   })
 
   it('rejects wrong current password', async () => {

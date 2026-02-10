@@ -25,7 +25,13 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
         include: {
           profile: true,
           organization: true,
-          role: true,
+          role: {
+          include: {
+            rolePermissions: {
+              include: { permission: { select: { action: true } } },
+            },
+          },
+        },
         },
       },
     },
@@ -57,6 +63,9 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
     orgId: session.user.orgId,
     orgSlug: session.user.organization.slug,
     role: session.user.role.name,
+    permissions: session.user.role.rolePermissions.map(
+      (rp) => rp.permission.action,
+    ),
   }
 
   req.sessionInfo = {
