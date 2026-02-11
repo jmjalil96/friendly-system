@@ -334,4 +334,41 @@ describe('useClaimsListView', () => {
       }),
     )
   })
+
+  it('does not restore stale debounced search after clear-all sync', async () => {
+    const { rerender } = render(
+      createElement(Harness, {
+        search: makeSearch({
+          search: 'hospital',
+          page: 2,
+        }),
+      }),
+    )
+
+    act(() => {
+      latest?.filterBarProps.onClearAll()
+    })
+
+    expect(updateSearchMock).toHaveBeenCalledTimes(1)
+
+    updateSearchMock.mockReset()
+
+    // Simulate router search sync after clear-all.
+    rerender(
+      createElement(Harness, {
+        search: makeSearch({
+          search: undefined,
+          page: 1,
+        }),
+      }),
+    )
+
+    await act(async () => {
+      vi.advanceTimersByTime(300)
+      await Promise.resolve()
+    })
+
+    // No re-apply of stale "hospital" search should happen.
+    expect(updateSearchMock).toHaveBeenCalledTimes(0)
+  })
 })

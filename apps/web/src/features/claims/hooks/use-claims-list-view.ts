@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type {
   ClaimStatus,
   ListClaimsQuery,
@@ -64,13 +64,25 @@ export function useClaimsListView({
 }: UseClaimsListViewParams): UseClaimsListViewResult {
   const isStatusLocked = Boolean(lockedStatuses && lockedStatuses.length > 0)
   const [searchInput, setSearchInput] = useState(search.search ?? '')
+  const skipDebouncedSearchSyncRef = useRef(true)
   const debouncedSearchInput = useDebouncedValue(searchInput, 300)
 
   useEffect(() => {
+    skipDebouncedSearchSyncRef.current = true
     setSearchInput(search.search ?? '')
   }, [search.search])
 
   useEffect(() => {
+    if (skipDebouncedSearchSyncRef.current) {
+      if (debouncedSearchInput !== searchInput) return
+      skipDebouncedSearchSyncRef.current = false
+      return
+    }
+
+    // Ignore stale debounced values while input is being externally synced
+    // (e.g. clear filters updates URL search to undefined).
+    if (debouncedSearchInput !== searchInput) return
+
     const normalizedSearch = debouncedSearchInput.trim()
     const currentSearch = search.search ?? ''
 
@@ -84,7 +96,7 @@ export function useClaimsListView({
       }),
       { replace: true },
     )
-  }, [debouncedSearchInput, search.search, updateSearch])
+  }, [debouncedSearchInput, searchInput, search.search, updateSearch])
 
   const selectedStatuses = useMemo<ClaimStatus[]>(
     () =>
