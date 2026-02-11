@@ -24,11 +24,11 @@ function AuthenticatedLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex items-center gap-[var(--space-sm)] border-b border-[var(--color-gray-200)] bg-white px-[var(--space-md)] py-[var(--space-sm)] md:hidden">
+        <header className="flex items-center gap-[var(--space-sm)] border-b border-[var(--color-gray-200)] bg-white px-[var(--space-md)] py-[var(--space-sm)] xl:hidden">
           <SidebarTrigger />
           <Logo variant="dark" size="sm" />
         </header>
-        <div className="min-h-screen bg-[var(--color-gray-50)]">
+        <div className="min-h-screen flex-1 bg-[var(--color-gray-50)]">
           <Outlet />
         </div>
       </SidebarInset>
