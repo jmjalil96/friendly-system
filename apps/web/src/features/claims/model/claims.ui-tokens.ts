@@ -1,0 +1,14 @@
+export const CLAIMS_PRIMARY_ACTION_BUTTON_CLASSNAME =
+  'bg-[var(--color-red-500)] text-white shadow-sm hover:bg-[var(--color-red-700)]'
+
+export const CLAIMS_INLINE_SAVE_BUTTON_CLASSNAME =
+  'bg-[var(--color-blue-700)] text-white hover:bg-[var(--color-blue-800)]'
+
+export const CLAIMS_PAGE_CONTAINER_CLASSNAME =
+  'mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 xl:px-8'
+
+export const CLAIMS_STICKY_CHROME_CLASSNAME =
+  'bg-white xl:sticky xl:top-0 xl:z-10'
+
+export const CLAIMS_ERROR_PANEL_CLASSNAME =
+  'rounded-[var(--radius-md)] border border-[var(--color-red-200)] bg-[var(--color-red-50)]/50 p-6'

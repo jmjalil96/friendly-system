@@ -1,12 +1,12 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import { fetchFreshAuthUser } from '../features/auth/hooks/use-auth'
+import { fetchFreshAuthUser } from '@/features/auth/api/auth.query-options'
 import {
   SidebarProvider,
   SidebarInset,
   SidebarTrigger,
-} from '@/components/ui/sidebar'
-import { AppSidebar } from '@/components/app-sidebar'
-import { Logo } from '@/components/layout/logo'
+} from '@/shared/ui/composites/sidebar'
+import { AppSidebar } from '@/app/shell/app-sidebar'
+import { Logo } from '@/app/shell/logo'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async ({ context }) => {

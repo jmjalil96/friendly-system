@@ -24,6 +24,7 @@ import { AppError } from '../../shared/middleware/error-handler.js'
 import { logger } from '../../shared/logger.js'
 import type { RequestContext } from '../../shared/types.js'
 import {
+  CLAIM_BY_ID_RESPONSE_SELECT,
   assertClaimAccess,
   toClaimByIdResponse,
 } from './claims.shared.service.js'
@@ -346,6 +347,7 @@ export async function updateClaim(
     const updatedClaim = await tx.claim.update({
       where: { id: claimId },
       data,
+      select: CLAIM_BY_ID_RESPONSE_SELECT,
     })
 
     await tx.auditLog.create({
@@ -442,6 +444,7 @@ export async function transitionClaim(
     const updatedClaim = await tx.claim.update({
       where: { id: claimId },
       data: { status: input.status, updatedById: userId },
+      select: CLAIM_BY_ID_RESPONSE_SELECT,
     })
 
     await tx.claimHistory.create({

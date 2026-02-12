@@ -21,6 +21,34 @@ export default tseslint.config(
     rules: reactHooks.configs.recommended.rules,
   },
   {
+    files: ['apps/web/src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            '../*',
+            '../../*',
+            '../../../*',
+            '../../../../*',
+            '../../../../../*',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['apps/web/src/shared/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@/features/*', '@/app/*'],
+        },
+      ],
+    },
+  },
+  {
     ignores: [
       '**/dist/**',
       '**/node_modules/**',

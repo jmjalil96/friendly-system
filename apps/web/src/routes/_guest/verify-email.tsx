@@ -1,20 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AuthLayout } from '../../features/auth/components/auth-layout'
-import { VerifyEmail } from '../../features/auth/components/verify-email'
+import { VerifyEmailPage } from '@/features/auth/pages/verify-email-page'
+import { parseVerifyEmailSearch } from '@/features/auth/route-contracts/verify-email.contract'
 
 export const Route = createFileRoute('/_guest/verify-email')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    token: typeof search.token === 'string' ? search.token : '',
-  }),
-  component: VerifyEmailPage,
+  validateSearch: parseVerifyEmailSearch,
+  component: VerifyEmailRoute,
 })
 
-function VerifyEmailPage() {
+function VerifyEmailRoute() {
   const { token } = Route.useSearch()
 
-  return (
-    <AuthLayout>
-      <VerifyEmail token={token} />
-    </AuthLayout>
-  )
+  return <VerifyEmailPage token={token} />
 }

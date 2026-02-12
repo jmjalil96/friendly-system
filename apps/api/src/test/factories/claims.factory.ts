@@ -98,7 +98,12 @@ export async function createPolicy(
   clientId: string,
   insurerId: string,
   overrides: { startDate?: Date; endDate?: Date } = {},
-): Promise<{ id: string; orgId: string; clientId: string }> {
+): Promise<{
+  id: string
+  orgId: string
+  clientId: string
+  policyNumber: string
+}> {
   return prisma.policy.create({
     data: {
       orgId,
@@ -108,6 +113,6 @@ export async function createPolicy(
       startDate: overrides.startDate ?? new Date('2025-01-01'),
       endDate: overrides.endDate ?? new Date('2026-12-31'),
     },
-    select: { id: true, orgId: true, clientId: true },
+    select: { id: true, orgId: true, clientId: true, policyNumber: true },
   })
 }

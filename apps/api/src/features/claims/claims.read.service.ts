@@ -25,6 +25,7 @@ import { AppError } from '../../shared/middleware/error-handler.js'
 import { logger } from '../../shared/logger.js'
 import {
   assertClaimAccess,
+  getClaimByIdResponseRecord,
   toClaimByIdResponse,
   toDateOnly,
 } from './claims.shared.service.js'
@@ -194,7 +195,21 @@ export async function getClaimById(
   claimId: string,
   scope: string,
 ): Promise<GetClaimByIdResponse> {
-  const claim = await assertClaimAccess(userId, orgId, claimId, scope)
+  await assertClaimAccess(userId, orgId, claimId, scope)
+
+  const claim = await getClaimByIdResponseRecord(claimId)
+
+  if (!claim) {
+    logger.warn(
+      { claimId, userId, scope },
+      'Claim lookup lost claim after access check',
+    )
+    throw new AppError(
+      404,
+      'Claim not found',
+      ERROR_CODES.CLAIMS_CLAIM_NOT_FOUND,
+    )
+  }
 
   return toClaimByIdResponse(claim)
 }

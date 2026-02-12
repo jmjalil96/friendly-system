@@ -811,6 +811,8 @@ describe('PATCH /claims/:id', () => {
       expect(parsed.success).toBe(true)
       if (!parsed.success) return
       expect(parsed.data.policyId).toBe(policy.id)
+      expect(parsed.data.policyNumber).toBe(policy.policyNumber)
+      expect(parsed.data.policyInsurerName).toBe(insurer.name)
     })
 
     it('clears policyId with null (skips validation)', async () => {
@@ -833,6 +835,8 @@ describe('PATCH /claims/:id', () => {
       expect(parsed.success).toBe(true)
       if (!parsed.success) return
       expect(parsed.data.policyId).toBeNull()
+      expect(parsed.data.policyNumber).toBeNull()
+      expect(parsed.data.policyInsurerName).toBeNull()
     })
   })
 
@@ -861,6 +865,11 @@ describe('PATCH /claims/:id', () => {
       expect(parsed.data.id).toBe(claimId)
       expect(parsed.data.description).toBe('Updated description')
       expect(parsed.data.status).toBe('DRAFT')
+      expect(parsed.data.clientName).toBe(client.name)
+      expect(parsed.data.affiliateFirstName).toBe(affiliate.firstName)
+      expect(parsed.data.affiliateLastName).toBe(affiliate.lastName)
+      expect(parsed.data.patientFirstName).toBe(affiliate.firstName)
+      expect(parsed.data.patientLastName).toBe(affiliate.lastName)
     })
 
     it('updates careType to a valid value', async () => {
@@ -1737,6 +1746,9 @@ describe('POST /claims/:id/transition', () => {
       expect(parsed.success).toBe(true)
       if (!parsed.success) return
       expect(parsed.data.status).toBe('CANCELLED')
+      expect(parsed.data.clientName).toBe(client.name)
+      expect(parsed.data.affiliateFirstName).toBe(affiliate.firstName)
+      expect(parsed.data.patientFirstName).toBe(affiliate.firstName)
 
       const history = await prisma.claimHistory.findFirst({
         where: {

@@ -1,8 +1,8 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import type { QueryClient } from '@tanstack/react-query'
-import { Toaster } from '@/components/layout/toaster'
-import { ErrorFallback } from '@/components/layout/error-fallback'
+import { Toaster } from '@/app/shell/toaster'
+import { ErrorFallback } from '@/app/shell/error-fallback'
 
 interface RouterContext {
   queryClient: QueryClient

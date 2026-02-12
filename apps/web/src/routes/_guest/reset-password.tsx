@@ -1,20 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AuthLayout } from '../../features/auth/components/auth-layout'
-import { ResetPasswordForm } from '../../features/auth/components/reset-password-form'
+import { ResetPasswordPage } from '@/features/auth/pages/reset-password-page'
+import { parseResetPasswordSearch } from '@/features/auth/route-contracts/reset-password.contract'
 
 export const Route = createFileRoute('/_guest/reset-password')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    token: typeof search.token === 'string' ? search.token : '',
-  }),
-  component: ResetPasswordPage,
+  validateSearch: parseResetPasswordSearch,
+  component: ResetPasswordRoute,
 })
 
-function ResetPasswordPage() {
+function ResetPasswordRoute() {
   const { token } = Route.useSearch()
 
-  return (
-    <AuthLayout>
-      <ResetPasswordForm token={token} />
-    </AuthLayout>
-  )
+  return <ResetPasswordPage token={token} />
 }
