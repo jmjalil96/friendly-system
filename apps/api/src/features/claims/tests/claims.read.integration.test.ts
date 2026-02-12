@@ -1819,6 +1819,8 @@ describe('GET /claims/:id/history', () => {
       expect(parsed.data.data).toHaveLength(2)
       expect(parsed.data.data[0]!.toStatus).toBe('SUBMITTED')
       expect(parsed.data.data[1]!.toStatus).toBe('IN_REVIEW')
+      expect(parsed.data.data[0]!.createdByFirstName).toBe('Test')
+      expect(parsed.data.data[0]!.createdByLastName).toBe('User')
     })
   })
 })
@@ -1982,6 +1984,18 @@ describe('GET /claims/:id/timeline', () => {
         .send({ description: 'Other claim update' })
       expect(otherUpdateResponse.status).toBe(200)
 
+      await prisma.auditLog.create({
+        data: {
+          orgId: user.orgId,
+          userId: null,
+          action: 'claim.updated',
+          resource: 'claim',
+          resourceId: claimId,
+          metadata: { changedFields: ['description'] },
+          createdAt: new Date('2030-01-03T00:00:00.000Z'),
+        },
+      })
+
       const response = await agent
         .get(timelineUrl(claimId))
         .query({ page: 1, limit: 20 })
@@ -2000,6 +2014,16 @@ describe('GET /claims/:id/timeline', () => {
       expect(
         parsed.data.data.every((entry) => entry.resourceId === claimId),
       ).toBe(true)
+
+      const userEvent = parsed.data.data.find((entry) => entry.userId === user.userId)
+      expect(userEvent).toBeDefined()
+      expect(userEvent?.userFirstName).toBe('Test')
+      expect(userEvent?.userLastName).toBe('User')
+
+      const systemEvent = parsed.data.data.find((entry) => entry.userId === null)
+      expect(systemEvent).toBeDefined()
+      expect(systemEvent?.userFirstName).toBeNull()
+      expect(systemEvent?.userLastName).toBeNull()
     })
   })
 })

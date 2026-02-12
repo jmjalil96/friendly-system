@@ -587,6 +587,16 @@ export async function getClaimHistory(
         reason: true,
         notes: true,
         createdById: true,
+        createdBy: {
+          select: {
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
         createdAt: true,
       },
     }),
@@ -594,7 +604,15 @@ export async function getClaimHistory(
 
   return {
     data: history.map((entry) => ({
-      ...entry,
+      id: entry.id,
+      claimId: entry.claimId,
+      fromStatus: entry.fromStatus,
+      toStatus: entry.toStatus,
+      reason: entry.reason,
+      notes: entry.notes,
+      createdById: entry.createdById,
+      createdByFirstName: entry.createdBy.profile?.firstName ?? null,
+      createdByLastName: entry.createdBy.profile?.lastName ?? null,
       createdAt: entry.createdAt.toISOString(),
     })),
     meta: {
@@ -647,6 +665,16 @@ export async function getClaimTimeline(
         resource: true,
         resourceId: true,
         userId: true,
+        user: {
+          select: {
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
         ipAddress: true,
         userAgent: true,
         metadata: true,
@@ -657,8 +685,16 @@ export async function getClaimTimeline(
 
   return {
     data: timeline.map((entry) => ({
-      ...entry,
+      id: entry.id,
       action: entry.action as ClaimTimelineResponse['data'][number]['action'],
+      resource: entry.resource,
+      resourceId: entry.resourceId,
+      userId: entry.userId,
+      userFirstName: entry.user?.profile?.firstName ?? null,
+      userLastName: entry.user?.profile?.lastName ?? null,
+      ipAddress: entry.ipAddress,
+      userAgent: entry.userAgent,
+      metadata: entry.metadata,
       createdAt: entry.createdAt.toISOString(),
     })),
     meta: {

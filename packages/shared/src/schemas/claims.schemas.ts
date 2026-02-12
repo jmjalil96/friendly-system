@@ -374,6 +374,8 @@ export const claimHistoryItemSchema = z.object({
   reason: z.string().nullable(),
   notes: z.string().nullable(),
   createdById: z.string().uuid(),
+  createdByFirstName: z.string().nullable(),
+  createdByLastName: z.string().nullable(),
   createdAt: z.string(),
 })
 
@@ -408,6 +410,8 @@ export const claimTimelineItemSchema = z.object({
   resource: z.string().nullable(),
   resourceId: z.string().uuid().nullable(),
   userId: z.string().uuid().nullable(),
+  userFirstName: z.string().nullable(),
+  userLastName: z.string().nullable(),
   ipAddress: z.string().nullable(),
   userAgent: z.string().nullable(),
   metadata: z.unknown().nullable(),

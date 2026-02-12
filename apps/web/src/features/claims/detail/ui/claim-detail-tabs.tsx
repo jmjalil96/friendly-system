@@ -4,11 +4,12 @@ import {
   Clock,
   FileText,
   Paperclip,
-  GitBranch,
 } from 'lucide-react'
 import type { GetClaimByIdResponse } from '@friendly-system/shared'
 import { ViewTabs } from '@/shared/ui/composites/view-tabs'
 import { ClaimDetailMainTab } from './claim-detail-main-tab'
+import { ClaimDetailHistoryTab } from './history/claim-detail-history-tab'
+import { ClaimDetailInvoicesTab } from './invoices/claim-detail-invoices-tab'
 
 interface ClaimDetailTabPlaceholderProps {
   icon: LucideIcon
@@ -58,10 +59,6 @@ export function ClaimDetailTabs({
           <ClipboardList className="size-4" />
           General
         </ViewTabs.Trigger>
-        <ViewTabs.Trigger value="historial">
-          <Clock className="size-4" />
-          Historial
-        </ViewTabs.Trigger>
         <ViewTabs.Trigger value="facturas">
           <FileText className="size-4" />
           Facturas
@@ -70,9 +67,9 @@ export function ClaimDetailTabs({
           <Paperclip className="size-4" />
           Documentos
         </ViewTabs.Trigger>
-        <ViewTabs.Trigger value="flujo">
-          <GitBranch className="size-4" />
-          Flujo
+        <ViewTabs.Trigger value="historial">
+          <Clock className="size-4" />
+          Historial
         </ViewTabs.Trigger>
       </ViewTabs.List>
 
@@ -86,20 +83,8 @@ export function ClaimDetailTabs({
         />
       </ViewTabs.Content>
 
-      <ViewTabs.Content value="historial">
-        <ClaimDetailTabPlaceholder
-          icon={Clock}
-          title="Historial"
-          description="Línea de tiempo de transiciones, auditoría y actualizaciones."
-        />
-      </ViewTabs.Content>
-
       <ViewTabs.Content value="facturas">
-        <ClaimDetailTabPlaceholder
-          icon={FileText}
-          title="Facturas"
-          description="Listado de facturas, detalle de importes y acciones sobre cada una."
-        />
+        <ClaimDetailInvoicesTab claimId={claimId} />
       </ViewTabs.Content>
 
       <ViewTabs.Content value="documentos">
@@ -110,12 +95,8 @@ export function ClaimDetailTabs({
         />
       </ViewTabs.Content>
 
-      <ViewTabs.Content value="flujo">
-        <ClaimDetailTabPlaceholder
-          icon={GitBranch}
-          title="Flujo"
-          description="Stepper de estado, hitos operativos y próximas acciones."
-        />
+      <ViewTabs.Content value="historial">
+        <ClaimDetailHistoryTab claimId={claimId} />
       </ViewTabs.Content>
     </ViewTabs>
   )

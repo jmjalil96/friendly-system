@@ -1,5 +1,6 @@
 import { ClaimDetailHeader } from '@/features/claims/detail/ui/claim-detail-header'
 import { ClaimDetailTabs } from '@/features/claims/detail/ui/claim-detail-tabs'
+import { ClaimDeleteDialog } from '@/features/claims/detail/ui/claim-delete-dialog'
 import { useClaimDetailController } from '@/features/claims/detail/controller'
 import { CLAIMS_PAGE_CONTAINER_CLASSNAME } from '@/features/claims/model/claims.ui-tokens'
 
@@ -17,6 +18,7 @@ export function ClaimDetailPage({ claimId, onBack }: ClaimDetailPageProps) {
       <div className={CLAIMS_PAGE_CONTAINER_CLASSNAME}>
         <ClaimDetailTabs {...view.tabsProps} />
       </div>
+      <ClaimDeleteDialog {...view.deleteDialogProps} />
     </>
   )
 }

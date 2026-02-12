@@ -112,11 +112,6 @@ export const claimsApi = {
       `${route(API_ROUTES.claims.invoices, { id })}${buildQuery(query)}`,
     ),
 
-  getInvoice: (id: string, invoiceId: string) =>
-    api.get<ClaimInvoiceResponse>(
-      route(API_ROUTES.claims.invoiceById, { id, invoiceId }),
-    ),
-
   createInvoice: (id: string, input: CreateClaimInvoiceInput) =>
     api.post<ClaimInvoiceResponse>(
       route(API_ROUTES.claims.invoices, { id }),
