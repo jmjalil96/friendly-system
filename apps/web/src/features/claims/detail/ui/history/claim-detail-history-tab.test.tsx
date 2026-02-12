@@ -143,7 +143,7 @@ describe('ClaimDetailHistoryTab', () => {
     view.timelineSection.pagination.totalPages = 2
     useClaimHistoryControllerMock.mockReturnValue(view)
 
-    render(<ClaimDetailHistoryTab claimId="claim-id-1" />)
+    const { container } = render(<ClaimDetailHistoryTab claimId="claim-id-1" />)
 
     expect(screen.queryByText('Borrador -> En revisión')).not.toBeNull()
     expect(screen.queryByText('Reclamo actualizado')).not.toBeNull()
@@ -151,6 +151,13 @@ describe('ClaimDetailHistoryTab', () => {
     expect(
       screen.queryByText('Campos actualizados (1): description'),
     ).not.toBeNull()
+
+    const scrollAreas = container.querySelectorAll('[data-slot="scroll-area"]')
+    expect(scrollAreas.length).toBe(2)
+    expect(scrollAreas[0]?.className).toContain('h-[clamp(14rem,45dvh,26rem)]')
+    expect(scrollAreas[1]?.className).toContain('h-[clamp(14rem,45dvh,26rem)]')
+    expect(scrollAreas[0]?.className).not.toContain('h-[26rem]')
+    expect(scrollAreas[1]?.className).not.toContain('h-[26rem]')
 
     fireEvent.click(
       screen.getByRole('button', {

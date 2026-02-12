@@ -229,18 +229,35 @@ export function ClaimDetailInvoicesTab({ claimId }: ClaimDetailInvoicesTabProps)
           ) : !view.list.isLoading && view.list.invoices.length === 0 ? (
             <ClaimDetailInvoicesEmpty />
           ) : (
-            <DataTable
-              columns={columns}
-              data={view.list.invoices}
-              isLoading={view.list.isLoading}
-              emptyMessage="No hay facturas registradas."
-              manualPagination
-              pagination={paginationState}
-              onPaginationChange={handlePaginationChange}
-              paginationMeta={paginationMeta}
-              rowCount={totalCount}
-              pageSize={limit}
-            />
+            <div data-slot="claim-detail-invoices-table" className="space-y-2">
+              <p
+                data-slot="claim-detail-invoices-scroll-hint"
+                className="text-xs text-[var(--color-gray-500)] lg:hidden"
+              >
+                Desliza la tabla horizontalmente para ver todas las columnas.
+              </p>
+
+              <div className="relative">
+                <div
+                  data-slot="claim-detail-invoices-scroll-fade"
+                  className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-white to-transparent 2xl:hidden"
+                />
+                <DataTable
+                  columns={columns}
+                  data={view.list.invoices}
+                  isLoading={view.list.isLoading}
+                  emptyMessage="No hay facturas registradas."
+                  tableClassName="min-w-[640px] lg:min-w-[780px] 2xl:min-w-[900px]"
+                  tableContainerClassName="overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  manualPagination
+                  pagination={paginationState}
+                  onPaginationChange={handlePaginationChange}
+                  paginationMeta={paginationMeta}
+                  rowCount={totalCount}
+                  pageSize={limit}
+                />
+              </div>
+            </div>
           )}
         </CardContent>
       </Card>

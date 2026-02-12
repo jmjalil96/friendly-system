@@ -41,7 +41,7 @@ function ViewTabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="view-tabs-trigger"
       className={cn(
-        'relative inline-flex shrink-0 items-center justify-center gap-1.5 px-4 pb-2.5 pt-2 text-sm font-medium text-[var(--color-gray-500)] transition-colors',
+        'relative inline-flex shrink-0 items-center justify-center gap-1.5 px-3 pb-2.5 pt-2 text-sm font-medium text-[var(--color-gray-500)] transition-colors sm:px-4',
         'hover:text-[var(--color-gray-700)]',
         'focus-visible:outline-none focus-visible:text-[var(--color-blue-700)]',
         /* Active: blue bottom border + text */

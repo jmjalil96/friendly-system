@@ -22,7 +22,7 @@ export function ClaimDocumentsCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-[var(--color-blue-300)]/25 bg-[var(--color-blue-50)]/30 px-6 py-10 opacity-50 cursor-not-allowed">
+        <div className="flex cursor-not-allowed flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-[var(--color-blue-300)]/25 bg-[var(--color-blue-50)]/30 px-6 py-6 opacity-50 sm:py-10">
           <div className="flex size-12 items-center justify-center rounded-full bg-[var(--color-blue-50)]">
             <Upload className="size-5 text-[var(--color-blue-300)]" />
           </div>

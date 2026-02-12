@@ -77,13 +77,20 @@ export function ClaimsListTable({
         accessorKey: 'clientName',
         header: 'Cliente',
         enableSorting: false,
+        cell: ({ row }) => (
+          <span className="block max-w-[160px] truncate sm:max-w-[220px] xl:max-w-[260px]">
+            {row.original.clientName}
+          </span>
+        ),
       },
       {
         id: 'affiliateName',
         header: 'Afiliado',
         enableSorting: false,
         cell: ({ row }) => (
-          <span>{row.original.affiliateFirstName} {row.original.affiliateLastName}</span>
+          <span className="block max-w-[160px] truncate sm:max-w-[210px] xl:max-w-[250px]">
+            {row.original.affiliateFirstName} {row.original.affiliateLastName}
+          </span>
         ),
       },
       {
@@ -91,7 +98,9 @@ export function ClaimsListTable({
         header: 'Paciente',
         enableSorting: false,
         cell: ({ row }) => (
-          <span>{row.original.patientFirstName} {row.original.patientLastName}</span>
+          <span className="block max-w-[150px] truncate sm:max-w-[200px] xl:max-w-[240px]">
+            {row.original.patientFirstName} {row.original.patientLastName}
+          </span>
         ),
       },
       {
@@ -99,7 +108,7 @@ export function ClaimsListTable({
         header: 'Descripción',
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="block max-w-[220px] truncate text-[var(--color-gray-600)]">
+          <span className="block max-w-[150px] truncate text-[var(--color-gray-600)] sm:max-w-[210px] xl:max-w-[260px]">
             {row.original.description}
           </span>
         ),

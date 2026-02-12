@@ -30,7 +30,7 @@ export function ClaimDetailHeaderActions({
           <Button
             type="button"
             variant="ghost"
-            className="h-10 rounded-none border-none px-4 text-sm font-medium text-[var(--color-gray-700)] shadow-none hover:bg-[var(--color-gray-50)] hover:text-[var(--color-red-600)]"
+            className="h-10 rounded-none border-none px-2.5 text-sm font-medium text-[var(--color-gray-700)] shadow-none hover:bg-[var(--color-gray-50)] hover:text-[var(--color-red-600)] sm:px-4"
             disabled={isActionDisabled}
             aria-label="Eliminar reclamo"
             onClick={onDeleteRequest}
@@ -40,7 +40,9 @@ export function ClaimDetailHeaderActions({
             ) : (
               <Trash2 className="size-4 text-[var(--color-red-500)]" />
             )}
-            {isDeleting ? 'Eliminando...' : 'Eliminar reclamo'}
+            <span className="hidden sm:inline">
+              {isDeleting ? 'Eliminando...' : 'Eliminar reclamo'}
+            </span>
           </Button>
 
           <div className="my-2 w-px bg-[var(--color-gray-200)]" />
@@ -49,7 +51,7 @@ export function ClaimDetailHeaderActions({
             <Button
               type="button"
               variant="ghost"
-              className="h-10 rounded-none border-none px-3 text-[var(--color-gray-500)] shadow-none hover:bg-[var(--color-gray-50)] hover:text-[var(--color-gray-700)]"
+              className="h-10 rounded-none border-none px-2 text-[var(--color-gray-500)] shadow-none hover:bg-[var(--color-gray-50)] hover:text-[var(--color-gray-700)] sm:px-3"
               disabled={isActionDisabled}
               aria-label="Abrir opciones de reclamo"
             >

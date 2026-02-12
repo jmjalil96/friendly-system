@@ -22,7 +22,7 @@ interface NewClaimPageProps {
 function NewClaimPageSkeleton() {
   return (
     <div className={CLAIMS_PAGE_CONTAINER_CLASSNAME}>
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 xl:gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
         {Array.from({ length: 4 }).map((_, index) => (
           <Card key={index}>
             <CardHeader className="space-y-2">
@@ -72,7 +72,7 @@ export function NewClaimPage({ onCancel, onCreated }: NewClaimPageProps) {
         <NewClaimPageSkeleton />
       ) : (
         <div className={CLAIMS_PAGE_CONTAINER_CLASSNAME}>
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 xl:gap-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
             <ClaimDataCard {...form.dataCardProps} />
             <ClaimDescriptionCard {...form.descriptionCardProps} />
             <ClaimDocumentsCard />

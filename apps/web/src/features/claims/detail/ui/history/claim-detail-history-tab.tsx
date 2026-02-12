@@ -94,7 +94,7 @@ export function ClaimDetailHistoryTab({ claimId }: ClaimDetailHistoryTabProps) {
           />
         ) : (
           <>
-            <ScrollArea className="h-[26rem] rounded-[var(--radius-md)] border border-[var(--color-gray-200)]">
+            <ScrollArea className="h-[clamp(14rem,45dvh,26rem)] rounded-[var(--radius-md)] border border-[var(--color-gray-200)]">
               <div className="space-y-2 p-3">
                 {view.historySection.items.map((item) => (
                   <ClaimHistoryTransitionItemCard
@@ -133,7 +133,7 @@ export function ClaimDetailHistoryTab({ claimId }: ClaimDetailHistoryTabProps) {
           />
         ) : (
           <>
-            <ScrollArea className="h-[26rem] rounded-[var(--radius-md)] border border-[var(--color-gray-200)]">
+            <ScrollArea className="h-[clamp(14rem,45dvh,26rem)] rounded-[var(--radius-md)] border border-[var(--color-gray-200)]">
               <div className="space-y-2 p-3">
                 {view.timelineSection.items.map((item) => (
                   <ClaimHistoryTimelineItemCard

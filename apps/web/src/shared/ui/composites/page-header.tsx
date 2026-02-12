@@ -37,7 +37,7 @@ interface PageHeaderProps extends React.ComponentProps<'div'> {
 
 const PAGE_HEADER_STICKY_CLASSNAMES = {
   always: 'sticky top-0 z-10',
-  desktop: 'xl:sticky xl:top-0 xl:z-10',
+  desktop: 'lg:sticky lg:top-0 lg:z-10',
   none: 'static z-auto',
 } as const
 

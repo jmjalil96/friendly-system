@@ -149,7 +149,7 @@ describe('reclamos index route', () => {
       '[data-slot="claims-list-top-chrome"]',
     )
     expect(stickyChrome).not.toBeNull()
-    expect(stickyChrome?.className).toContain('xl:sticky')
+    expect(stickyChrome?.className).toContain('lg:sticky')
     expect(stickyChrome?.textContent).toContain('mock-list-header')
     expect(stickyChrome?.textContent).toContain('mock-list-filter:dolor')
 

@@ -181,10 +181,22 @@ describe('ClaimDetailInvoicesTab', () => {
       },
     })
 
-    render(<ClaimDetailInvoicesTab claimId="claim-id-1" />)
+    const { container } = render(<ClaimDetailInvoicesTab claimId="claim-id-1" />)
 
     expect(screen.queryByText('INV-001')).not.toBeNull()
     expect(screen.queryByText('Provider One')).not.toBeNull()
+    expect(
+      container.querySelector('[data-slot="claim-detail-invoices-scroll-hint"]'),
+    ).not.toBeNull()
+    expect(
+      container.querySelector('[data-slot="claim-detail-invoices-scroll-fade"]'),
+    ).not.toBeNull()
+
+    const table = container.querySelector('[data-slot="table"]')
+    const tableContainer = container.querySelector('[data-slot="table-container"]')
+    expect(table?.className).toContain('min-w-[640px]')
+    expect(tableContainer?.className).toContain('overflow-auto')
+    expect(tableContainer?.className).toContain('[scrollbar-width:none]')
 
     fireEvent.click(screen.getByRole('button', { name: 'Nueva factura' }))
     fireEvent.click(screen.getByRole('button', { name: 'Editar' }))

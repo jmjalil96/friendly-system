@@ -54,24 +54,39 @@ export function ClaimDetailTabs({
 }: ClaimDetailTabsProps) {
   return (
     <ViewTabs defaultValue="general">
-      <ViewTabs.List>
-        <ViewTabs.Trigger value="general">
-          <ClipboardList className="size-4" />
-          General
-        </ViewTabs.Trigger>
-        <ViewTabs.Trigger value="facturas">
-          <FileText className="size-4" />
-          Facturas
-        </ViewTabs.Trigger>
-        <ViewTabs.Trigger value="documentos">
-          <Paperclip className="size-4" />
-          Documentos
-        </ViewTabs.Trigger>
-        <ViewTabs.Trigger value="historial">
-          <Clock className="size-4" />
-          Historial
-        </ViewTabs.Trigger>
-      </ViewTabs.List>
+      <div data-slot="claim-detail-tabs-list-shell" className="space-y-2">
+        <p
+          data-slot="claim-detail-tabs-scroll-hint"
+          className="text-xs text-[var(--color-gray-500)] lg:hidden"
+        >
+          Desliza las pestañas para ver todas las secciones.
+        </p>
+
+        <div className="relative">
+          <div
+            data-slot="claim-detail-tabs-scroll-fade"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-white to-transparent 2xl:hidden"
+          />
+          <ViewTabs.List>
+            <ViewTabs.Trigger value="general">
+              <ClipboardList className="hidden size-4 sm:inline" />
+              General
+            </ViewTabs.Trigger>
+            <ViewTabs.Trigger value="facturas">
+              <FileText className="hidden size-4 sm:inline" />
+              Facturas
+            </ViewTabs.Trigger>
+            <ViewTabs.Trigger value="documentos">
+              <Paperclip className="hidden size-4 sm:inline" />
+              Documentos
+            </ViewTabs.Trigger>
+            <ViewTabs.Trigger value="historial">
+              <Clock className="hidden size-4 sm:inline" />
+              Historial
+            </ViewTabs.Trigger>
+          </ViewTabs.List>
+        </div>
+      </div>
 
       <ViewTabs.Content value="general">
         <ClaimDetailMainTab

@@ -63,13 +63,13 @@ export function ClaimsFilterBar({
           </div>
 
           {showStatusFilter ? (
-            <div className="w-full sm:w-auto">
+            <div className="w-auto shrink-0">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 w-full justify-between gap-1.5 rounded-full text-xs sm:w-auto"
+                    className="h-8 w-auto justify-between gap-1.5 rounded-full px-3 text-xs"
                   >
                     {getStatusButtonLabel(selectedStatuses)}
                     <ChevronDown className="size-3 opacity-50" />
@@ -89,13 +89,13 @@ export function ClaimsFilterBar({
               </DropdownMenu>
             </div>
           ) : null}
-        </FilterBar.Controls>
 
-        {chips.length > 0 ? (
-          <FilterBar.Actions>
-            <FilterBar.ClearAll onClear={onClearAll} />
-          </FilterBar.Actions>
-        ) : null}
+          {chips.length > 0 ? (
+            <FilterBar.Actions className="ml-auto w-auto justify-end">
+              <FilterBar.ClearAll onClear={onClearAll} />
+            </FilterBar.Actions>
+          ) : null}
+        </FilterBar.Controls>
       </FilterBar.Row>
 
       <FilterBar.Chips>

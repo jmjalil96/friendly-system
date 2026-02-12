@@ -63,7 +63,7 @@ describe('ClaimDetailTabs', () => {
   })
 
   it('renders tabs in the expected order and historial content when selected', () => {
-    render(
+    const { container } = render(
       <ClaimDetailTabs
         claimId={CLAIM.id}
         claim={CLAIM}
@@ -74,6 +74,12 @@ describe('ClaimDetailTabs', () => {
     )
 
     const tabs = screen.getAllByRole('tab')
+    expect(
+      screen.queryByText('Desliza las pestañas para ver todas las secciones.'),
+    ).not.toBeNull()
+    expect(
+      container.querySelector('[data-slot="claim-detail-tabs-scroll-fade"]'),
+    ).not.toBeNull()
     expect(tabs.map((tab) => tab.textContent?.trim())).toEqual([
       'General',
       'Facturas',

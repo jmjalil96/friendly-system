@@ -137,7 +137,7 @@ describe('reclamos pendientes route', () => {
       '[data-slot="claims-list-top-chrome"]',
     )
     expect(stickyChrome).not.toBeNull()
-    expect(stickyChrome?.className).toContain('xl:sticky')
+    expect(stickyChrome?.className).toContain('lg:sticky')
 
     expect(useClaimsListControllerMock).toHaveBeenCalledTimes(1)
 

@@ -126,8 +126,8 @@ describe('ClaimsFilterBar', () => {
     )
 
     const actions = container.querySelector('[data-slot="filter-bar-actions"]')
-    expect(actions?.className).toContain('w-full')
-    expect(actions?.className).toContain('sm:w-auto')
+    expect(actions?.className).toContain('w-auto')
+    expect(actions?.className).toContain('ml-auto')
 
     fireEvent.click(screen.getByRole('button', { name: 'Limpiar filtros' }))
 
