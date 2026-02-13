@@ -2015,12 +2015,16 @@ describe('GET /claims/:id/timeline', () => {
         parsed.data.data.every((entry) => entry.resourceId === claimId),
       ).toBe(true)
 
-      const userEvent = parsed.data.data.find((entry) => entry.userId === user.userId)
+      const userEvent = parsed.data.data.find(
+        (entry) => entry.userId === user.userId,
+      )
       expect(userEvent).toBeDefined()
       expect(userEvent?.userFirstName).toBe('Test')
       expect(userEvent?.userLastName).toBe('User')
 
-      const systemEvent = parsed.data.data.find((entry) => entry.userId === null)
+      const systemEvent = parsed.data.data.find(
+        (entry) => entry.userId === null,
+      )
       expect(systemEvent).toBeDefined()
       expect(systemEvent?.userFirstName).toBeNull()
       expect(systemEvent?.userLastName).toBeNull()

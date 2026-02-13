@@ -28,7 +28,9 @@ describe('ClaimInvoiceDeleteDialog', () => {
       />,
     )
 
-    expect(screen.queryByRole('heading', { name: 'Eliminar factura' })).not.toBeNull()
+    expect(
+      screen.queryByRole('heading', { name: 'Eliminar factura' }),
+    ).not.toBeNull()
     expect(screen.queryByText('INV-001')).not.toBeNull()
     expect(screen.queryByText('Provider One')).not.toBeNull()
   })
@@ -62,11 +64,15 @@ describe('ClaimInvoiceDeleteDialog', () => {
     )
 
     expect(
-      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement).disabled,
+      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement)
+        .disabled,
     ).toBe(true)
     expect(
-      (screen.getByRole('button', { name: 'Eliminando...' }) as HTMLButtonElement)
-        .disabled,
+      (
+        screen.getByRole('button', {
+          name: 'Eliminando...',
+        }) as HTMLButtonElement
+      ).disabled,
     ).toBe(true)
   })
 })

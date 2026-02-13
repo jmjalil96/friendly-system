@@ -4,9 +4,7 @@ import {
   type ClaimStatus,
 } from '@friendly-system/shared'
 
-const TERMINAL_CLAIM_STATUS_SET = new Set<ClaimStatus>(
-  CLAIM_TERMINAL_STATUSES,
-)
+const TERMINAL_CLAIM_STATUS_SET = new Set<ClaimStatus>(CLAIM_TERMINAL_STATUSES)
 const STATUS = claimStatusSchema.enum
 
 export const CLAIM_STATUS_OPTIONS = [

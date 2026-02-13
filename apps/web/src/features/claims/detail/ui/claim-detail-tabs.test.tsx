@@ -13,11 +13,14 @@ vi.mock('@/features/claims/detail/ui/history/claim-detail-history-tab', () => ({
   ),
 }))
 
-vi.mock('@/features/claims/detail/ui/invoices/claim-detail-invoices-tab', () => ({
-  ClaimDetailInvoicesTab: ({ claimId }: { claimId: string }) => (
-    <div>mock-invoices-tab:{claimId}</div>
-  ),
-}))
+vi.mock(
+  '@/features/claims/detail/ui/invoices/claim-detail-invoices-tab',
+  () => ({
+    ClaimDetailInvoicesTab: ({ claimId }: { claimId: string }) => (
+      <div>mock-invoices-tab:{claimId}</div>
+    ),
+  }),
+)
 
 import { ClaimDetailTabs } from '@/features/claims/detail/ui/claim-detail-tabs'
 

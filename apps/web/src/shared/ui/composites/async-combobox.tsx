@@ -3,7 +3,11 @@ import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 
 import { cn } from '@/shared/lib/cn'
 import { Button } from '@/shared/ui/primitives/button'
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/primitives/popover'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/shared/ui/primitives/popover'
 import {
   Command,
   CommandEmpty,
@@ -72,13 +76,14 @@ function AsyncCombobox<T>({
             className,
           )}
         >
-          <span className="truncate">
-            {selectedLabel ?? placeholder}
-          </span>
+          <span className="truncate">{selectedLabel ?? placeholder}</span>
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+      <PopoverContent
+        className="w-[--radix-popover-trigger-width] p-0"
+        align="start"
+      >
         <Command shouldFilter={false}>
           <CommandInput
             placeholder={searchPlaceholder}

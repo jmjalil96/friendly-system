@@ -81,19 +81,34 @@ describe('claims query cache policy', () => {
     expect(byIdDisabled.enabled).toBe(false)
 
     const history = claimHistoryQueryOptions(claimId, { page: 1 })
-    expect(history.queryKey).toEqual([...CLAIMS_QUERY_KEY, claimId, 'history', { page: 1 }])
+    expect(history.queryKey).toEqual([
+      ...CLAIMS_QUERY_KEY,
+      claimId,
+      'history',
+      { page: 1 },
+    ])
     expect(history.staleTime).toBe(CLAIMS_OPERATIONAL_QUERY_OPTIONS.staleTime)
     expect(history.refetchOnWindowFocus).toBe(true)
     expect(history.refetchOnReconnect).toBe(true)
 
     const timeline = claimTimelineQueryOptions(claimId, { page: 1 })
-    expect(timeline.queryKey).toEqual([...CLAIMS_QUERY_KEY, claimId, 'timeline', { page: 1 }])
+    expect(timeline.queryKey).toEqual([
+      ...CLAIMS_QUERY_KEY,
+      claimId,
+      'timeline',
+      { page: 1 },
+    ])
     expect(timeline.staleTime).toBe(CLAIMS_OPERATIONAL_QUERY_OPTIONS.staleTime)
     expect(timeline.refetchOnWindowFocus).toBe(true)
     expect(timeline.refetchOnReconnect).toBe(true)
 
     const invoices = claimInvoicesQueryOptions(claimId, { page: 1 })
-    expect(invoices.queryKey).toEqual([...CLAIMS_QUERY_KEY, claimId, 'invoices', { page: 1 }])
+    expect(invoices.queryKey).toEqual([
+      ...CLAIMS_QUERY_KEY,
+      claimId,
+      'invoices',
+      { page: 1 },
+    ])
     expect(invoices.staleTime).toBe(CLAIMS_OPERATIONAL_QUERY_OPTIONS.staleTime)
     expect(invoices.refetchOnWindowFocus).toBe(true)
     expect(invoices.refetchOnReconnect).toBe(true)
@@ -112,12 +127,18 @@ describe('claims query cache policy', () => {
 
     claimsApiMocks.listInvoices.mockResolvedValueOnce({})
     await (invoices.queryFn as () => Promise<unknown>)()
-    expect(claimsApiMocks.listInvoices).toHaveBeenCalledWith(claimId, { page: 1 })
+    expect(claimsApiMocks.listInvoices).toHaveBeenCalledWith(claimId, {
+      page: 1,
+    })
   })
 
   it('applies lookup cache policy across lookup queries and preserves enabled behavior', async () => {
     const clients = lookupClientsQueryOptions({ search: 'seguros' })
-    expect(clients.queryKey).toEqual([...CLAIMS_LOOKUP_QUERY_KEY, 'clients', { search: 'seguros' }])
+    expect(clients.queryKey).toEqual([
+      ...CLAIMS_LOOKUP_QUERY_KEY,
+      'clients',
+      { search: 'seguros' },
+    ])
     expect(clients.staleTime).toBe(CLAIMS_LOOKUP_QUERY_OPTIONS.staleTime)
     expect(clients.refetchOnWindowFocus).toBe(false)
     expect(clients.refetchOnReconnect).toBe(false)
@@ -154,7 +175,9 @@ describe('claims query cache policy', () => {
     const patientsDisabled = lookupAffiliatePatientsQueryOptions('')
     expect(patientsDisabled.enabled).toBe(false)
 
-    const policies = lookupClientPoliciesQueryOptions('client-1', { search: 'plan' })
+    const policies = lookupClientPoliciesQueryOptions('client-1', {
+      search: 'plan',
+    })
     expect(policies.queryKey).toEqual([
       ...CLAIMS_LOOKUP_QUERY_KEY,
       'policies',

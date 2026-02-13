@@ -26,7 +26,11 @@ vi.mock('@/features/claims/list/ui/claims-filter-bar', () => ({
   }: {
     search: string
     showStatusFilter?: boolean
-  }) => <div>mock-pendientes-filter:{search}:{String(showStatusFilter)}</div>,
+  }) => (
+    <div>
+      mock-pendientes-filter:{search}:{String(showStatusFilter)}
+    </div>
+  ),
 }))
 
 vi.mock('@/features/claims/list/ui/claims-list-table', () => ({
@@ -116,9 +120,9 @@ describe('reclamos pendientes route', () => {
       limit: 50,
     })
     expect(normalized.status).toBeUndefined()
-    expect((normalized as ClaimsListSearch & { dateFrom?: string }).dateFrom).toBe(
-      undefined,
-    )
+    expect(
+      (normalized as ClaimsListSearch & { dateFrom?: string }).dateFrom,
+    ).toBe(undefined)
     expect((normalized as ClaimsListSearch & { dateTo?: string }).dateTo).toBe(
       undefined,
     )

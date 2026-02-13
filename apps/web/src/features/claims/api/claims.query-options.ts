@@ -40,7 +40,12 @@ export function lookupClientAffiliatesQueryOptions(
 ) {
   return queryOptions({
     ...CLAIMS_LOOKUP_QUERY_OPTIONS,
-    queryKey: [...CLAIMS_LOOKUP_QUERY_KEY, 'affiliates', clientId, query] as const,
+    queryKey: [
+      ...CLAIMS_LOOKUP_QUERY_KEY,
+      'affiliates',
+      clientId,
+      query,
+    ] as const,
     queryFn: () => claimsApi.lookupClientAffiliates(clientId, query),
     enabled: Boolean(clientId),
   })
@@ -61,7 +66,12 @@ export function lookupClientPoliciesQueryOptions(
 ) {
   return queryOptions({
     ...CLAIMS_LOOKUP_QUERY_OPTIONS,
-    queryKey: [...CLAIMS_LOOKUP_QUERY_KEY, 'policies', clientId, query] as const,
+    queryKey: [
+      ...CLAIMS_LOOKUP_QUERY_KEY,
+      'policies',
+      clientId,
+      query,
+    ] as const,
     queryFn: () => claimsApi.lookupClientPolicies(clientId, query),
     enabled: Boolean(clientId),
   })

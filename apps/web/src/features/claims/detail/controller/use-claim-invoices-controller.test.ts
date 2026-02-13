@@ -236,7 +236,9 @@ describe('useClaimInvoicesController', () => {
   })
 
   it('resets dialog and pagination state when claim id changes', async () => {
-    const { rerender } = render(createElement(Harness, { claimId: 'claim-id-1' }))
+    const { rerender } = render(
+      createElement(Harness, { claimId: 'claim-id-1' }),
+    )
 
     invoicesResponse = makeInvoicesResponse({
       meta: {

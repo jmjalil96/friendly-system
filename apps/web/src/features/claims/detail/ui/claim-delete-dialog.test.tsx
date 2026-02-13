@@ -27,7 +27,9 @@ describe('ClaimDeleteDialog', () => {
       />,
     )
 
-    expect(screen.queryByRole('heading', { name: 'Eliminar reclamo' })).not.toBeNull()
+    expect(
+      screen.queryByRole('heading', { name: 'Eliminar reclamo' }),
+    ).not.toBeNull()
     expect(screen.queryByText('#512')).not.toBeNull()
     expect(screen.queryByText(/no se puede deshacer/i)).not.toBeNull()
   })
@@ -59,11 +61,15 @@ describe('ClaimDeleteDialog', () => {
     )
 
     expect(
-      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement).disabled,
+      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement)
+        .disabled,
     ).toBe(true)
     expect(
-      (screen.getByRole('button', { name: 'Eliminando...' }) as HTMLButtonElement)
-        .disabled,
+      (
+        screen.getByRole('button', {
+          name: 'Eliminando...',
+        }) as HTMLButtonElement
+      ).disabled,
     ).toBe(true)
   })
 })

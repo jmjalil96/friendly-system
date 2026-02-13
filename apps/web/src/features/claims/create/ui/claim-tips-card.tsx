@@ -21,7 +21,9 @@ export function ClaimTipsCard() {
           <span className="flex size-6 items-center justify-center rounded-md bg-[var(--color-blue-500)]/10">
             <Lightbulb className="size-3.5 text-[var(--color-blue-500)]" />
           </span>
-          <span className="font-semibold text-[var(--color-blue-700)]">Consejos</span>
+          <span className="font-semibold text-[var(--color-blue-700)]">
+            Consejos
+          </span>
         </CardTitle>
       </CardHeader>
       <CardContent>

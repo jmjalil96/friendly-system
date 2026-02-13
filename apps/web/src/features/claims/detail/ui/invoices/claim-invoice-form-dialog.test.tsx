@@ -35,11 +35,15 @@ describe('ClaimInvoiceFormDialog', () => {
       />,
     )
 
-    expect(screen.queryByRole('heading', { name: 'Nueva factura' })).not.toBeNull()
+    expect(
+      screen.queryByRole('heading', { name: 'Nueva factura' }),
+    ).not.toBeNull()
     expect(screen.queryByLabelText('Número de factura')).not.toBeNull()
     expect(screen.queryByLabelText('Prestador')).not.toBeNull()
     expect(screen.queryByLabelText('Monto presentado')).not.toBeNull()
-    expect(screen.queryByRole('button', { name: 'Guardar factura' })).not.toBeNull()
+    expect(
+      screen.queryByRole('button', { name: 'Guardar factura' }),
+    ).not.toBeNull()
   })
 
   it('forwards field change and submit callbacks', () => {
@@ -72,7 +76,11 @@ describe('ClaimInvoiceFormDialog', () => {
 
     expect(onFieldChange).toHaveBeenCalledTimes(3)
     expect(onFieldChange).toHaveBeenNthCalledWith(1, 'invoiceNumber', 'INV-002')
-    expect(onFieldChange).toHaveBeenNthCalledWith(2, 'providerName', 'Provider Two')
+    expect(onFieldChange).toHaveBeenNthCalledWith(
+      2,
+      'providerName',
+      'Provider Two',
+    )
     expect(onFieldChange).toHaveBeenNthCalledWith(3, 'amountSubmitted', '45.00')
     expect(onSubmit).toHaveBeenCalledTimes(1)
   })
@@ -95,11 +103,15 @@ describe('ClaimInvoiceFormDialog', () => {
     )
 
     expect(
-      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement).disabled,
+      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement)
+        .disabled,
     ).toBe(true)
     expect(
-      (screen.getByRole('button', { name: 'Actualizando...' }) as HTMLButtonElement)
-        .disabled,
+      (
+        screen.getByRole('button', {
+          name: 'Actualizando...',
+        }) as HTMLButtonElement
+      ).disabled,
     ).toBe(true)
   })
 })

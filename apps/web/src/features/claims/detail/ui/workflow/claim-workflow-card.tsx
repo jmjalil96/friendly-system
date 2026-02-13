@@ -1,7 +1,10 @@
 import { GitBranch } from 'lucide-react'
 import type { ClaimStatus } from '@friendly-system/shared'
 import { Button } from '@/shared/ui/primitives/button'
-import { WorkflowCard, type WorkflowStepItem } from '@/shared/ui/composites/workflow-card'
+import {
+  WorkflowCard,
+  type WorkflowStepItem,
+} from '@/shared/ui/composites/workflow-card'
 import { CLAIM_STATUS_LABELS } from '@/features/claims/model/claims.status'
 import type { ClaimWorkflowAction } from '@/features/claims/detail/controller/use-claim-workflow-controller'
 import { ClaimTransitionDialog } from './claim-transition-dialog'

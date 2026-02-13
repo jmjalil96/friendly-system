@@ -5,9 +5,15 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { ClaimsFilterBar } from '@/features/claims/list/ui/claims-filter-bar'
 
 vi.mock('@/shared/ui/primitives/dropdown-menu', () => ({
-  DropdownMenu: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  DropdownMenuTrigger: ({ children }: { children: ReactNode }) => <>{children}</>,
-  DropdownMenuContent: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  DropdownMenu: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
+  DropdownMenuTrigger: ({ children }: { children: ReactNode }) => (
+    <>{children}</>
+  ),
+  DropdownMenuContent: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
   DropdownMenuCheckboxItem: ({
     children,
     checked,
@@ -56,14 +62,20 @@ describe('ClaimsFilterBar', () => {
       />,
     )
 
-    const searchInput = screen.getByLabelText('Buscar reclamo') as HTMLInputElement
+    const searchInput = screen.getByLabelText(
+      'Buscar reclamo',
+    ) as HTMLInputElement
     expect(searchInput.value).toBe('hospital')
-    expect(screen.queryByRole('button', { name: 'Estado: Borrador' })).not.toBeNull()
+    expect(
+      screen.queryByRole('button', { name: 'Estado: Borrador' }),
+    ).not.toBeNull()
 
     const row = container.querySelector('[data-slot="filter-bar-row"]')
 
     expect(row?.className).toContain('flex-wrap')
-    expect(container.querySelector('[data-slot="filter-bar-actions"]')).toBeNull()
+    expect(
+      container.querySelector('[data-slot="filter-bar-actions"]'),
+    ).toBeNull()
   })
 
   it('calls status toggle handler when selecting an option', () => {
@@ -148,7 +160,9 @@ describe('ClaimsFilterBar', () => {
     )
 
     expect(screen.queryByLabelText('Buscar reclamo')).not.toBeNull()
-    expect(screen.queryByRole('button', { name: 'Estado: Borrador' })).toBeNull()
+    expect(
+      screen.queryByRole('button', { name: 'Estado: Borrador' }),
+    ).toBeNull()
     expect(screen.queryByRole('button', { name: 'Estado' })).toBeNull()
   })
 

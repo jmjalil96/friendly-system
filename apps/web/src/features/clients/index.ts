@@ -1,0 +1,7 @@
+export * from './api/clients.api'
+export * from './api/clients.hooks'
+export * from './api/clients.query-keys'
+export * from './api/clients.query-options'
+export * from './detail/controller'
+export * from './detail/page/client-detail-page'
+export * from './list/page/clients-list-page'

@@ -72,10 +72,7 @@ function FilterBarRow({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="filter-bar-row"
-      className={cn(
-        'flex items-center gap-3 px-4 py-3 sm:px-6',
-        className,
-      )}
+      className={cn('flex items-center gap-3 px-4 py-3 sm:px-6', className)}
       {...props}
     />
   )

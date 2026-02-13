@@ -33,7 +33,12 @@ export function ClaimDescriptionCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 flex-col gap-3">
-        <Label htmlFor="claim-description" className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">Descripción del reclamo</Label>
+        <Label
+          htmlFor="claim-description"
+          className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]"
+        >
+          Descripción del reclamo
+        </Label>
         <Textarea
           id="claim-description"
           value={description}

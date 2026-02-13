@@ -123,8 +123,16 @@ describe('useClaimDetailMainController', () => {
   it('derives editability by status from shared constants', () => {
     render(createElement(Harness, { claim: makeClaim({ status: 'DRAFT' }) }))
 
-    const descriptionField = getField(latest, 'Datos principales', 'Descripcion')
-    const approvedAmountField = getField(latest, 'Liquidacion', 'Monto aprobado')
+    const descriptionField = getField(
+      latest,
+      'Datos principales',
+      'Descripcion',
+    )
+    const approvedAmountField = getField(
+      latest,
+      'Liquidacion',
+      'Monto aprobado',
+    )
 
     expect(descriptionField?.editable).toBe(true)
     expect(approvedAmountField?.editable).toBe(false)
@@ -208,16 +216,23 @@ describe('useClaimDetailMainController', () => {
       policyField?.onStartEdit()
     })
 
-    expect(useLookupClientPoliciesMock).toHaveBeenLastCalledWith(claim.clientId, {
-      page: 1,
-      limit: 100,
-    })
+    expect(useLookupClientPoliciesMock).toHaveBeenLastCalledWith(
+      claim.clientId,
+      {
+        page: 1,
+        limit: 100,
+      },
+    )
   })
 
   it('does not call mutation when save value is unchanged', async () => {
     render(createElement(Harness, { claim: makeClaim() }))
 
-    const descriptionField = getField(latest, 'Datos principales', 'Descripcion')
+    const descriptionField = getField(
+      latest,
+      'Datos principales',
+      'Descripcion',
+    )
     expect(descriptionField).toBeDefined()
 
     act(() => {
@@ -505,7 +520,9 @@ describe('useClaimDetailMainController', () => {
       'Datos principales',
       'Fecha de incidente',
     )
-    expect(incidentDateField?.displayValue).toBe(formatClaimDateOnly('2026-01-15'))
+    expect(incidentDateField?.displayValue).toBe(
+      formatClaimDateOnly('2026-01-15'),
+    )
     expect(getSummaryItem(latest, 'Creado')?.value).toBe(
       formatClaimDateTime(claim.createdAt, 'datetime'),
     )

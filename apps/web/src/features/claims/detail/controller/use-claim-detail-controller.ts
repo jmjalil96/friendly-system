@@ -53,7 +53,8 @@ export function useClaimDetailController({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   const isDeleting = deleteClaimStatus === 'pending'
-  const canDelete = Boolean(claimQuery.data) && !claimQuery.isLoading && !claimQuery.isError
+  const canDelete =
+    Boolean(claimQuery.data) && !claimQuery.isLoading && !claimQuery.isError
 
   useEffect(() => {
     setDeleteDialogOpen(false)

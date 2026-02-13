@@ -68,7 +68,9 @@ describe('ClaimTransitionDialog', () => {
     fireEvent.change(screen.getByLabelText('Notas (opcional)'), {
       target: { value: 'Se necesita respaldo adicional.' },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Confirmar transición' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirmar transición' }),
+    )
 
     expect(onReasonChange).toHaveBeenCalledTimes(1)
     expect(onNotesChange).toHaveBeenCalledTimes(1)
@@ -93,11 +95,15 @@ describe('ClaimTransitionDialog', () => {
     )
 
     expect(
-      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement).disabled,
+      (screen.getByRole('button', { name: 'Cancelar' }) as HTMLButtonElement)
+        .disabled,
     ).toBe(true)
     expect(
-      (screen.getByRole('button', { name: 'Actualizando...' }) as HTMLButtonElement)
-        .disabled,
+      (
+        screen.getByRole('button', {
+          name: 'Actualizando...',
+        }) as HTMLButtonElement
+      ).disabled,
     ).toBe(true)
   })
 })

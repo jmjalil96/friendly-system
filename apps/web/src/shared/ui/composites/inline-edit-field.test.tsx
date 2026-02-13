@@ -122,9 +122,13 @@ describe('InlineEditField', () => {
     const input = screen.getByDisplayValue('15/01/2026')
     expect((input as HTMLInputElement).type).toBe('text')
     expect((input as HTMLInputElement).placeholder).toBe('DD/MM/AAAA')
-    expect((input as HTMLInputElement).pattern).toBe('[0-9]{2}/[0-9]{2}/[0-9]{4}')
+    expect((input as HTMLInputElement).pattern).toBe(
+      '[0-9]{2}/[0-9]{2}/[0-9]{4}',
+    )
     expect((input as HTMLInputElement).maxLength).toBe(10)
-    expect(screen.getByRole('button', { name: 'Abrir calendario' })).toBeDefined()
+    expect(
+      screen.getByRole('button', { name: 'Abrir calendario' }),
+    ).toBeDefined()
   })
 
   it('updates date draft when selecting a day from calendar', () => {
@@ -249,9 +253,12 @@ describe('InlineEditField', () => {
     fireEvent.click(trigger)
     fireEvent.click(screen.getByRole('button', { name: /16.*enero.*2026/i }))
 
-    fireEvent.keyDown(screen.getByRole('button', { name: 'Abrir calendario' }), {
-      key: 'Enter',
-    })
+    fireEvent.keyDown(
+      screen.getByRole('button', { name: 'Abrir calendario' }),
+      {
+        key: 'Enter',
+      },
+    )
     expect(onSave).toHaveBeenCalledTimes(1)
   })
 

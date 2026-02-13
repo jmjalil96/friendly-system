@@ -14,8 +14,18 @@ describe('WorkflowCard', () => {
         title="Flujo"
         steps={[
           { id: 'draft', label: 'Borrador', state: 'completed' },
-          { id: 'review', label: 'En revisión', state: 'current', metaText: 'Estado actual' },
-          { id: 'settled', label: 'Liquidado', state: 'terminal', metaText: 'Estado terminal' },
+          {
+            id: 'review',
+            label: 'En revisión',
+            state: 'current',
+            metaText: 'Estado actual',
+          },
+          {
+            id: 'settled',
+            label: 'Liquidado',
+            state: 'terminal',
+            metaText: 'Estado terminal',
+          },
         ]}
         footer={<div>Acciones del flujo</div>}
       />,

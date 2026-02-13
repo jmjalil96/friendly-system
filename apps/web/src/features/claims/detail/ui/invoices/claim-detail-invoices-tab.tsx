@@ -4,7 +4,14 @@ import {
   type OnChangeFn,
   type PaginationState,
 } from '@tanstack/react-table'
-import { AlertTriangle, FileText, Pencil, Plus, RefreshCw, Trash2 } from 'lucide-react'
+import {
+  AlertTriangle,
+  FileText,
+  Pencil,
+  Plus,
+  RefreshCw,
+  Trash2,
+} from 'lucide-react'
 import type { ClaimInvoicesResponse } from '@friendly-system/shared'
 import { Button } from '@/shared/ui/primitives/button'
 import {
@@ -85,7 +92,9 @@ function ClaimDetailInvoicesEmpty() {
   )
 }
 
-export function ClaimDetailInvoicesTab({ claimId }: ClaimDetailInvoicesTabProps) {
+export function ClaimDetailInvoicesTab({
+  claimId,
+}: ClaimDetailInvoicesTabProps) {
   const view = useClaimInvoicesController({ claimId })
   const { onOpenEdit } = view.formDialog
   const { onOpenDelete } = view.deleteDialog
@@ -198,7 +207,16 @@ export function ClaimDetailInvoicesTab({ claimId }: ClaimDetailInvoicesTabProps)
       else if (newPage > page) onNextPage()
       else onPreviousPage()
     },
-    [page, limit, totalPages, onFirstPage, onLastPage, onNextPage, onPreviousPage, onLimitChange],
+    [
+      page,
+      limit,
+      totalPages,
+      onFirstPage,
+      onLastPage,
+      onNextPage,
+      onPreviousPage,
+      onLimitChange,
+    ],
   )
 
   return (
@@ -206,7 +224,9 @@ export function ClaimDetailInvoicesTab({ claimId }: ClaimDetailInvoicesTabProps)
       <Card className="overflow-hidden">
         <div className="h-[2px] bg-gradient-to-r from-[var(--color-blue-700)] to-[var(--color-blue-500)]" />
         <CardHeader>
-          <CardTitle className="text-[var(--color-gray-900)]">Facturas</CardTitle>
+          <CardTitle className="text-[var(--color-gray-900)]">
+            Facturas
+          </CardTitle>
           <CardDescription>
             Gestiona las facturas cargadas para el reclamo.
           </CardDescription>

@@ -1,8 +1,16 @@
 import { useMemo } from 'react'
 import { AlertTriangle, Inbox, RefreshCw } from 'lucide-react'
-import { type OnChangeFn, type PaginationState, type SortingState, type ColumnDef } from '@tanstack/react-table'
+import {
+  type OnChangeFn,
+  type PaginationState,
+  type SortingState,
+  type ColumnDef,
+} from '@tanstack/react-table'
 import { Link } from '@tanstack/react-router'
-import { type ListClaimsItem, type ListClaimsResponse } from '@friendly-system/shared'
+import {
+  type ListClaimsItem,
+  type ListClaimsResponse,
+} from '@friendly-system/shared'
 import { Button } from '@/shared/ui/primitives/button'
 import { DataTable } from '@/shared/ui/composites/data-table'
 import { formatClaimDateTime } from '@/features/claims/model/claims.formatters'

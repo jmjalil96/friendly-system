@@ -29,7 +29,9 @@ const DEFAULT_META = {
   totalPages: 0,
 }
 
-function makeSearch(overrides: Partial<ClaimsListSearch> = {}): ClaimsListSearch {
+function makeSearch(
+  overrides: Partial<ClaimsListSearch> = {},
+): ClaimsListSearch {
   return {
     ...DEFAULT_SEARCH,
     ...overrides,
@@ -141,7 +143,9 @@ describe('useClaimsListController', () => {
   })
 
   it('toggles status filters and clears status when last value is removed', () => {
-    const { rerender } = render(createElement(Harness, { search: makeSearch() }))
+    const { rerender } = render(
+      createElement(Harness, { search: makeSearch() }),
+    )
 
     act(() => {
       latest?.filterBarProps.onToggleStatus('DRAFT')
@@ -160,7 +164,9 @@ describe('useClaimsListController', () => {
 
     updateSearchMock.mockReset()
 
-    rerender(createElement(Harness, { search: makeSearch({ status: ['DRAFT'] }) }))
+    rerender(
+      createElement(Harness, { search: makeSearch({ status: ['DRAFT'] }) }),
+    )
 
     act(() => {
       latest?.filterBarProps.onToggleStatus('DRAFT')

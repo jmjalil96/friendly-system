@@ -1,6 +1,11 @@
 import type { ReactNode } from 'react'
 import { Check } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/primitives/card'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/primitives/card'
 import { cn } from '@/shared/lib/cn'
 
 export type WorkflowStepState = 'pending' | 'completed' | 'current' | 'terminal'
@@ -21,7 +26,8 @@ export interface WorkflowCardProps {
 }
 
 const STEP_INDICATOR_CLASSNAMES: Record<WorkflowStepState, string> = {
-  pending: 'border-[var(--color-gray-200)] bg-white text-[var(--color-gray-400)]',
+  pending:
+    'border-[var(--color-gray-200)] bg-white text-[var(--color-gray-400)]',
   completed:
     'border-[var(--color-blue-300)] bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
   current:
@@ -110,7 +116,9 @@ export function WorkflowCard({
         </ol>
 
         {footer ? (
-          <div className="border-t border-[var(--color-gray-100)] pt-3">{footer}</div>
+          <div className="border-t border-[var(--color-gray-100)] pt-3">
+            {footer}
+          </div>
         ) : null}
       </CardContent>
     </Card>

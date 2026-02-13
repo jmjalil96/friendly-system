@@ -44,7 +44,9 @@ export function ClaimInvoiceFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent showCloseButton={!isSubmitting}>
         <DialogHeader>
-          <DialogTitle>{isCreate ? 'Nueva factura' : 'Editar factura'}</DialogTitle>
+          <DialogTitle>
+            {isCreate ? 'Nueva factura' : 'Editar factura'}
+          </DialogTitle>
           <DialogDescription>
             {isCreate
               ? 'Registra una factura vinculada a este reclamo.'
@@ -64,7 +66,9 @@ export function ClaimInvoiceFormDialog({
               id="claim-invoice-number"
               value={draft.invoiceNumber}
               disabled={isSubmitting}
-              onChange={(event) => onFieldChange('invoiceNumber', event.target.value)}
+              onChange={(event) =>
+                onFieldChange('invoiceNumber', event.target.value)
+              }
               placeholder="Ej. INV-2026-001"
             />
           </div>
@@ -80,7 +84,9 @@ export function ClaimInvoiceFormDialog({
               id="claim-invoice-provider-name"
               value={draft.providerName}
               disabled={isSubmitting}
-              onChange={(event) => onFieldChange('providerName', event.target.value)}
+              onChange={(event) =>
+                onFieldChange('providerName', event.target.value)
+              }
               placeholder="Ej. Clínica Central"
             />
           </div>
@@ -96,7 +102,9 @@ export function ClaimInvoiceFormDialog({
               id="claim-invoice-amount-submitted"
               value={draft.amountSubmitted}
               disabled={isSubmitting}
-              onChange={(event) => onFieldChange('amountSubmitted', event.target.value)}
+              onChange={(event) =>
+                onFieldChange('amountSubmitted', event.target.value)
+              }
               placeholder="0.00"
               inputMode="decimal"
               className="tabular-nums"
@@ -125,7 +133,9 @@ export function ClaimInvoiceFormDialog({
             disabled={isSubmitting}
             className={CLAIMS_INLINE_SAVE_BUTTON_CLASSNAME}
           >
-            {isSubmitting ? <Loader2 className="size-3.5 animate-spin" /> : null}
+            {isSubmitting ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : null}
             {isSubmitting
               ? isCreate
                 ? 'Guardando...'

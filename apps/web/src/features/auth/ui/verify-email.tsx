@@ -6,7 +6,10 @@ import {
   resendVerificationSchema,
   type ResendVerificationInput,
 } from '@friendly-system/shared'
-import { useVerifyEmail, useResendVerification } from '@/features/auth/api/auth.hooks'
+import {
+  useVerifyEmail,
+  useResendVerification,
+} from '@/features/auth/api/auth.hooks'
 import { AuthErrorIcon, AuthSuccessIcon } from './auth-status-icon'
 
 function getErrorMessage(error: unknown): string {

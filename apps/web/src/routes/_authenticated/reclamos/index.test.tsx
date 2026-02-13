@@ -110,9 +110,9 @@ describe('reclamos index route', () => {
       limit: 50,
       status: ['DRAFT'],
     })
-    expect((normalized as ClaimsListSearch & { dateFrom?: string }).dateFrom).toBe(
-      undefined,
-    )
+    expect(
+      (normalized as ClaimsListSearch & { dateFrom?: string }).dateFrom,
+    ).toBe(undefined)
     expect((normalized as ClaimsListSearch & { dateTo?: string }).dateTo).toBe(
       undefined,
     )

@@ -102,7 +102,12 @@ export function useClaimWorkflowController({
     const currentIndex = CLAIM_WORKFLOW_STATUS_ORDER.indexOf(claim.status)
 
     return CLAIM_WORKFLOW_STATUS_ORDER.map((status, index) => {
-      const state = toWorkflowStepState(status, claim.status, currentIndex, index)
+      const state = toWorkflowStepState(
+        status,
+        claim.status,
+        currentIndex,
+        index,
+      )
 
       return {
         id: status,
@@ -164,15 +169,21 @@ export function useClaimWorkflowController({
     [isSubmitting, resetDialog],
   )
 
-  const onReasonChange = useCallback((value: string) => {
-    setReason(value)
-    if (error) setError(undefined)
-  }, [error])
+  const onReasonChange = useCallback(
+    (value: string) => {
+      setReason(value)
+      if (error) setError(undefined)
+    },
+    [error],
+  )
 
-  const onNotesChange = useCallback((value: string) => {
-    setNotes(value)
-    if (error) setError(undefined)
-  }, [error])
+  const onNotesChange = useCallback(
+    (value: string) => {
+      setNotes(value)
+      if (error) setError(undefined)
+    },
+    [error],
+  )
 
   const onSubmitTransition = useCallback(async () => {
     if (!claim || !selectedAction || isSubmitting) return
@@ -201,7 +212,15 @@ export function useClaimWorkflowController({
     } catch {
       // API errors are already surfaced via global toast in api.ts.
     }
-  }, [claim, isSubmitting, notes, reason, resetDialog, selectedAction, transitionClaim])
+  }, [
+    claim,
+    isSubmitting,
+    notes,
+    reason,
+    resetDialog,
+    selectedAction,
+    transitionClaim,
+  ])
 
   return {
     steps,

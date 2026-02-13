@@ -1,11 +1,7 @@
 import { AlertTriangle, RefreshCw } from 'lucide-react'
 import type { GetClaimByIdResponse } from '@friendly-system/shared'
 import { Button } from '@/shared/ui/primitives/button'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from '@/shared/ui/primitives/card'
+import { Card, CardContent, CardHeader } from '@/shared/ui/primitives/card'
 import { Skeleton } from '@/shared/ui/primitives/skeleton'
 import { useClaimDetailMainController } from '@/features/claims/detail/controller/use-claim-detail-main-controller'
 import { useClaimWorkflowController } from '@/features/claims/detail/controller/use-claim-workflow-controller'
@@ -74,7 +70,9 @@ function ClaimDetailMainSkeleton() {
   )
 }
 
-function ClaimDetailMainError({ onRetry }: Pick<ClaimDetailMainTabProps, 'onRetry'>) {
+function ClaimDetailMainError({
+  onRetry,
+}: Pick<ClaimDetailMainTabProps, 'onRetry'>) {
   return (
     <div className={CLAIMS_ERROR_PANEL_CLASSNAME}>
       <div className="flex items-start gap-3">

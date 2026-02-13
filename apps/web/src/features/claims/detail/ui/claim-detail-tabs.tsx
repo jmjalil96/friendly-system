@@ -1,10 +1,5 @@
 import type { LucideIcon } from 'lucide-react'
-import {
-  ClipboardList,
-  Clock,
-  FileText,
-  Paperclip,
-} from 'lucide-react'
+import { ClipboardList, Clock, FileText, Paperclip } from 'lucide-react'
 import type { GetClaimByIdResponse } from '@friendly-system/shared'
 import { ViewTabs } from '@/shared/ui/composites/view-tabs'
 import { ClaimDetailMainTab } from './claim-detail-main-tab'

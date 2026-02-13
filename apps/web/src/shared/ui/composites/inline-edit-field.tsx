@@ -155,12 +155,15 @@ function DateEditor({
       <Input
         type="text"
         value={draftValue}
-        onChange={(event) => onDraftChange(maskDayFirstDateInput(event.target.value))}
+        onChange={(event) =>
+          onDraftChange(maskDayFirstDateInput(event.target.value))
+        }
         onBlur={handleInputBlur}
         onKeyDown={(event) => {
           if (event.key !== 'Enter') return
           if (event.nativeEvent.isComposing || isSaving) return
-          if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return
+          if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey)
+            return
 
           event.preventDefault()
           void onSave()
@@ -204,7 +207,10 @@ function DateEditor({
   )
 }
 
-function renderEditor(props: InlineEditFieldProps, handlers: RenderEditorOptions) {
+function renderEditor(
+  props: InlineEditFieldProps,
+  handlers: RenderEditorOptions,
+) {
   const {
     variant,
     draftValue,
@@ -308,7 +314,8 @@ function renderEditor(props: InlineEditFieldProps, handlers: RenderEditorOptions
       onKeyDown={(event) => {
         if (event.key !== 'Enter') return
         if (event.nativeEvent.isComposing || isSaving) return
-        if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return
+        if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey)
+          return
 
         event.preventDefault()
         void onSave()
@@ -336,7 +343,8 @@ export function InlineEditField(props: InlineEditFieldProps) {
     className,
     saveButtonClassName,
   } = props
-  const [pickerSelectionCommitted, setPickerSelectionCommitted] = useState(false)
+  const [pickerSelectionCommitted, setPickerSelectionCommitted] =
+    useState(false)
 
   const handlePickerSelectionCommit = useCallback(() => {
     setPickerSelectionCommitted(true)
@@ -352,7 +360,9 @@ export function InlineEditField(props: InlineEditFieldProps) {
     onCancel()
   }, [onCancel])
 
-  const handlePickerTriggerKeyDown = useCallback<KeyboardEventHandler<HTMLButtonElement>>(
+  const handlePickerTriggerKeyDown = useCallback<
+    KeyboardEventHandler<HTMLButtonElement>
+  >(
     (event) => {
       if (event.key !== 'Enter') return
       if (isSaving || !pickerSelectionCommitted) return
@@ -397,14 +407,14 @@ export function InlineEditField(props: InlineEditFieldProps) {
             </Button>
           ) : null}
           <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleCancelEdit}
-              disabled={isSaving}
-            >
-              <X className="size-3.5" />
-              Cancelar
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleCancelEdit}
+            disabled={isSaving}
+          >
+            <X className="size-3.5" />
+            Cancelar
           </Button>
           <Button
             type="button"

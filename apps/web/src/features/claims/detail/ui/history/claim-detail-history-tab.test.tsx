@@ -4,9 +4,12 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 
 const useClaimHistoryControllerMock = vi.hoisted(() => vi.fn())
 
-vi.mock('@/features/claims/detail/controller/use-claim-history-controller', () => ({
-  useClaimHistoryController: useClaimHistoryControllerMock,
-}))
+vi.mock(
+  '@/features/claims/detail/controller/use-claim-history-controller',
+  () => ({
+    useClaimHistoryController: useClaimHistoryControllerMock,
+  }),
+)
 
 import { ClaimDetailHistoryTab } from '@/features/claims/detail/ui/history/claim-detail-history-tab'
 
@@ -85,7 +88,9 @@ describe('ClaimDetailHistoryTab', () => {
 
     expect(screen.queryByText('Transiciones')).not.toBeNull()
     expect(screen.queryByText('Actividad')).not.toBeNull()
-    expect(container.querySelectorAll('[data-slot="skeleton"]').length).toBeGreaterThan(0)
+    expect(
+      container.querySelectorAll('[data-slot="skeleton"]').length,
+    ).toBeGreaterThan(0)
   })
 
   it('renders independent error states and retries per section', () => {
@@ -133,7 +138,8 @@ describe('ClaimDetailHistoryTab', () => {
       {
         id: 'timeline-1',
         actionLabel: 'Reclamo actualizado',
-        actionToneClassName: 'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
+        actionToneClassName:
+          'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
         createdAtLabel: '10 feb 2026, 09:00',
         userLabel: 'Carlos Pérez',
         metadataLines: ['Campos actualizados (1): description'],

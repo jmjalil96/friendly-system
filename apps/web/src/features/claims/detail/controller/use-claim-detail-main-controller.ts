@@ -30,7 +30,10 @@ import type {
   InlineEditFieldProps,
   InlineEditFieldVariant,
 } from '@/shared/ui/composites/inline-edit-field'
-import { useLookupClientPolicies, useUpdateClaim } from '@/features/claims/api/claims.hooks'
+import {
+  useLookupClientPolicies,
+  useUpdateClaim,
+} from '@/features/claims/api/claims.hooks'
 
 type DetailFieldKey = ClaimEditableField
 
@@ -266,7 +269,10 @@ function formatFieldValue(field: DetailFieldKey, value: string | null): string {
   return value
 }
 
-function normalizeDraftValue(field: DetailFieldKey, rawValue: string): string | null {
+function normalizeDraftValue(
+  field: DetailFieldKey,
+  rawValue: string,
+): string | null {
   const trimmed = rawValue.trim()
   if (trimmed === '') return field === 'description' ? '' : null
 
@@ -277,7 +283,10 @@ function normalizeDraftValue(field: DetailFieldKey, rawValue: string): string | 
   return trimmed
 }
 
-function getEditableDraftValue(field: DetailFieldKey, value: string | null): string {
+function getEditableDraftValue(
+  field: DetailFieldKey,
+  value: string | null,
+): string {
   if (value === null) return ''
   if (DATE_FIELDS.has(field)) return isoDateToDayFirst(value)
   return value
@@ -480,7 +489,9 @@ export function useClaimDetailMainController({
         const field = definition.key
         const isEditing = activeField === field
         const value = getFieldValue(claim, field)
-        const policyOption = policyOptions.find((option) => option.value === value)
+        const policyOption = policyOptions.find(
+          (option) => option.value === value,
+        )
         const policyLabel = formatPolicyLabel(
           claim.policyNumber,
           claim.policyInsurerName,
@@ -490,7 +501,7 @@ export function useClaimDetailMainController({
             ? policyOption.label
             : field === 'policyId' && policyLabel
               ? policyLabel
-            : formatFieldValue(field, value)
+              : formatFieldValue(field, value)
 
         return {
           label: definition.label,
@@ -499,7 +510,9 @@ export function useClaimDetailMainController({
           editable: canEditField(field),
           isEditing,
           isSaving,
-          draftValue: isEditing ? draftValue : getEditableDraftValue(field, value),
+          draftValue: isEditing
+            ? draftValue
+            : getEditableDraftValue(field, value),
           saveButtonClassName: CLAIMS_INLINE_SAVE_BUTTON_CLASSNAME,
           placeholder:
             'placeholder' in definition ? definition.placeholder : undefined,
@@ -516,9 +529,7 @@ export function useClaimDetailMainController({
               ? policyLookupQuery.isFetching
               : undefined,
           optionsSearch:
-            definition.variant === 'async-combobox'
-              ? policySearch
-              : undefined,
+            definition.variant === 'async-combobox' ? policySearch : undefined,
           onOptionsSearchChange:
             definition.variant === 'async-combobox'
               ? setPolicySearch
@@ -579,8 +590,14 @@ export function useClaimDetailMainController({
         value: patientName ?? claim.patientId,
       },
       { label: 'Poliza', value: policyLabel ?? claim.policyId ?? 'Sin dato' },
-      { label: 'Creado', value: formatClaimDateTime(claim.createdAt, 'datetime') },
-      { label: 'Actualizado', value: formatClaimDateTime(claim.updatedAt, 'datetime') },
+      {
+        label: 'Creado',
+        value: formatClaimDateTime(claim.createdAt, 'datetime'),
+      },
+      {
+        label: 'Actualizado',
+        value: formatClaimDateTime(claim.updatedAt, 'datetime'),
+      },
     ]
   }, [claim])
 

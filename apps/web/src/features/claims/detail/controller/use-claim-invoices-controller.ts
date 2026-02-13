@@ -56,10 +56,7 @@ function canonicalDecimal(value: string): string {
   return fractionalPart ? `${integerPart}.${fractionalPart}` : integerPart
 }
 
-function buildInvoicePatch(
-  current: ClaimInvoiceItem,
-  next: InvoiceDraft,
-) {
+function buildInvoicePatch(current: ClaimInvoiceItem, next: InvoiceDraft) {
   const currentInvoiceNumber = current.invoiceNumber.trim()
   const currentProviderName = current.providerName.trim()
   const currentAmount = canonicalDecimal(current.amountSubmitted)
@@ -230,21 +227,27 @@ export function useClaimInvoicesController({
     [invoices],
   )
 
-  const onFormOpenChange = useCallback((open: boolean) => {
-    if (isFormSubmitting && !open) return
+  const onFormOpenChange = useCallback(
+    (open: boolean) => {
+      if (isFormSubmitting && !open) return
 
-    if (!open) {
-      resetFormState()
-      return
-    }
+      if (!open) {
+        resetFormState()
+        return
+      }
 
-    setFormOpen(true)
-  }, [isFormSubmitting, resetFormState])
+      setFormOpen(true)
+    },
+    [isFormSubmitting, resetFormState],
+  )
 
-  const onFieldChange = useCallback((field: keyof InvoiceDraft, value: string) => {
-    setDraft((previous) => ({ ...previous, [field]: value }))
-    if (formError) setFormError(undefined)
-  }, [formError])
+  const onFieldChange = useCallback(
+    (field: keyof InvoiceDraft, value: string) => {
+      setDraft((previous) => ({ ...previous, [field]: value }))
+      if (formError) setFormError(undefined)
+    },
+    [formError],
+  )
 
   const onSubmit = useCallback(async () => {
     if (isFormSubmitting) return
@@ -312,16 +315,19 @@ export function useClaimInvoicesController({
     setDeleteOpen(true)
   }, [])
 
-  const onDeleteOpenChange = useCallback((open: boolean) => {
-    if (isDeleting && !open) return
+  const onDeleteOpenChange = useCallback(
+    (open: boolean) => {
+      if (isDeleting && !open) return
 
-    if (!open) {
-      resetDeleteState()
-      return
-    }
+      if (!open) {
+        resetDeleteState()
+        return
+      }
 
-    setDeleteOpen(true)
-  }, [isDeleting, resetDeleteState])
+      setDeleteOpen(true)
+    },
+    [isDeleting, resetDeleteState],
+  )
 
   const onConfirmDelete = useCallback(async () => {
     if (!deleteInvoiceId || isDeleting) return
@@ -352,7 +358,11 @@ export function useClaimInvoicesController({
   }, [totalPages])
 
   const onLimitChange = useCallback((value: number) => {
-    if (!INVOICE_PAGE_SIZE_OPTIONS.includes(value as (typeof INVOICE_PAGE_SIZE_OPTIONS)[number])) {
+    if (
+      !INVOICE_PAGE_SIZE_OPTIONS.includes(
+        value as (typeof INVOICE_PAGE_SIZE_OPTIONS)[number],
+      )
+    ) {
       return
     }
 

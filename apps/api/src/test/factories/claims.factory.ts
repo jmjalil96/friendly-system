@@ -41,6 +41,17 @@ export async function createAffiliate(
     userId?: string
   } = {},
 ): Promise<AffiliateFixture> {
+  let userIdForCreate = overrides.userId
+  if (overrides.userId) {
+    const existingUserAffiliate = await prisma.affiliate.findUnique({
+      where: { userId: overrides.userId },
+      select: { id: true },
+    })
+    if (existingUserAffiliate) {
+      userIdForCreate = undefined
+    }
+  }
+
   const affiliate = await prisma.affiliate.create({
     data: {
       orgId,
@@ -49,7 +60,7 @@ export async function createAffiliate(
       lastName: overrides.lastName ?? 'Affiliate',
       isActive: overrides.isActive ?? true,
       primaryAffiliateId: overrides.primaryAffiliateId,
-      userId: overrides.userId,
+      userId: userIdForCreate,
     },
     select: {
       id: true,

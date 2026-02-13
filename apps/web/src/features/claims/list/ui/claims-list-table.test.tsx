@@ -68,15 +68,21 @@ describe('ClaimsListTable', () => {
     )
 
     const claimLink = screen.getByRole('link', { name: '#1001' })
-    expect(claimLink.getAttribute('href')).toBe('/reclamos/550e8400-e29b-41d4-a716-446655440000')
+    expect(claimLink.getAttribute('href')).toBe(
+      '/reclamos/550e8400-e29b-41d4-a716-446655440000',
+    )
     expect(screen.queryByText('Enviado')).not.toBeNull()
 
-    const tableContainer = container.querySelector('[data-slot="table-container"]')
+    const tableContainer = container.querySelector(
+      '[data-slot="table-container"]',
+    )
     const table = container.querySelector('[data-slot="table"]')
     const stickyHeadCell = container.querySelector('[data-slot="table-head"]')
 
     expect(
-      screen.queryByText('Desliza la tabla horizontalmente para ver todas las columnas.'),
+      screen.queryByText(
+        'Desliza la tabla horizontalmente para ver todas las columnas.',
+      ),
     ).not.toBeNull()
     const hint = screen.queryByText(
       'Desliza la tabla horizontalmente para ver todas las columnas.',
@@ -102,7 +108,9 @@ describe('ClaimsListTable', () => {
       />,
     )
 
-    expect(container.querySelectorAll('[data-slot="skeleton"]').length).toBeGreaterThan(0)
+    expect(
+      container.querySelectorAll('[data-slot="skeleton"]').length,
+    ).toBeGreaterThan(0)
   })
 
   it('renders empty message when no rows are available', () => {
@@ -168,13 +176,14 @@ describe('ClaimsListTable', () => {
     const updateArg = onSortingChange.mock.calls[0]?.[0] as
       | Array<{ id: string; desc: boolean }>
       | ((previous: Array<{ id: string; desc: boolean }>) => Array<{
-        id: string
-        desc: boolean
-      }>)
+          id: string
+          desc: boolean
+        }>)
 
-    const nextSorting = typeof updateArg === 'function'
-      ? updateArg([{ id: 'createdAt', desc: true }])
-      : updateArg
+    const nextSorting =
+      typeof updateArg === 'function'
+        ? updateArg([{ id: 'createdAt', desc: true }])
+        : updateArg
 
     expect(nextSorting[0]).toEqual({ id: 'claimNumber', desc: false })
   })
@@ -199,20 +208,23 @@ describe('ClaimsListTable', () => {
         name: 'Seleccionar cantidad de filas por página',
       }),
     )
-    fireEvent.click(screen.getByRole('menuitemradio', { name: '50 por página' }))
+    fireEvent.click(
+      screen.getByRole('menuitemradio', { name: '50 por página' }),
+    )
 
     expect(onPaginationChange).toHaveBeenCalledTimes(1)
 
     const updateArg = onPaginationChange.mock.calls[0]?.[0] as
       | { pageIndex: number; pageSize: number }
       | ((previous: { pageIndex: number; pageSize: number }) => {
-        pageIndex: number
-        pageSize: number
-      })
+          pageIndex: number
+          pageSize: number
+        })
 
-    const nextState = typeof updateArg === 'function'
-      ? updateArg({ pageIndex: 0, pageSize: 20 })
-      : updateArg
+    const nextState =
+      typeof updateArg === 'function'
+        ? updateArg({ pageIndex: 0, pageSize: 20 })
+        : updateArg
 
     expect(nextState.pageSize).toBe(50)
   })
@@ -235,7 +247,9 @@ describe('ClaimsListTable', () => {
 
     expect(screen.queryByText('No pudimos cargar los reclamos')).not.toBeNull()
     expect(
-      screen.queryByText('Ocurrió un error al obtener la lista. Intenta nuevamente.'),
+      screen.queryByText(
+        'Ocurrió un error al obtener la lista. Intenta nuevamente.',
+      ),
     ).not.toBeNull()
     fireEvent.click(screen.getByRole('button', { name: 'Reintentar' }))
     expect(onRetry).toHaveBeenCalledTimes(1)

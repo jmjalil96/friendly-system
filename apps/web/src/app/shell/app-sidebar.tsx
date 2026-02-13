@@ -3,6 +3,7 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import {
   Home,
   ClipboardList,
+  Building2,
   HelpCircle,
   ChevronDown,
   ChevronsUpDown,
@@ -12,6 +13,7 @@ import {
 import { useState } from 'react'
 import { Logo } from '@/app/shell/logo'
 import { useAuthUser, useLogout } from '@/features/auth/api/auth.hooks'
+import { DEFAULT_CLIENTS_LIST_SEARCH } from '@/features/clients/model/clients.search'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,6 +45,12 @@ const reclamosSubItems = [
   { label: 'Todos', href: '/reclamos' },
   { label: 'Pendientes', href: '/reclamos/pendientes' },
 ] as const
+
+const clientesItem = {
+  label: 'Clientes',
+  icon: Building2,
+  href: '/clientes',
+} as const
 
 function getInitials(firstName: string | null, lastName: string | null) {
   const f = firstName?.charAt(0).toUpperCase() ?? ''
@@ -154,6 +162,31 @@ export function AppSidebar() {
                   </Collapsible.Content>
                 </SidebarMenuItem>
               </Collapsible.Root>
+
+              {/* Clientes */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={currentPath.startsWith(clientesItem.href)}
+                  className="h-auto gap-[var(--space-md)] px-3 py-[0.625rem] text-[0.85rem] font-medium rounded-[var(--radius-md)] text-white [&>svg]:size-[18px] hover:bg-[rgba(255,255,255,0.08)] data-[active=true]:bg-[rgba(255,255,255,0.12)] data-[active=true]:hover:bg-[rgba(255,255,255,0.15)] data-[active=true]:text-white"
+                  tooltip={clientesItem.label}
+                >
+                  <Link
+                    to={clientesItem.href}
+                    search={DEFAULT_CLIENTS_LIST_SEARCH}
+                  >
+                    <clientesItem.icon
+                      size={18}
+                      className={
+                        currentPath.startsWith(clientesItem.href)
+                          ? 'opacity-100'
+                          : 'opacity-70'
+                      }
+                    />
+                    <span>{clientesItem.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
               {/* Soporte */}
               <SidebarMenuItem>

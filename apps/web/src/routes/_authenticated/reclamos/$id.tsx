@@ -31,12 +31,10 @@ function isInvalidClaimIdError(error: unknown) {
     return false
   }
 
-  return (
-    error.issues.some(
-      (issue) =>
-        Array.isArray(issue.path) &&
-        issue.path.some((segment) => segment === 'id'),
-    )
+  return error.issues.some(
+    (issue) =>
+      Array.isArray(issue.path) &&
+      issue.path.some((segment) => segment === 'id'),
   )
 }
 
@@ -47,9 +45,7 @@ function isValidationError(
     return false
   }
 
-  return Array.isArray(
-    (error as { issues?: unknown }).issues,
-  )
+  return Array.isArray((error as { issues?: unknown }).issues)
 }
 
 function ReclamoDetailRoute() {

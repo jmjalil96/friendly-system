@@ -68,7 +68,9 @@ function ClaimHistorySectionEmpty({
       <div className="mx-auto mb-3 flex size-9 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-[var(--color-gray-200)]">
         <Clock className="size-4 text-[var(--color-gray-400)]" />
       </div>
-      <p className="text-sm font-semibold text-[var(--color-gray-900)]">{title}</p>
+      <p className="text-sm font-semibold text-[var(--color-gray-900)]">
+        {title}
+      </p>
       <p className="mt-1 text-sm text-[var(--color-gray-600)]">{description}</p>
     </div>
   )

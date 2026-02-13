@@ -1,0 +1,1 @@
+export const CLIENTS_SEARCH_DEBOUNCE_MS = 300

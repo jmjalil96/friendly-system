@@ -9,10 +9,7 @@ import type {
   ListClaimsQuery,
 } from '@friendly-system/shared'
 import { claimsApi } from './claims.api'
-import {
-  CLAIMS_LIST_QUERY_KEY,
-  CLAIMS_QUERY_KEY,
-} from './claims.query-keys'
+import { CLAIMS_LIST_QUERY_KEY, CLAIMS_QUERY_KEY } from './claims.query-keys'
 import { DEFAULT_CLAIMS_LIST_SEARCH } from '@/features/claims/model/claims.search'
 import {
   claimByIdQueryOptions,

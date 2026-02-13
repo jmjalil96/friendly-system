@@ -51,13 +51,18 @@ export const claimsApi = {
     api.post<CreateClaimResponse>(API_ROUTES.claims.create, input),
 
   list: (query: Record<string, unknown> = {}) =>
-    api.get<ListClaimsResponse>(`${API_ROUTES.claims.list}${buildQuery(query)}`),
+    api.get<ListClaimsResponse>(
+      `${API_ROUTES.claims.list}${buildQuery(query)}`,
+    ),
 
   getById: (id: string) =>
     api.get<GetClaimByIdResponse>(route(API_ROUTES.claims.getById, { id })),
 
   update: (id: string, input: UpdateClaimInput) =>
-    api.patch<GetClaimByIdResponse>(route(API_ROUTES.claims.update, { id }), input),
+    api.patch<GetClaimByIdResponse>(
+      route(API_ROUTES.claims.update, { id }),
+      input,
+    ),
 
   transition: (id: string, input: TransitionClaimInput) =>
     api.post<GetClaimByIdResponse>(

@@ -6,7 +6,9 @@ export interface ClaimDetailMainSectionsProps {
   sections: ClaimDetailMainSection[]
 }
 
-export function ClaimDetailMainSections({ sections }: ClaimDetailMainSectionsProps) {
+export function ClaimDetailMainSections({
+  sections,
+}: ClaimDetailMainSectionsProps) {
   return (
     <>
       {sections.map((section) => (
@@ -20,7 +22,9 @@ export function ClaimDetailMainSections({ sections }: ClaimDetailMainSectionsPro
               <InlineEditField
                 key={`${section.key}-${field.label}`}
                 {...field}
-                className={field.variant === 'textarea' ? 'md:col-span-2' : undefined}
+                className={
+                  field.variant === 'textarea' ? 'md:col-span-2' : undefined
+                }
               />
             ))}
           </div>

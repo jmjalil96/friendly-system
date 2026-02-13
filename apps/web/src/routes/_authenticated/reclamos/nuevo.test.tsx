@@ -1,7 +1,13 @@
 // @vitest-environment jsdom
 import type { ComponentType } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { DEFAULT_CLAIMS_LIST_SEARCH } from '@/features/claims/model/claims.search'
 
 const navigateMock = vi.hoisted(() => vi.fn())
@@ -35,39 +41,36 @@ vi.mock('@/features/claims/create/ui/claim-tips-card', () => ({
   ClaimTipsCard: () => <div>Mock Tips Card</div>,
 }))
 
-vi.mock(
-  '@/features/claims/create/ui/submit-claim-confirm-dialog',
-  () => ({
-    SubmitClaimConfirmDialog: ({
-      open,
-      onConfirm,
-      onOpenChange,
-      canSubmit,
-      isSubmitting,
-    }: {
-      open: boolean
-      onConfirm: () => void | Promise<void>
-      onOpenChange: (open: boolean) => void
-      canSubmit: boolean
-      isSubmitting: boolean
-    }) =>
-      open ? (
-        <div>
-          <p>Mock Confirm Dialog</p>
-          <button
-            type="button"
-            disabled={!canSubmit || isSubmitting}
-            onClick={() => void onConfirm()}
-          >
-            confirm-submit
-          </button>
-          <button type="button" onClick={() => onOpenChange(false)}>
-            request-close
-          </button>
-        </div>
-      ) : null,
-  }),
-)
+vi.mock('@/features/claims/create/ui/submit-claim-confirm-dialog', () => ({
+  SubmitClaimConfirmDialog: ({
+    open,
+    onConfirm,
+    onOpenChange,
+    canSubmit,
+    isSubmitting,
+  }: {
+    open: boolean
+    onConfirm: () => void | Promise<void>
+    onOpenChange: (open: boolean) => void
+    canSubmit: boolean
+    isSubmitting: boolean
+  }) =>
+    open ? (
+      <div>
+        <p>Mock Confirm Dialog</p>
+        <button
+          type="button"
+          disabled={!canSubmit || isSubmitting}
+          onClick={() => void onConfirm()}
+        >
+          confirm-submit
+        </button>
+        <button type="button" onClick={() => onOpenChange(false)}>
+          request-close
+        </button>
+      </div>
+    ) : null,
+}))
 
 import { Route } from '@/routes/_authenticated/reclamos/nuevo'
 

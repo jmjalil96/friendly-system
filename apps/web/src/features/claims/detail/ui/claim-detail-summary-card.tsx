@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/primitives/card'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/primitives/card'
 import { cn } from '@/shared/lib/cn'
 import type { ClaimDetailSummaryItem } from '@/features/claims/detail/controller/use-claim-detail-main-controller'
 

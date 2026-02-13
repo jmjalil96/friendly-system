@@ -31,7 +31,11 @@ describe('ClaimWorkflowCard', () => {
           { id: 'IN_REVIEW', label: 'En revisión', state: 'current' },
         ]}
         actions={[
-          { toStatus: 'SUBMITTED', label: 'Cambiar a Enviado', requiresReason: false },
+          {
+            toStatus: 'SUBMITTED',
+            label: 'Cambiar a Enviado',
+            requiresReason: false,
+          },
         ]}
         dialog={{
           open: false,
@@ -79,7 +83,9 @@ describe('ClaimWorkflowCard', () => {
     expect(
       screen.queryByText('No hay transiciones disponibles para este estado.'),
     ).not.toBeNull()
-    expect(screen.queryAllByRole('button', { name: /Cambiar a/i })).toHaveLength(0)
+    expect(
+      screen.queryAllByRole('button', { name: /Cambiar a/i }),
+    ).toHaveLength(0)
   })
 
   it('renders transition dialog when an action is active', () => {
@@ -91,7 +97,11 @@ describe('ClaimWorkflowCard', () => {
           { id: 'IN_REVIEW', label: 'En revisión', state: 'current' },
         ]}
         actions={[
-          { toStatus: 'RETURNED', label: 'Cambiar a Devuelto', requiresReason: true },
+          {
+            toStatus: 'RETURNED',
+            label: 'Cambiar a Devuelto',
+            requiresReason: true,
+          },
         ]}
         dialog={{
           open: true,

@@ -4,9 +4,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 
 vi.mock('@/shared/ui/primitives/dropdown-menu', () => ({
-  DropdownMenu: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  DropdownMenuTrigger: ({ children }: { children: ReactNode }) => <>{children}</>,
-  DropdownMenuContent: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  DropdownMenu: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
+  DropdownMenuTrigger: ({ children }: { children: ReactNode }) => (
+    <>{children}</>
+  ),
+  DropdownMenuContent: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
   DropdownMenuItem: ({
     children,
     onSelect,
@@ -86,8 +92,11 @@ describe('ClaimDetailHeaderActions', () => {
         .disabled,
     ).toBe(true)
     expect(
-      (screen.getAllByRole('button', { name: 'Eliminar reclamo' })[1] as HTMLButtonElement)
-        .disabled,
+      (
+        screen.getAllByRole('button', {
+          name: 'Eliminar reclamo',
+        })[1] as HTMLButtonElement
+      ).disabled,
     ).toBe(true)
   })
 })

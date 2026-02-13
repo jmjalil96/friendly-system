@@ -93,7 +93,9 @@ describe('useClaimWorkflowController', () => {
   })
 
   it('derives workflow steps and transition actions from shared state machine', () => {
-    render(createElement(Harness, { claim: makeClaim({ status: 'IN_REVIEW' }) }))
+    render(
+      createElement(Harness, { claim: makeClaim({ status: 'IN_REVIEW' }) }),
+    )
 
     expect(latest?.steps.length).toBeGreaterThan(0)
     expect(latest?.steps.some((step) => step.state === 'current')).toBe(true)
@@ -105,7 +107,9 @@ describe('useClaimWorkflowController', () => {
   })
 
   it('requires reason when transition rule demands it', async () => {
-    render(createElement(Harness, { claim: makeClaim({ status: 'IN_REVIEW' }) }))
+    render(
+      createElement(Harness, { claim: makeClaim({ status: 'IN_REVIEW' }) }),
+    )
 
     act(() => {
       latest?.onActionSelect('RETURNED')
@@ -120,7 +124,9 @@ describe('useClaimWorkflowController', () => {
   })
 
   it('submits transition payload and shows success toast', async () => {
-    render(createElement(Harness, { claim: makeClaim({ status: 'IN_REVIEW' }) }))
+    render(
+      createElement(Harness, { claim: makeClaim({ status: 'IN_REVIEW' }) }),
+    )
 
     act(() => {
       latest?.onActionSelect('SUBMITTED')

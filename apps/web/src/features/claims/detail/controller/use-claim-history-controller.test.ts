@@ -221,7 +221,9 @@ describe('useClaimHistoryController', () => {
       meta: { page: 1, limit: 20, totalCount: 40, totalPages: 4 },
     })
 
-    const { rerender } = render(createElement(Harness, { claimId: 'claim-id-1' }))
+    const { rerender } = render(
+      createElement(Harness, { claimId: 'claim-id-1' }),
+    )
 
     act(() => {
       latest?.historySection.pagination.onNextPage()
@@ -249,7 +251,9 @@ describe('useClaimHistoryController', () => {
       meta: { page: 1, limit: 20, totalCount: 60, totalPages: 3 },
     })
 
-    const { rerender } = render(createElement(Harness, { claimId: 'claim-id-1' }))
+    const { rerender } = render(
+      createElement(Harness, { claimId: 'claim-id-1' }),
+    )
 
     act(() => {
       latest?.historySection.pagination.onNextPage()

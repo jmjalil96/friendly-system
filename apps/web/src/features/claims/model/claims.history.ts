@@ -4,7 +4,8 @@ import {
 } from '@friendly-system/shared'
 import { CLAIM_STATUS_LABELS } from './claims.status'
 
-export type ClaimTimelineAction = ClaimTimelineResponse['data'][number]['action']
+export type ClaimTimelineAction =
+  ClaimTimelineResponse['data'][number]['action']
 
 export const CLAIM_TIMELINE_ACTION_LABELS = {
   'claim.created': 'Reclamo creado',
@@ -19,11 +20,15 @@ export const CLAIM_TIMELINE_ACTION_LABELS = {
 export const CLAIM_TIMELINE_ACTION_TONE_CLASSNAMES = {
   'claim.created': 'bg-[var(--color-green-50)] text-[var(--color-green-700)]',
   'claim.updated': 'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
-  'claim.transitioned': 'bg-[var(--color-amber-50)] text-[var(--color-amber-700)]',
+  'claim.transitioned':
+    'bg-[var(--color-amber-50)] text-[var(--color-amber-700)]',
   'claim.deleted': 'bg-[var(--color-red-50)] text-[var(--color-red-700)]',
-  'claim.invoice_created': 'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
-  'claim.invoice_updated': 'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
-  'claim.invoice_deleted': 'bg-[var(--color-red-50)] text-[var(--color-red-700)]',
+  'claim.invoice_created':
+    'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
+  'claim.invoice_updated':
+    'bg-[var(--color-blue-50)] text-[var(--color-blue-700)]',
+  'claim.invoice_deleted':
+    'bg-[var(--color-red-50)] text-[var(--color-red-700)]',
 } as const satisfies Record<ClaimTimelineAction, string>
 
 function isObjectRecord(value: unknown): value is Record<string, unknown> {

@@ -6,13 +6,19 @@ import type { GetClaimByIdResponse } from '@friendly-system/shared'
 const useClaimDetailMainControllerMock = vi.hoisted(() => vi.fn())
 const useClaimWorkflowControllerMock = vi.hoisted(() => vi.fn())
 
-vi.mock('@/features/claims/detail/controller/use-claim-detail-main-controller', () => ({
-  useClaimDetailMainController: useClaimDetailMainControllerMock,
-}))
+vi.mock(
+  '@/features/claims/detail/controller/use-claim-detail-main-controller',
+  () => ({
+    useClaimDetailMainController: useClaimDetailMainControllerMock,
+  }),
+)
 
-vi.mock('@/features/claims/detail/controller/use-claim-workflow-controller', () => ({
-  useClaimWorkflowController: useClaimWorkflowControllerMock,
-}))
+vi.mock(
+  '@/features/claims/detail/controller/use-claim-workflow-controller',
+  () => ({
+    useClaimWorkflowController: useClaimWorkflowControllerMock,
+  }),
+)
 
 import { ClaimDetailMainTab } from '@/features/claims/detail/ui/claim-detail-main-tab'
 
@@ -61,7 +67,8 @@ describe('ClaimDetailMainTab', () => {
       summary: {
         items: [],
         statusLabel: 'En revision',
-        statusClassName: 'bg-[var(--color-amber-50)] text-[var(--color-amber-600)]',
+        statusClassName:
+          'bg-[var(--color-amber-50)] text-[var(--color-amber-600)]',
       },
     })
     useClaimWorkflowControllerMock.mockReturnValue({
@@ -96,7 +103,9 @@ describe('ClaimDetailMainTab', () => {
       />,
     )
 
-    expect(container.querySelectorAll('[data-slot="skeleton"]').length).toBeGreaterThan(0)
+    expect(
+      container.querySelectorAll('[data-slot="skeleton"]').length,
+    ).toBeGreaterThan(0)
   })
 
   it('renders error state and retries', () => {
@@ -159,7 +168,8 @@ describe('ClaimDetailMainTab', () => {
           { label: 'Cliente', value: 'Empresas Alpha S.A.' },
         ],
         statusLabel: 'En revision',
-        statusClassName: 'bg-[var(--color-amber-50)] text-[var(--color-amber-600)]',
+        statusClassName:
+          'bg-[var(--color-amber-50)] text-[var(--color-amber-600)]',
       },
     })
 
@@ -201,7 +211,9 @@ describe('ClaimDetailMainTab', () => {
     expect(screen.queryByText('Datos principales')).not.toBeNull()
     expect(screen.queryByText('Resumen')).not.toBeNull()
     expect(screen.queryByText('Flujo')).not.toBeNull()
-    expect(screen.queryByRole('button', { name: 'Cambiar a Enviado' })).not.toBeNull()
+    expect(
+      screen.queryByRole('button', { name: 'Cambiar a Enviado' }),
+    ).not.toBeNull()
     expect(screen.getAllByRole('button', { name: /Editar/i })).toHaveLength(1)
     expect(container.querySelector('[class*="md:grid-cols-2"]')).not.toBeNull()
   })

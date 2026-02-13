@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { ClaimStatus, ListClaimsQuery } from '@friendly-system/shared'
 import type {
-  ClaimStatus,
-  ListClaimsQuery,
-} from '@friendly-system/shared'
-import type { OnChangeFn, PaginationState, SortingState } from '@tanstack/react-table'
+  OnChangeFn,
+  PaginationState,
+  SortingState,
+} from '@tanstack/react-table'
 import { useDebouncedValue } from '@/shared/hooks/use-debounced-value'
-import {
-  CLAIM_STATUS_LABELS,
-} from '@/features/claims/model/claims.status'
+import { CLAIM_STATUS_LABELS } from '@/features/claims/model/claims.status'
 import { CLAIMS_SEARCH_DEBOUNCE_MS } from '@/features/claims/model/claims.constants'
 import type { ClaimsFilterBarProps } from '@/features/claims/list/ui/claims-filter-bar'
 import type { ClaimsListHeaderProps } from '@/features/claims/list/ui/claims-list-header'
@@ -104,21 +103,20 @@ export function useClaimsListController({
 
   const selectedStatuses = useMemo<ClaimStatus[]>(
     () =>
-      isStatusLocked
-        ? [...(lockedStatuses ?? [])]
-        : [...(search.status ?? [])],
+      isStatusLocked ? [...(lockedStatuses ?? [])] : [...(search.status ?? [])],
     [isStatusLocked, lockedStatuses, search.status],
   )
 
   const listQueryInput = useMemo(
-    () => ({
-      page: search.page,
-      limit: search.limit,
-      sortBy: search.sortBy,
-      sortOrder: search.sortOrder,
-      ...(search.search ? { search: search.search } : {}),
-      ...(selectedStatuses.length > 0 ? { status: selectedStatuses } : {}),
-    }) satisfies Partial<ListClaimsQuery>,
+    () =>
+      ({
+        page: search.page,
+        limit: search.limit,
+        sortBy: search.sortBy,
+        sortOrder: search.sortOrder,
+        ...(search.search ? { search: search.search } : {}),
+        ...(selectedStatuses.length > 0 ? { status: selectedStatuses } : {}),
+      }) satisfies Partial<ListClaimsQuery>,
     [
       search.page,
       search.limit,

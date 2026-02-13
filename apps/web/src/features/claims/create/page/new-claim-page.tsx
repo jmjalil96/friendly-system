@@ -7,11 +7,7 @@ import { NewClaimHeader } from '@/features/claims/create/ui/new-claim-header'
 import { SubmitClaimConfirmDialog } from '@/features/claims/create/ui/submit-claim-confirm-dialog'
 import { useNewClaimController } from '@/features/claims/create/controller/use-new-claim-controller'
 import { CLAIMS_PAGE_CONTAINER_CLASSNAME } from '@/features/claims/model/claims.ui-tokens'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from '@/shared/ui/primitives/card'
+import { Card, CardContent, CardHeader } from '@/shared/ui/primitives/card'
 import { Skeleton } from '@/shared/ui/primitives/skeleton'
 
 interface NewClaimPageProps {

@@ -81,6 +81,34 @@ const PERMISSION_DEFINITIONS = [
     action: PERMISSIONS.CLAIMS_TRANSITION_OWN,
     description: 'Transition own claims',
   },
+  {
+    action: PERMISSIONS.CLIENTS_CREATE_ALL,
+    description: 'Create clients in organization',
+  },
+  {
+    action: PERMISSIONS.CLIENTS_CREATE_CLIENT,
+    description: 'Create clients in assigned scope',
+  },
+  {
+    action: PERMISSIONS.CLIENTS_READ_ALL,
+    description: 'Read any client',
+  },
+  {
+    action: PERMISSIONS.CLIENTS_READ_CLIENT,
+    description: 'Read assigned clients',
+  },
+  {
+    action: PERMISSIONS.CLIENTS_READ_OWN,
+    description: 'Read own linked clients',
+  },
+  {
+    action: PERMISSIONS.CLIENTS_UPDATE_ALL,
+    description: 'Update any client',
+  },
+  {
+    action: PERMISSIONS.CLIENTS_UPDATE_CLIENT,
+    description: 'Update assigned clients',
+  },
 ]
 
 const ROLE_PERMISSION_MAP: Record<string, string[]> = {
@@ -89,18 +117,25 @@ const ROLE_PERMISSION_MAP: Record<string, string[]> = {
     PERMISSIONS.CLAIMS_READ_ALL,
     PERMISSIONS.CLAIMS_UPDATE_ALL,
     PERMISSIONS.CLAIMS_TRANSITION_ALL,
+    PERMISSIONS.CLIENTS_CREATE_ALL,
+    PERMISSIONS.CLIENTS_READ_ALL,
+    PERMISSIONS.CLIENTS_UPDATE_ALL,
   ],
   [ROLES.ADMIN]: [
     PERMISSIONS.CLAIMS_CREATE_CLIENT,
     PERMISSIONS.CLAIMS_READ_CLIENT,
     PERMISSIONS.CLAIMS_UPDATE_CLIENT,
     PERMISSIONS.CLAIMS_TRANSITION_CLIENT,
+    PERMISSIONS.CLIENTS_CREATE_CLIENT,
+    PERMISSIONS.CLIENTS_READ_CLIENT,
+    PERMISSIONS.CLIENTS_UPDATE_CLIENT,
   ],
   [ROLES.MEMBER]: [
     PERMISSIONS.CLAIMS_CREATE_OWN,
     PERMISSIONS.CLAIMS_READ_OWN,
     PERMISSIONS.CLAIMS_UPDATE_OWN,
     PERMISSIONS.CLAIMS_TRANSITION_OWN,
+    PERMISSIONS.CLIENTS_READ_OWN,
   ],
 }
 

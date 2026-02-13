@@ -92,7 +92,8 @@ export function useNewClaimController() {
     return patients.filter((patient) => {
       const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase()
       const relationship = (patient.relationship ?? 'TITULAR').toLowerCase()
-      const document = `${patient.documentType ?? ''} ${patient.documentNumber ?? ''}`.toLowerCase()
+      const document =
+        `${patient.documentType ?? ''} ${patient.documentNumber ?? ''}`.toLowerCase()
       return (
         fullName.includes(query) ||
         relationship.includes(query) ||

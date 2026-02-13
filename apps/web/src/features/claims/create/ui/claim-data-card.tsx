@@ -15,7 +15,8 @@ import type {
 
 type LookupClientsItem = LookupClientsResponse['data'][number]
 type LookupClientAffiliatesItem = LookupClientAffiliatesResponse['data'][number]
-type LookupAffiliatePatientsItem = LookupAffiliatePatientsResponse['data'][number]
+type LookupAffiliatePatientsItem =
+  LookupAffiliatePatientsResponse['data'][number]
 
 export interface ClaimDataCardProps {
   clientId: string
@@ -41,7 +42,9 @@ export interface ClaimDataCardProps {
 }
 
 function formatAffiliate(a: LookupClientAffiliatesItem) {
-  const doc = a.documentNumber ? ` — ${a.documentType}: ${a.documentNumber}` : ''
+  const doc = a.documentNumber
+    ? ` — ${a.documentType}: ${a.documentNumber}`
+    : ''
   return `${a.firstName} ${a.lastName}${doc}`
 }
 
@@ -77,7 +80,9 @@ export function ClaimDataCard({
           <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[var(--color-blue-500)] text-base font-bold text-white sm:size-11 sm:rounded-2xl sm:text-lg">
             01
           </span>
-          <span className="text-[var(--color-gray-900)]">Datos del reclamo</span>
+          <span className="text-[var(--color-gray-900)]">
+            Datos del reclamo
+          </span>
         </CardTitle>
         <CardDescription className="pl-12 sm:pl-14">
           Selecciona el cliente, afiliado y paciente
@@ -87,8 +92,12 @@ export function ClaimDataCard({
         {/* Client */}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="flex size-5 items-center justify-center rounded-full bg-[var(--color-blue-500)] text-[0.65rem] font-bold text-white">1</span>
-            <Label className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">Cliente</Label>
+            <span className="flex size-5 items-center justify-center rounded-full bg-[var(--color-blue-500)] text-[0.65rem] font-bold text-white">
+              1
+            </span>
+            <Label className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">
+              Cliente
+            </Label>
           </div>
           <AsyncCombobox
             value={clientId}
@@ -108,8 +117,12 @@ export function ClaimDataCard({
         {/* Affiliate */}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="flex size-5 items-center justify-center rounded-full bg-[var(--color-blue-500)] text-[0.65rem] font-bold text-white">2</span>
-            <Label className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">Afiliado</Label>
+            <span className="flex size-5 items-center justify-center rounded-full bg-[var(--color-blue-500)] text-[0.65rem] font-bold text-white">
+              2
+            </span>
+            <Label className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">
+              Afiliado
+            </Label>
           </div>
           <AsyncCombobox
             value={affiliateId}
@@ -121,7 +134,11 @@ export function ClaimDataCard({
             onSearchChange={onAffiliateSearchChange}
             isLoading={affiliatesLoading}
             disabled={!clientId}
-            placeholder={clientId ? 'Seleccionar afiliado...' : 'Selecciona un cliente primero'}
+            placeholder={
+              clientId
+                ? 'Seleccionar afiliado...'
+                : 'Selecciona un cliente primero'
+            }
             searchPlaceholder="Buscar afiliado..."
             emptyMessage="No se encontraron afiliados."
           />
@@ -130,8 +147,12 @@ export function ClaimDataCard({
         {/* Patient */}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="flex size-5 items-center justify-center rounded-full bg-[var(--color-blue-500)] text-[0.65rem] font-bold text-white">3</span>
-            <Label className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">Paciente</Label>
+            <span className="flex size-5 items-center justify-center rounded-full bg-[var(--color-blue-500)] text-[0.65rem] font-bold text-white">
+              3
+            </span>
+            <Label className="text-[0.8rem] font-semibold text-[var(--color-gray-600)]">
+              Paciente
+            </Label>
           </div>
           <AsyncCombobox
             value={patientId}
@@ -143,7 +164,11 @@ export function ClaimDataCard({
             onSearchChange={onPatientSearchChange}
             isLoading={patientsLoading}
             disabled={!affiliateId}
-            placeholder={affiliateId ? 'Seleccionar paciente...' : 'Selecciona un afiliado primero'}
+            placeholder={
+              affiliateId
+                ? 'Seleccionar paciente...'
+                : 'Selecciona un afiliado primero'
+            }
             searchPlaceholder="Buscar paciente..."
             emptyMessage="No se encontraron pacientes."
           />

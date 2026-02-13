@@ -110,7 +110,9 @@ export function ClaimTransitionDialog({
             disabled={isSubmitting}
             className={CLAIMS_INLINE_SAVE_BUTTON_CLASSNAME}
           >
-            {isSubmitting ? <Loader2 className="size-3.5 animate-spin" /> : null}
+            {isSubmitting ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : null}
             {isSubmitting ? 'Actualizando...' : 'Confirmar transición'}
           </Button>
         </DialogFooter>

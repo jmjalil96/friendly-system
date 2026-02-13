@@ -17,6 +17,13 @@ export const PERMISSIONS = {
   CLAIMS_TRANSITION_ALL: 'claims:transition:all',
   CLAIMS_TRANSITION_CLIENT: 'claims:transition:client',
   CLAIMS_TRANSITION_OWN: 'claims:transition:own',
+  CLIENTS_CREATE_ALL: 'clients:create:all',
+  CLIENTS_CREATE_CLIENT: 'clients:create:client',
+  CLIENTS_READ_ALL: 'clients:read:all',
+  CLIENTS_READ_CLIENT: 'clients:read:client',
+  CLIENTS_READ_OWN: 'clients:read:own',
+  CLIENTS_UPDATE_ALL: 'clients:update:all',
+  CLIENTS_UPDATE_CLIENT: 'clients:update:client',
 } as const
 
 export const API_ROUTES = {
@@ -47,6 +54,15 @@ export const API_ROUTES = {
     delete: '/claims/:id',
     getById: '/claims/:id',
     transition: '/claims/:id/transition',
+  },
+  clients: {
+    create: '/clients',
+    list: '/clients',
+    getById: '/clients/:id',
+    update: '/clients/:id',
+    delete: '/clients/:id',
+    timeline: '/clients/:id/timeline',
+    policies: '/clients/:id/policies',
   },
 } as const
 
@@ -92,6 +108,7 @@ export const ERROR_CODES = {
   CLAIMS_INVALID_TRANSITION: 'CLAIMS_INVALID_TRANSITION',
   CLAIMS_INVARIANT_VIOLATION: 'CLAIMS_INVARIANT_VIOLATION',
   CLAIMS_REASON_REQUIRED: 'CLAIMS_REASON_REQUIRED',
+  CLIENTS_CLIENT_NOT_FOUND: 'CLIENTS_CLIENT_NOT_FOUND',
   PERMISSION_DENIED: 'PERMISSION_DENIED',
 } as const
 

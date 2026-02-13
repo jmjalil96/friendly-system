@@ -4,9 +4,12 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 
 const useClaimInvoicesControllerMock = vi.hoisted(() => vi.fn())
 
-vi.mock('@/features/claims/detail/controller/use-claim-invoices-controller', () => ({
-  useClaimInvoicesController: useClaimInvoicesControllerMock,
-}))
+vi.mock(
+  '@/features/claims/detail/controller/use-claim-invoices-controller',
+  () => ({
+    useClaimInvoicesController: useClaimInvoicesControllerMock,
+  }),
+)
 
 import { ClaimDetailInvoicesTab } from '@/features/claims/detail/ui/invoices/claim-detail-invoices-tab'
 
@@ -72,8 +75,12 @@ describe('ClaimDetailInvoicesTab', () => {
       },
     })
 
-    const { container } = render(<ClaimDetailInvoicesTab claimId="claim-id-1" />)
-    expect(container.querySelectorAll('[data-slot="skeleton"]').length).toBeGreaterThan(0)
+    const { container } = render(
+      <ClaimDetailInvoicesTab claimId="claim-id-1" />,
+    )
+    expect(
+      container.querySelectorAll('[data-slot="skeleton"]').length,
+    ).toBeGreaterThan(0)
   })
 
   it('renders error state and retries', () => {
@@ -181,19 +188,27 @@ describe('ClaimDetailInvoicesTab', () => {
       },
     })
 
-    const { container } = render(<ClaimDetailInvoicesTab claimId="claim-id-1" />)
+    const { container } = render(
+      <ClaimDetailInvoicesTab claimId="claim-id-1" />,
+    )
 
     expect(screen.queryByText('INV-001')).not.toBeNull()
     expect(screen.queryByText('Provider One')).not.toBeNull()
     expect(
-      container.querySelector('[data-slot="claim-detail-invoices-scroll-hint"]'),
+      container.querySelector(
+        '[data-slot="claim-detail-invoices-scroll-hint"]',
+      ),
     ).not.toBeNull()
     expect(
-      container.querySelector('[data-slot="claim-detail-invoices-scroll-fade"]'),
+      container.querySelector(
+        '[data-slot="claim-detail-invoices-scroll-fade"]',
+      ),
     ).not.toBeNull()
 
     const table = container.querySelector('[data-slot="table"]')
-    const tableContainer = container.querySelector('[data-slot="table-container"]')
+    const tableContainer = container.querySelector(
+      '[data-slot="table-container"]',
+    )
     expect(table?.className).toContain('min-w-[640px]')
     expect(tableContainer?.className).toContain('overflow-auto')
     expect(tableContainer?.className).toContain('[scrollbar-width:none]')

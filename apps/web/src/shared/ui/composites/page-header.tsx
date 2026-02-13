@@ -72,17 +72,14 @@ function PageHeader({
               className="shrink-0 text-[var(--color-gray-500)] hover:text-[var(--color-gray-900)]"
             >
               <ArrowLeft />
-              <span className="hidden sm:inline">
-                {backLabel ?? 'Volver'}
-              </span>
+              <span className="hidden sm:inline">{backLabel ?? 'Volver'}</span>
             </Button>
           )}
 
           <div
             className={cn(
               'min-w-0',
-              onBack &&
-                'border-l border-[var(--color-gray-200)] pl-3 sm:pl-4',
+              onBack && 'border-l border-[var(--color-gray-200)] pl-3 sm:pl-4',
             )}
           >
             <h1 className="truncate text-base font-bold tracking-tight text-[var(--color-gray-900)] sm:text-lg">
