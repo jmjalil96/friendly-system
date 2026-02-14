@@ -50,6 +50,9 @@ const errorCodeValues = [
   ERROR_CODES.CLAIMS_INVARIANT_VIOLATION,
   ERROR_CODES.CLAIMS_REASON_REQUIRED,
   ERROR_CODES.CLIENTS_CLIENT_NOT_FOUND,
+  ERROR_CODES.INSURERS_INSURER_NOT_FOUND,
+  ERROR_CODES.INSURERS_NAME_UNAVAILABLE,
+  ERROR_CODES.INSURERS_CODE_UNAVAILABLE,
   ERROR_CODES.PERMISSION_DENIED,
 ] as const
 
@@ -68,3 +71,4 @@ export type ErrorResponse = z.infer<typeof errorResponseSchema>
 export * from './auth.schemas.js'
 export * from './claims.schemas.js'
 export * from './clients.schemas.js'
+export * from './insurers.schemas.js'

@@ -8,6 +8,7 @@ import { healthRoutes } from './features/health/health.routes.js'
 import { authRoutes } from './features/auth/auth.routes.js'
 import { claimsRoutes } from './features/claims/claims.routes.js'
 import { clientsRoutes } from './features/clients/clients.routes.js'
+import { insurersRoutes } from './features/insurers/insurers.routes.js'
 
 export function createServer() {
   const app = express()
@@ -20,6 +21,7 @@ export function createServer() {
   app.use(authRoutes)
   app.use(claimsRoutes)
   app.use(clientsRoutes)
+  app.use(insurersRoutes)
 
   app.use((_req, _res, next) => {
     next(new AppError(404, 'Not found', ERROR_CODES.NOT_FOUND))

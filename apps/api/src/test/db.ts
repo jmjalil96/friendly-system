@@ -86,6 +86,42 @@ const PERMISSION_DEFINITIONS = [
     action: PERMISSIONS.CLIENTS_UPDATE_CLIENT,
     description: 'Update assigned clients',
   },
+  {
+    action: PERMISSIONS.INSURERS_CREATE_ALL,
+    description: 'Create insurers in organization',
+  },
+  {
+    action: PERMISSIONS.INSURERS_CREATE_CLIENT,
+    description: 'Create insurers in assigned scope',
+  },
+  {
+    action: PERMISSIONS.INSURERS_CREATE_OWN,
+    description: 'Create own linked insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_READ_ALL,
+    description: 'Read any insurer',
+  },
+  {
+    action: PERMISSIONS.INSURERS_READ_CLIENT,
+    description: 'Read assigned insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_READ_OWN,
+    description: 'Read own linked insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_UPDATE_ALL,
+    description: 'Update any insurer',
+  },
+  {
+    action: PERMISSIONS.INSURERS_UPDATE_CLIENT,
+    description: 'Update assigned insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_UPDATE_OWN,
+    description: 'Update own linked insurers',
+  },
 ]
 
 const ROLE_PERMISSION_MAP: Record<string, string[]> = {
@@ -97,6 +133,9 @@ const ROLE_PERMISSION_MAP: Record<string, string[]> = {
     PERMISSIONS.CLIENTS_CREATE_ALL,
     PERMISSIONS.CLIENTS_READ_ALL,
     PERMISSIONS.CLIENTS_UPDATE_ALL,
+    PERMISSIONS.INSURERS_CREATE_ALL,
+    PERMISSIONS.INSURERS_READ_ALL,
+    PERMISSIONS.INSURERS_UPDATE_ALL,
   ],
   [ROLES.ADMIN]: [
     PERMISSIONS.CLAIMS_CREATE_CLIENT,

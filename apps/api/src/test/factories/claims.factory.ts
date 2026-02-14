@@ -93,10 +93,12 @@ export async function linkAffiliateToUser(
 }
 
 export async function createInsurer(
+  orgId: string,
   overrides: { name?: string } = {},
 ): Promise<{ id: string; name: string }> {
   return prisma.insurer.create({
     data: {
+      orgId,
       name: overrides.name ?? `Test Insurer ${Date.now()}`,
       type: 'MEDICINA_PREPAGADA',
     },

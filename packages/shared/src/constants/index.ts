@@ -24,6 +24,15 @@ export const PERMISSIONS = {
   CLIENTS_READ_OWN: 'clients:read:own',
   CLIENTS_UPDATE_ALL: 'clients:update:all',
   CLIENTS_UPDATE_CLIENT: 'clients:update:client',
+  INSURERS_CREATE_ALL: 'insurers:create:all',
+  INSURERS_CREATE_CLIENT: 'insurers:create:client',
+  INSURERS_CREATE_OWN: 'insurers:create:own',
+  INSURERS_READ_ALL: 'insurers:read:all',
+  INSURERS_READ_CLIENT: 'insurers:read:client',
+  INSURERS_READ_OWN: 'insurers:read:own',
+  INSURERS_UPDATE_ALL: 'insurers:update:all',
+  INSURERS_UPDATE_CLIENT: 'insurers:update:client',
+  INSURERS_UPDATE_OWN: 'insurers:update:own',
 } as const
 
 export const API_ROUTES = {
@@ -63,6 +72,14 @@ export const API_ROUTES = {
     delete: '/clients/:id',
     timeline: '/clients/:id/timeline',
     policies: '/clients/:id/policies',
+  },
+  insurers: {
+    create: '/insurers',
+    list: '/insurers',
+    getById: '/insurers/:id',
+    update: '/insurers/:id',
+    delete: '/insurers/:id',
+    timeline: '/insurers/:id/timeline',
   },
 } as const
 
@@ -109,6 +126,9 @@ export const ERROR_CODES = {
   CLAIMS_INVARIANT_VIOLATION: 'CLAIMS_INVARIANT_VIOLATION',
   CLAIMS_REASON_REQUIRED: 'CLAIMS_REASON_REQUIRED',
   CLIENTS_CLIENT_NOT_FOUND: 'CLIENTS_CLIENT_NOT_FOUND',
+  INSURERS_INSURER_NOT_FOUND: 'INSURERS_INSURER_NOT_FOUND',
+  INSURERS_NAME_UNAVAILABLE: 'INSURERS_NAME_UNAVAILABLE',
+  INSURERS_CODE_UNAVAILABLE: 'INSURERS_CODE_UNAVAILABLE',
   PERMISSION_DENIED: 'PERMISSION_DENIED',
 } as const
 

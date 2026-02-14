@@ -1553,7 +1553,9 @@ describe('GET /claims/lookup/clients/:clientId/policies', () => {
     it('returns policies sorted by startDate desc with insurerName and pagination', async () => {
       const { agent, user } = await authenticatedAgent()
       const client = await createClient(user.orgId)
-      const insurer = await createInsurer({ name: 'Sorted Insurer' })
+      const insurer = await createInsurer(user.orgId, {
+        name: 'Sorted Insurer',
+      })
 
       const oldPolicy = await createPolicy(user.orgId, client.id, insurer.id, {
         startDate: new Date('2024-01-01'),
@@ -1617,7 +1619,9 @@ describe('GET /claims/lookup/clients/:clientId/policies', () => {
     it('filters policies by policy number search', async () => {
       const { agent, user } = await authenticatedAgent()
       const client = await createClient(user.orgId)
-      const insurer = await createInsurer({ name: 'Search Insurer' })
+      const insurer = await createInsurer(user.orgId, {
+        name: 'Search Insurer',
+      })
 
       const policyA = await createPolicy(user.orgId, client.id, insurer.id)
       await prisma.policy.update({

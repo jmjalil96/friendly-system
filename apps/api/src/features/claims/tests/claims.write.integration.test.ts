@@ -742,7 +742,7 @@ describe('PATCH /claims/:id', () => {
 
       const otherUser = await createVerifiedUser(app)
       const otherClient = await createClient(otherUser.orgId)
-      const insurer = await createInsurer()
+      const insurer = await createInsurer(otherUser.orgId)
       const otherPolicy = await createPolicy(
         otherUser.orgId,
         otherClient.id,
@@ -773,7 +773,7 @@ describe('PATCH /claims/:id', () => {
         affiliate.id,
       )
 
-      const insurer = await createInsurer()
+      const insurer = await createInsurer(user.orgId)
       const policyB = await createPolicy(user.orgId, clientB.id, insurer.id)
 
       const response = await agent
@@ -799,7 +799,7 @@ describe('PATCH /claims/:id', () => {
         affiliate.id,
       )
 
-      const insurer = await createInsurer()
+      const insurer = await createInsurer(user.orgId)
       const policy = await createPolicy(user.orgId, client.id, insurer.id)
 
       const response = await agent
@@ -1351,7 +1351,7 @@ describe('POST /claims/:id/transition', () => {
     clientId: string,
     claimId: string,
   ) {
-    const insurer = await createInsurer()
+    const insurer = await createInsurer(orgId)
     const policy = await createPolicy(orgId, clientId, insurer.id)
 
     const response = await agent.patch(claimUrl(claimId)).send({

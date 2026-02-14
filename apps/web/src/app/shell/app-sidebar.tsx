@@ -4,6 +4,7 @@ import {
   Home,
   ClipboardList,
   Building2,
+  Shield,
   HelpCircle,
   ChevronDown,
   ChevronsUpDown,
@@ -14,6 +15,8 @@ import { useState } from 'react'
 import { Logo } from '@/app/shell/logo'
 import { useAuthUser, useLogout } from '@/features/auth/api/auth.hooks'
 import { DEFAULT_CLIENTS_LIST_SEARCH } from '@/features/clients/model/clients.search'
+import { DEFAULT_INSURERS_LIST_SEARCH } from '@/features/insurers/model/insurers.search'
+import { ROLES } from '@friendly-system/shared'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,6 +53,12 @@ const clientesItem = {
   label: 'Clientes',
   icon: Building2,
   href: '/clientes',
+} as const
+
+const insurersItem = {
+  label: 'Aseguradoras',
+  icon: Shield,
+  href: '/aseguradoras',
 } as const
 
 function getInitials(firstName: string | null, lastName: string | null) {
@@ -187,6 +196,33 @@ export function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              {/* Aseguradoras */}
+              {user?.role === ROLES.OWNER ? (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={currentPath.startsWith(insurersItem.href)}
+                    className="h-auto gap-[var(--space-md)] px-3 py-[0.625rem] text-[0.85rem] font-medium rounded-[var(--radius-md)] text-white [&>svg]:size-[18px] hover:bg-[rgba(255,255,255,0.08)] data-[active=true]:bg-[rgba(255,255,255,0.12)] data-[active=true]:hover:bg-[rgba(255,255,255,0.15)] data-[active=true]:text-white"
+                    tooltip={insurersItem.label}
+                  >
+                    <Link
+                      to={insurersItem.href}
+                      search={DEFAULT_INSURERS_LIST_SEARCH}
+                    >
+                      <insurersItem.icon
+                        size={18}
+                        className={
+                          currentPath.startsWith(insurersItem.href)
+                            ? 'opacity-100'
+                            : 'opacity-70'
+                        }
+                      />
+                      <span>{insurersItem.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ) : null}
 
               {/* Soporte */}
               <SidebarMenuItem>

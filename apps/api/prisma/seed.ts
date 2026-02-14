@@ -109,6 +109,42 @@ const PERMISSION_DEFINITIONS = [
     action: PERMISSIONS.CLIENTS_UPDATE_CLIENT,
     description: 'Update assigned clients',
   },
+  {
+    action: PERMISSIONS.INSURERS_CREATE_ALL,
+    description: 'Create insurers in organization',
+  },
+  {
+    action: PERMISSIONS.INSURERS_CREATE_CLIENT,
+    description: 'Create insurers in assigned scope',
+  },
+  {
+    action: PERMISSIONS.INSURERS_CREATE_OWN,
+    description: 'Create own linked insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_READ_ALL,
+    description: 'Read any insurer',
+  },
+  {
+    action: PERMISSIONS.INSURERS_READ_CLIENT,
+    description: 'Read assigned insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_READ_OWN,
+    description: 'Read own linked insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_UPDATE_ALL,
+    description: 'Update any insurer',
+  },
+  {
+    action: PERMISSIONS.INSURERS_UPDATE_CLIENT,
+    description: 'Update assigned insurers',
+  },
+  {
+    action: PERMISSIONS.INSURERS_UPDATE_OWN,
+    description: 'Update own linked insurers',
+  },
 ]
 
 const ROLE_PERMISSION_MAP: Record<string, string[]> = {
@@ -120,6 +156,9 @@ const ROLE_PERMISSION_MAP: Record<string, string[]> = {
     PERMISSIONS.CLIENTS_CREATE_ALL,
     PERMISSIONS.CLIENTS_READ_ALL,
     PERMISSIONS.CLIENTS_UPDATE_ALL,
+    PERMISSIONS.INSURERS_CREATE_ALL,
+    PERMISSIONS.INSURERS_READ_ALL,
+    PERMISSIONS.INSURERS_UPDATE_ALL,
   ],
   [ROLES.ADMIN]: [
     PERMISSIONS.CLAIMS_CREATE_CLIENT,
@@ -215,24 +254,6 @@ async function createUser(
   })
 
   return user.id
-}
-
-// ── Insurers ─────────────────────────────────────────────────────────
-
-async function seedInsurers() {
-  const sura = await prisma.insurer.upsert({
-    where: { name: 'Sura Medicina Prepagada' },
-    update: {},
-    create: { name: 'Sura Medicina Prepagada', type: 'MEDICINA_PREPAGADA' },
-  })
-
-  const bolivar = await prisma.insurer.upsert({
-    where: { name: 'Seguros Bolivar' },
-    update: {},
-    create: { name: 'Seguros Bolivar', type: 'COMPANIA_DE_SEGUROS' },
-  })
-
-  return { sura, bolivar }
 }
 
 // ── Claim + History + Audit Helpers ──────────────────────────────────
@@ -412,10 +433,7 @@ async function seedClaim(input: ClaimSeedInput): Promise<string> {
 
 // ── Org 1: Aseguradora Nacional ──────────────────────────────────────
 
-async function seedOrg1(insurers: {
-  sura: { id: string }
-  bolivar: { id: string }
-}) {
+async function seedOrg1() {
   // ── Organization ───────────────────────────────────────────────────
   const org = await prisma.organization.create({
     data: {
@@ -490,12 +508,31 @@ async function seedOrg1(insurers: {
     ],
   })
 
+  // ── Insurers ───────────────────────────────────────────────────────
+  const sura = await prisma.insurer.create({
+    data: {
+      orgId: org.id,
+      name: 'Sura Medicina Prepagada',
+      type: 'MEDICINA_PREPAGADA',
+      isActive: true,
+    },
+  })
+
+  const bolivar = await prisma.insurer.create({
+    data: {
+      orgId: org.id,
+      name: 'Seguros Bolivar',
+      type: 'COMPANIA_DE_SEGUROS',
+      isActive: true,
+    },
+  })
+
   // ── Policies ───────────────────────────────────────────────────────
   const polAlpha1 = await prisma.policy.create({
     data: {
       orgId: org.id,
       clientId: clientAlpha.id,
-      insurerId: insurers.sura.id,
+      insurerId: sura.id,
       policyNumber: 'POL-ALPHA-001',
       type: 'HEALTH',
       status: 'ACTIVE',
@@ -508,7 +545,7 @@ async function seedOrg1(insurers: {
     data: {
       orgId: org.id,
       clientId: clientAlpha.id,
-      insurerId: insurers.bolivar.id,
+      insurerId: bolivar.id,
       policyNumber: 'POL-ALPHA-002',
       type: 'ACCIDENTS',
       status: 'EXPIRED',
@@ -521,7 +558,7 @@ async function seedOrg1(insurers: {
     data: {
       orgId: org.id,
       clientId: clientBeta.id,
-      insurerId: insurers.sura.id,
+      insurerId: sura.id,
       policyNumber: 'POL-BETA-001',
       type: 'LIFE',
       status: 'ACTIVE',
@@ -534,7 +571,7 @@ async function seedOrg1(insurers: {
     data: {
       orgId: org.id,
       clientId: clientBeta.id,
-      insurerId: insurers.bolivar.id,
+      insurerId: bolivar.id,
       policyNumber: 'POL-BETA-002',
       type: 'HEALTH',
       status: 'SUSPENDED',
@@ -1027,11 +1064,8 @@ async function main() {
   console.log('Seeding roles and permissions...')
   await seedRolesAndPerms()
 
-  console.log('Seeding insurers...')
-  const insurers = await seedInsurers()
-
   console.log('Seeding Org 1: Aseguradora Nacional...')
-  await seedOrg1(insurers)
+  await seedOrg1()
 
   console.log('Seeding Org 2: Seguros del Pacifico...')
   await seedOrg2()

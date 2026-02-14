@@ -66,6 +66,7 @@ model Organization {
   // Domain relations
   clients    Client[]
   affiliates Affiliate[]
+  insurers   Insurer[]
   policies   Policy[]
   claims     Claim[]
 

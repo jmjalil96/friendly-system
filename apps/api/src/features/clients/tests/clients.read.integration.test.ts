@@ -407,7 +407,7 @@ describe('GET /clients/:id/policies', () => {
   it('returns paginated policies for a client', async () => {
     const { agent, user } = await authenticatedAgent()
     const client = await createClient(user.orgId, { name: 'Policy Client' })
-    const insurer = await createInsurer({ name: 'Insurer One' })
+    const insurer = await createInsurer(user.orgId, { name: 'Insurer One' })
     await createPolicy(user.orgId, client.id, insurer.id, {
       startDate: new Date('2026-01-01'),
       endDate: new Date('2026-12-31'),

@@ -47,12 +47,14 @@ model Client {
   @@map("clients")
 }
 
-// ── Insurer (system-wide, not org-scoped) ───────────────────────────
+// ── Insurer ──────────────────────────────────────────────────────────
 
 model Insurer {
-  id      String  @id @default(uuid()) @db.Uuid
-  name    String  @unique @db.VarChar(255)
-  code    String? @unique @db.VarChar(50)
+  id    String @id @default(uuid()) @db.Uuid
+  orgId String @map("org_id") @db.Uuid
+
+  name    String  @db.VarChar(255)
+  code    String? @db.VarChar(50)
   email   String? @db.VarChar(255)
   phone   String? @db.VarChar(50)
   website String? @db.VarChar(500)
@@ -63,8 +65,12 @@ model Insurer {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  policies Policy[]
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  policies     Policy[]
 
+  @@unique([orgId, name])
+  @@unique([orgId, code])
+  @@index([orgId])
   @@index([isActive])
   @@map("insurers")
 }
