@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { type ColumnDef } from '@tanstack/react-table'
+import { Link } from '@tanstack/react-router'
 import { AlertTriangle, FileText, RefreshCw, Search } from 'lucide-react'
 import type { ClientPoliciesResponse } from '@friendly-system/shared'
 import { Button } from '@/shared/ui/primitives/button'
@@ -37,6 +38,16 @@ function formatPolicyStatus(value: ClientPolicyItem['status']): string {
   if (value === 'EXPIRED') return 'Expirada'
   if (value === 'CANCELLED') return 'Cancelada'
   return value
+}
+
+function formatDecimalValue(value: string | null): string {
+  if (!value) return 'Sin dato'
+  const numeric = Number(value)
+  if (!Number.isFinite(numeric)) return value
+  return numeric.toLocaleString('es', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
 }
 
 function RelatedPoliciesError({ onRetry }: { onRetry: () => void }) {
@@ -95,9 +106,13 @@ export function ClientDetailRelatedRecordsTab({
         header: 'Nro. póliza',
         enableSorting: false,
         cell: ({ row }) => (
-          <span className="font-medium text-[var(--color-gray-900)]">
+          <Link
+            to="/polizas/$id"
+            params={{ id: row.original.id }}
+            className="font-medium text-[var(--color-gray-900)] underline-offset-2 hover:underline"
+          >
             {row.original.policyNumber}
-          </span>
+          </Link>
         ),
       },
       {
@@ -111,6 +126,30 @@ export function ClientDetailRelatedRecordsTab({
         header: 'Estado',
         enableSorting: false,
         cell: ({ row }) => formatPolicyStatus(row.original.status),
+      },
+      {
+        accessorKey: 'planName',
+        header: 'Plan',
+        enableSorting: false,
+        cell: ({ row }) => row.original.planName ?? 'Sin dato',
+      },
+      {
+        accessorKey: 'employeeClass',
+        header: 'Clase',
+        enableSorting: false,
+        cell: ({ row }) => row.original.employeeClass ?? 'Sin dato',
+      },
+      {
+        accessorKey: 'maxCoverage',
+        header: 'Cobertura máx.',
+        enableSorting: false,
+        cell: ({ row }) => formatDecimalValue(row.original.maxCoverage),
+      },
+      {
+        accessorKey: 'deductible',
+        header: 'Deducible',
+        enableSorting: false,
+        cell: ({ row }) => formatDecimalValue(row.original.deductible),
       },
       {
         accessorKey: 'startDate',
@@ -178,7 +217,7 @@ export function ClientDetailRelatedRecordsTab({
                 data={view.items}
                 isLoading={view.isLoading}
                 emptyMessage="No hay pólizas registradas."
-                tableClassName="min-w-[680px] lg:min-w-[860px] 2xl:min-w-[980px]"
+                tableClassName="min-w-[980px] lg:min-w-[1240px] 2xl:min-w-[1420px]"
                 tableContainerClassName="overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 manualPagination
                 pagination={view.pagination}

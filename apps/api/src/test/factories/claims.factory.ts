@@ -110,7 +110,14 @@ export async function createPolicy(
   orgId: string,
   clientId: string,
   insurerId: string,
-  overrides: { startDate?: Date; endDate?: Date } = {},
+  overrides: {
+    startDate?: Date
+    endDate?: Date
+    planName?: string
+    employeeClass?: string
+    maxCoverage?: string
+    deductible?: string
+  } = {},
 ): Promise<{
   id: string
   orgId: string
@@ -125,6 +132,10 @@ export async function createPolicy(
       policyNumber: `POL-${randomUUID().slice(0, 8)}`,
       startDate: overrides.startDate ?? new Date('2025-01-01'),
       endDate: overrides.endDate ?? new Date('2026-12-31'),
+      planName: overrides.planName ?? 'Plan Estándar',
+      employeeClass: overrides.employeeClass ?? 'General',
+      maxCoverage: overrides.maxCoverage ?? '500000.00',
+      deductible: overrides.deductible ?? '1000.00',
     },
     select: { id: true, orgId: true, clientId: true, policyNumber: true },
   })

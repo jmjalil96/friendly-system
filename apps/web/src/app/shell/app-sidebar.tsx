@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Building2,
   Shield,
+  FileText,
   HelpCircle,
   ChevronDown,
   ChevronsUpDown,
@@ -16,6 +17,7 @@ import { Logo } from '@/app/shell/logo'
 import { useAuthUser, useLogout } from '@/features/auth/api/auth.hooks'
 import { DEFAULT_CLIENTS_LIST_SEARCH } from '@/features/clients/model/clients.search'
 import { DEFAULT_INSURERS_LIST_SEARCH } from '@/features/insurers/model/insurers.search'
+import { DEFAULT_POLICIES_LIST_SEARCH } from '@/features/policies/model/policies.search'
 import { ROLES } from '@friendly-system/shared'
 import {
   DropdownMenu,
@@ -59,6 +61,12 @@ const insurersItem = {
   label: 'Aseguradoras',
   icon: Shield,
   href: '/aseguradoras',
+} as const
+
+const policiesItem = {
+  label: 'Pólizas',
+  icon: FileText,
+  href: '/polizas',
 } as const
 
 function getInitials(firstName: string | null, lastName: string | null) {
@@ -223,6 +231,31 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ) : null}
+
+              {/* Pólizas */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={currentPath.startsWith(policiesItem.href)}
+                  className="h-auto gap-[var(--space-md)] px-3 py-[0.625rem] text-[0.85rem] font-medium rounded-[var(--radius-md)] text-white [&>svg]:size-[18px] hover:bg-[rgba(255,255,255,0.08)] data-[active=true]:bg-[rgba(255,255,255,0.12)] data-[active=true]:hover:bg-[rgba(255,255,255,0.15)] data-[active=true]:text-white"
+                  tooltip={policiesItem.label}
+                >
+                  <Link
+                    to={policiesItem.href}
+                    search={DEFAULT_POLICIES_LIST_SEARCH}
+                  >
+                    <policiesItem.icon
+                      size={18}
+                      className={
+                        currentPath.startsWith(policiesItem.href)
+                          ? 'opacity-100'
+                          : 'opacity-70'
+                      }
+                    />
+                    <span>{policiesItem.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
               {/* Soporte */}
               <SidebarMenuItem>

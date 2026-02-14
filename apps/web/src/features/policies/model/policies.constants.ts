@@ -1,0 +1,1 @@
+export const POLICIES_SEARCH_DEBOUNCE_MS = 300

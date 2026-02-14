@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 
@@ -10,6 +11,33 @@ vi.mock(
     useClientPoliciesController: useClientPoliciesControllerMock,
   }),
 )
+
+vi.mock('@tanstack/react-router', async () => {
+  const actual = await vi.importActual<typeof import('@tanstack/react-router')>(
+    '@tanstack/react-router',
+  )
+
+  return {
+    ...actual,
+    Link: ({
+      to,
+      params,
+      children,
+      ...props
+    }: {
+      to: string
+      params?: { id?: string }
+      children: ReactNode
+    } & Record<string, unknown>) => {
+      const href = params?.id ? to.replace('$id', params.id) : to
+      return (
+        <a href={href} {...props}>
+          {children}
+        </a>
+      )
+    },
+  }
+})
 
 import { ClientDetailRelatedRecordsTab } from '@/features/clients/detail/ui/related/client-detail-related-records-tab'
 
@@ -82,6 +110,10 @@ describe('ClientDetailRelatedRecordsTab', () => {
           policyNumber: 'POL-123',
           type: 'HEALTH',
           status: 'ACTIVE',
+          planName: 'Plan Corporativo',
+          employeeClass: 'Administrativo',
+          maxCoverage: '500000.00',
+          deductible: '1200.00',
           startDate: '2026-01-01',
           endDate: '2026-12-31',
           insurerName: 'Insurer',

@@ -122,6 +122,54 @@ const PERMISSION_DEFINITIONS = [
     action: PERMISSIONS.INSURERS_UPDATE_OWN,
     description: 'Update own linked insurers',
   },
+  {
+    action: PERMISSIONS.POLICIES_CREATE_ALL,
+    description: 'Create policies for any client',
+  },
+  {
+    action: PERMISSIONS.POLICIES_CREATE_CLIENT,
+    description: 'Create policies for assigned clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_CREATE_OWN,
+    description: 'Create policies for own linked clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_READ_ALL,
+    description: 'Read any policy',
+  },
+  {
+    action: PERMISSIONS.POLICIES_READ_CLIENT,
+    description: 'Read policies for assigned clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_READ_OWN,
+    description: 'Read policies for own linked clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_UPDATE_ALL,
+    description: 'Update any policy',
+  },
+  {
+    action: PERMISSIONS.POLICIES_UPDATE_CLIENT,
+    description: 'Update policies for assigned clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_UPDATE_OWN,
+    description: 'Update policies for own linked clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_TRANSITION_ALL,
+    description: 'Transition any policy',
+  },
+  {
+    action: PERMISSIONS.POLICIES_TRANSITION_CLIENT,
+    description: 'Transition policies for assigned clients',
+  },
+  {
+    action: PERMISSIONS.POLICIES_TRANSITION_OWN,
+    description: 'Transition policies for own linked clients',
+  },
 ]
 
 const ROLE_PERMISSION_MAP: Record<string, string[]> = {
@@ -136,6 +184,10 @@ const ROLE_PERMISSION_MAP: Record<string, string[]> = {
     PERMISSIONS.INSURERS_CREATE_ALL,
     PERMISSIONS.INSURERS_READ_ALL,
     PERMISSIONS.INSURERS_UPDATE_ALL,
+    PERMISSIONS.POLICIES_CREATE_ALL,
+    PERMISSIONS.POLICIES_READ_ALL,
+    PERMISSIONS.POLICIES_UPDATE_ALL,
+    PERMISSIONS.POLICIES_TRANSITION_ALL,
   ],
   [ROLES.ADMIN]: [
     PERMISSIONS.CLAIMS_CREATE_CLIENT,
@@ -145,6 +197,10 @@ const ROLE_PERMISSION_MAP: Record<string, string[]> = {
     PERMISSIONS.CLIENTS_CREATE_CLIENT,
     PERMISSIONS.CLIENTS_READ_CLIENT,
     PERMISSIONS.CLIENTS_UPDATE_CLIENT,
+    PERMISSIONS.POLICIES_CREATE_CLIENT,
+    PERMISSIONS.POLICIES_READ_CLIENT,
+    PERMISSIONS.POLICIES_UPDATE_CLIENT,
+    PERMISSIONS.POLICIES_TRANSITION_CLIENT,
   ],
   [ROLES.MEMBER]: [
     PERMISSIONS.CLAIMS_CREATE_OWN,
@@ -152,6 +208,10 @@ const ROLE_PERMISSION_MAP: Record<string, string[]> = {
     PERMISSIONS.CLAIMS_UPDATE_OWN,
     PERMISSIONS.CLAIMS_TRANSITION_OWN,
     PERMISSIONS.CLIENTS_READ_OWN,
+    PERMISSIONS.POLICIES_CREATE_OWN,
+    PERMISSIONS.POLICIES_READ_OWN,
+    PERMISSIONS.POLICIES_UPDATE_OWN,
+    PERMISSIONS.POLICIES_TRANSITION_OWN,
   ],
 }
 

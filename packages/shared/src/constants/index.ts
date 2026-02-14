@@ -33,6 +33,18 @@ export const PERMISSIONS = {
   INSURERS_UPDATE_ALL: 'insurers:update:all',
   INSURERS_UPDATE_CLIENT: 'insurers:update:client',
   INSURERS_UPDATE_OWN: 'insurers:update:own',
+  POLICIES_CREATE_ALL: 'policies:create:all',
+  POLICIES_CREATE_CLIENT: 'policies:create:client',
+  POLICIES_CREATE_OWN: 'policies:create:own',
+  POLICIES_READ_ALL: 'policies:read:all',
+  POLICIES_READ_CLIENT: 'policies:read:client',
+  POLICIES_READ_OWN: 'policies:read:own',
+  POLICIES_UPDATE_ALL: 'policies:update:all',
+  POLICIES_UPDATE_CLIENT: 'policies:update:client',
+  POLICIES_UPDATE_OWN: 'policies:update:own',
+  POLICIES_TRANSITION_ALL: 'policies:transition:all',
+  POLICIES_TRANSITION_CLIENT: 'policies:transition:client',
+  POLICIES_TRANSITION_OWN: 'policies:transition:own',
 } as const
 
 export const API_ROUTES = {
@@ -80,6 +92,18 @@ export const API_ROUTES = {
     update: '/insurers/:id',
     delete: '/insurers/:id',
     timeline: '/insurers/:id/timeline',
+  },
+  policies: {
+    create: '/policies',
+    list: '/policies',
+    lookupClients: '/policies/lookup/clients',
+    lookupInsurers: '/policies/lookup/insurers',
+    history: '/policies/:id/history',
+    timeline: '/policies/:id/timeline',
+    update: '/policies/:id',
+    delete: '/policies/:id',
+    getById: '/policies/:id',
+    transition: '/policies/:id/transition',
   },
 } as const
 
@@ -129,9 +153,20 @@ export const ERROR_CODES = {
   INSURERS_INSURER_NOT_FOUND: 'INSURERS_INSURER_NOT_FOUND',
   INSURERS_NAME_UNAVAILABLE: 'INSURERS_NAME_UNAVAILABLE',
   INSURERS_CODE_UNAVAILABLE: 'INSURERS_CODE_UNAVAILABLE',
+  POLICIES_POLICY_NOT_FOUND: 'POLICIES_POLICY_NOT_FOUND',
+  POLICIES_CLIENT_NOT_FOUND: 'POLICIES_CLIENT_NOT_FOUND',
+  POLICIES_CLIENT_INACTIVE: 'POLICIES_CLIENT_INACTIVE',
+  POLICIES_INSURER_NOT_FOUND: 'POLICIES_INSURER_NOT_FOUND',
+  POLICIES_INSURER_INACTIVE: 'POLICIES_INSURER_INACTIVE',
+  POLICIES_NUMBER_UNAVAILABLE: 'POLICIES_NUMBER_UNAVAILABLE',
+  POLICIES_FIELD_NOT_EDITABLE: 'POLICIES_FIELD_NOT_EDITABLE',
+  POLICIES_INVALID_TRANSITION: 'POLICIES_INVALID_TRANSITION',
+  POLICIES_INVARIANT_VIOLATION: 'POLICIES_INVARIANT_VIOLATION',
+  POLICIES_REASON_REQUIRED: 'POLICIES_REASON_REQUIRED',
   PERMISSION_DENIED: 'PERMISSION_DENIED',
 } as const
 
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES]
 
 export * from './claims.js'
+export * from './policies.js'

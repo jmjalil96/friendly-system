@@ -62,6 +62,10 @@ model Policy {
   tplusfPremium Decimal? @map("tplusf_premium") @db.Decimal(12, 2)
 
   benefitsCostPerPerson Decimal? @map("benefits_cost_per_person") @db.Decimal(12, 2)
+  maxCoverage           Decimal? @map("max_coverage") @db.Decimal(12, 2)
+  deductible            Decimal? @map("deductible") @db.Decimal(12, 2)
+  planName              String?  @map("plan_name") @db.VarChar(255)
+  employeeClass         String?  @map("employee_class") @db.VarChar(100)
 
   cancellationReason String?   @map("cancellation_reason") @db.Text
   cancelledAt        DateTime? @map("cancelled_at") @db.Date
